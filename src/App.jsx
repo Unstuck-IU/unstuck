@@ -1,9 +1,9 @@
-import React from "react";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Profile from "./pages/Profile";
-import Signup from "./pages/Signup";
-import StudentDashboard from "./pages/StudentDashboard";
+import {React} from "react";
+import {Home} from "./pages/Home";
+import {About} from "./pages/About";
+import {Profile} from "./pages/Profile";
+import {Signup} from "./pages/Signup";
+import {StudentDashboard} from "./pages/StudentDashboard";
 import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
