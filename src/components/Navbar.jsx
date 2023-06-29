@@ -130,7 +130,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="../public/Word Art.png" />
+                <Avatar alt="Remy Sharp" src="../Word Art.png" />
               </IconButton>
             </Tooltip>
             <Menu
