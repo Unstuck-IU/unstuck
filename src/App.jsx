@@ -4,7 +4,8 @@ import { supabase } from './supabaseClient'
 import Auth from './Auth'
 import Account from './Account'
 
-function App() {
+
+function App() {  
   const [session, setSession] = useState(null)
 
   useEffect(() => {
@@ -38,6 +39,7 @@ function App() {
             will help give students direction after high-school, and it's all about
             self-exploration!
           </p>
+
       </div>
       <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {!session ? <Auth /> : <Account key={session.user.id} session={session} />}

@@ -22,8 +22,6 @@ export default function Auth() {
   return (
     <div className="row flex flex-center">
       <div className="col-6 form-widget">
-        <h1 className="header">Supabase + React</h1>
-        <p className="description">Sign in via magic link with your email below</p>
         <form className="form-widget" onSubmit={handleLogin}>
           <div>
             <input
