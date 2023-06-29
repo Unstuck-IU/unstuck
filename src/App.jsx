@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [session, setSession] = useState(null)
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <div>
+      <Navbar />
     <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/signup" element={<Signup />} />
@@ -33,8 +35,9 @@ function App() {
     <Route path="/student-dashboard" element={<StudentDashboard />} />
   </Routes>
   </div>
-   <main>
-      {/* <div>
+  )
+  //  <main>
+      /* <div>
           <h1>Unstuck!</h1>
           <h3>
             This is a platform for students to get experience through real-world projects to gain a
@@ -53,15 +56,12 @@ function App() {
             will help give students direction after high-school, and it's all about
             self-exploration!
           </p>
-      </div> */}
-      <div className="container" style={{ padding: '50px 0 100px 0' }}>
+      </div> */
+      /* <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
       </div>
-    
-    </main>
-  )
-}
-
-
-
+     */
+    /* </main>
+  ) */
+  }
 export default App;
