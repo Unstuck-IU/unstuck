@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState, useEffect } from 'react'
+import { supabase } from './supabaseClient'
+import Auth from './Auth'
+import Account from './Account'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [session, setSession] = useState(null)
 
-  return (
-    <>
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+  }, [])
+
+    return (
+      <main>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+          <h1>Unstuck!</h1>
+          <h3>
+            This is a platform for students to get experience through real-world projects to gain a
+            greater understanding of their skills, talents, interests and personality traits
+          </h3>
+          <p>
+            Sherpa's lead students through developing problem statements called "Stucks" which refer
+            to the topic that the sherpa has laid out. Then students start out on an Expedition,
+            uncovering deeper learning and knowledge about the Stuck they are diving into. Students
+            are trained in the process of using critical thinking and design thinking to get more
+            understanding of a problem than they've ever had before.
+          </p>
+          <p>
+            Unstuck helps students find direction during the project phase, guiding them through
+            self-reflection to get the most learning possible from completing their projects. This
+            will help give students direction after high-school, and it's all about
+            self-exploration!
+          </p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="container" style={{ padding: '50px 0 100px 0' }}>
+      {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    
+    </main>
+    )  
+
+
+  }
+
+
 
 export default App
