@@ -1,4 +1,4 @@
-
+import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,15 +12,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { supabase } from '../supabaseClient';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="/">
-        Unstuck
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -28,65 +26,19 @@ function Copyright(props) {
   );
 }
 
+// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-
-
 export default function SignIn() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      setLoading(true)
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.get('email'),
-        password: formData.get('password'),
-      },)
-  
-      if (error) {
-        alert(error.error_description || error.message)
-      } else {
-          navigate("/profile")
-        
-      }
-      setLoading(false)
-    };
-
-  // const handleLogin = async (event) => {
-  //   // event.preventDefault()
-  //   const data = new FormData(event.currentTarget);
-  //   setLoading(true)
-  //   const { data, error } = await supabase.auth.signInWithPassword({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   },)
-
-  //   if (error) {
-  //     alert(error.error_description || error.message)
-  //   } else {
-  //     alert('Check your email for the login link!')
-  //   }
-  //   setLoading(false)
-  // }
-
-
-  // const handleLogin = async (event) => {
-  //   event.preventDefault()
-
-  //   setLoading(true)
-  //   const { error } = await supabase.auth.signInWithPassword({ email })
-
-  //   if (error) {
-  //     alert(error.error_description || error.message)
-  //   } else {
-  //     alert('Check your email for the login link!')
-  //   }
-  //   setLoading(false)
-  // }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -116,8 +68,6 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              // onChange={(e) => setEmail(e.target.value)}
-              // value={email}
             />
             <TextField
               margin="normal"
@@ -128,8 +78,6 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              // onChange={(e) => setPassword(e.target.value)}
-              // value={password}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -137,7 +85,6 @@ export default function SignIn() {
             />
             <Button
               type="submit"
-              // onClick={handleSubmit}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -146,12 +93,12 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/resetpassword" variant="body2">
+                <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

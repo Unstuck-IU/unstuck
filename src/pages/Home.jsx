@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient.js";
 import Auth from "../Auth.jsx";
+import SignIn from "./Signup.jsx";
 
 export default function Home() {
   const [session, setSession] = useState(null);
@@ -40,7 +41,7 @@ export default function Home() {
       <div
         className="container"
         style={{ padding: "50px 0 100px 0" }}>
-        <Auth />
+        <SignIn />
         {/* {!session ? <Auth /> : <Account key={session.user.id} session={session} />} */}
       </div>
     </main>
