@@ -1,4 +1,7 @@
-// import React from "react";
+import React from "react";
+import { useEffect, useState } from "react";
+// import { createClient } from "@supabase/supabase-js";
+import { supabase } from "../supabaseClient.js";
 
 // const Profile = () => {
 //   return (
@@ -10,14 +13,6 @@
 
 // export default Profile;
 
-import React from "react";
-import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-import supabase from "../supabaseClient.js"
-
-
-// const supabase = createClient("https://<project>.supabase.co", "<your-anon-key>");
-
 function Profile() {
   const [userProfile, setUserProfile] = useState([]);
 
@@ -26,17 +21,21 @@ function Profile() {
   }, []);
 
   async function getProfile() {
-    
-let { data: user_details, error } = await supabase
-.from('user_details')
-.select('user_type,first_name','last_name')
+    let { data, error } = await supabase.from("user_details").select("*");
     setUserProfile(data);
+    console.log(userProfile);
   }
 
   return (
     <ul>
       {userProfile.map((profile) => (
-        <li key={profile.name}>{profile.name}</li>
+        <li key={profile.user_id}>{profile.first_name}</li>
+      ))}
+      {userProfile.map((profile) => (
+        <li key={profile.user_id}>{profile.last_name}</li>
+      ))}
+      {userProfile.map((profile) => (
+        <li key={profile.user_id}>{profile.user_type}</li>
       ))}
     </ul>
   );
