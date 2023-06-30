@@ -11,11 +11,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import TerrainIcon from '@mui/icons-material/Terrain';
 import { Link } from "react-router-dom";
+import { handleSignOut } from "../supabaseClient";
+import { Divider } from "@mui/material";
 
 const pages = ["Signup", "About", "Profile", "StudentDashboard"];
 const settings = ["/signup", "/about", "/profile", "/student-dashboard"];
+const { error } = await supabase.auth.signOut()
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -40,7 +43,7 @@ function Navbar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <TerrainIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
           <Typography
             variant="h6"
             noWrap
@@ -95,7 +98,7 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <TerrainIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -154,6 +157,8 @@ function Navbar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <Divider />
+              <MenuItem onClick={handleSignOut}>Signout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>

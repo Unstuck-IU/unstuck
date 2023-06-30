@@ -9,7 +9,7 @@ export default function Auth() {
     event.preventDefault()
 
     setLoading(true)
-    const { error } = await supabase.auth.signInWithOtp({ email })
+    const { error } = await supabase.auth.signInWithPassword({ email })
 
     if (error) {
       alert(error.error_description || error.message)
@@ -19,6 +19,8 @@ export default function Auth() {
     setLoading(false)
   }
 
+
+  
   return (
     <div className="row flex flex-center">
       <div className="col-6 form-widget">
