@@ -77,21 +77,7 @@ const user = () => {
   }
 } 
   ;
-  // const sessionDataKey = localStorage.key(0)
-  // const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
-  // const sessionDataParsed = JSON.parse(sessionData)
-  // const userID = sessionDataParsed.user.id
-  // console.log('sessionDataKey1', sessionDataKey1)
-  // console.log('sessionDataKey', sessionDataKey)
-  // //const sessionUser = sessionData.user.id
-  // console.log("session data:", sessionData)
-  // console.log("session data1 parsed:", sessionData1)
-  // console.log("session data parsed user:", sessionData2)
-  // console.log('SessionUser', sessionUser)
-
-// const currentSession = auth.getSession();
-
-// const currentUser = auth.getUser();
+ 
 
 
 const signUp = async (email, password) => {
@@ -106,11 +92,26 @@ const signUp = async (email, password) => {
         console.log("Auth failed", ex.message)
       }
     };
-  
+
+// const currentSession = auth.getSession();
+// const currentUser = auth.getUser();
 // const signInMagic = auth.signInWithOtp;
 // const signInSSO = auth.signInWithSSO;
 // const signInToken = auth.signInWithIdToken;
 // const signInOAuth = auth.signInWithOAuth;
+
+
+  // const [session, setSession] = useState(null);
+
+  // useEffect(() => {
+  //   supabase.auth.getSession().then(({ data: { session } }) => {
+  //     setSession(session);
+  //   });
+
+  //   supabase.auth.onAuthStateChange((_event, session) => {
+  //     setSession(session);
+  //   });
+  // }, []);
 
 const values = { signUp, user, signInPassword, logOut };
 console.log('values:', values)
