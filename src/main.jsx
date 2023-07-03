@@ -1,14 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from './App.jsx'
 import './app.css'
 import AuthProvider from './Providers/AuthProvider.jsx';
-// import SupabaseProvider from './Providers/SupabaseProvider.jsx';
+import "./main.css";
+import App from "./App.jsx";
 
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter> 
 
@@ -18,4 +20,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
     </BrowserRouter> 
   </React.StrictMode>,
-)
+);
