@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { supabase } from "../supabaseClient.js";
+import { supabase } from "../Components/auth/supabaseDeets.js";
 import Auth from "../Auth.jsx";
 import SignIn from "./Signup.jsx";
 

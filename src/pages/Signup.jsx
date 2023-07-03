@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { supabase } from '../supabaseClient';
+import { supabase } from '../Components/auth/supabaseDeets';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { customTheme } from '../customTheme';
@@ -46,6 +46,12 @@ export default function SignUp() {
         password: formData.get('password'),
       },)
   
+
+      // const { data, error } = await supabase.auth.signUp({
+      //   email: formData.get('email'),
+      //   password: formData.get('password'),
+      // },
+
       if (error) {
         alert(error.error_description || error.message)
       } else {

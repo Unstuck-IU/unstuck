@@ -9,7 +9,8 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "./App.css";
-
+import SupabaseProvider from "./Providers/SupabaseProvider";
+import AuthProvider from "./Providers/AuthProvider";
 const theme = createTheme({
   palette: {
     primary: {
@@ -23,7 +24,11 @@ const theme = createTheme({
 function App() {
   return (
     <div>
+              <SupabaseProvider>
+          <AuthProvider>   
       <ThemeProvider theme={theme}>
+       
+
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -33,7 +38,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/student-dashboard" element={<StudentDashboard />} />
         </Routes>
+
       </ThemeProvider>
+      </AuthProvider> 
+        </SupabaseProvider>
     </div>
   );
 }

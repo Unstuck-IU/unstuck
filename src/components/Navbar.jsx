@@ -13,12 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import TerrainIcon from '@mui/icons-material/Terrain';
 import { Link } from "react-router-dom";
-import { handleSignOut } from "../supabaseClient";
 import { Divider } from "@mui/material";
+import { useAuth } from "../Providers/AuthProvider";
 
 const pages = ["Signup", "About", "Profile", "StudentDashboard"];
 const settings = ["/signup", "/about", "/profile", "/student-dashboard"];
-const { error } = await supabase.auth.signOut()
+
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
