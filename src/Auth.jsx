@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { supabase } from './Components/auth/supabaseDeets'
+// import { supabase } from './Components/auth/supabaseDeets'
+// import { useAuth } from './Providers/AuthProvider'
 export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
@@ -18,7 +19,7 @@ export default function Auth() {
     setLoading(false)
   }
 
-const user = useUser()
+
   
   return (
     <div className="row flex flex-center">
@@ -40,7 +41,6 @@ const user = useUser()
             </button>
           </div>
         </form>
-        <p>User is: {user} </p>
       </div>
     </div>
   )

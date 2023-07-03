@@ -12,10 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { supabase } from '../Components/auth/supabaseDeets';
+// import { supabase } from '../Components/auth/supabaseDeets';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Providers/AuthProvider';
+// import { useAuth } from '../Providers/AuthProvider';
 
 function Copyright(props) {
   return (
@@ -41,12 +42,13 @@ export default function SignIn() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  
+  const auth = useAuth();
+
     const handleSubmit = async (event) => {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
       setLoading(true)
-      const { data, error } = signInPassword({
+      const { data, error } = auth.signInPassword({
         email: formData.get('email'),
         password: formData.get('password'),
       },)
@@ -133,7 +135,7 @@ export default function SignIn() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
-        <p> User is {user} </p>
+        {/* <p> User is {user} </p> */}
       </Container>
     </ThemeProvider>
   );

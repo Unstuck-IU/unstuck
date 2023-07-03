@@ -1,21 +1,21 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { supabase } from "../Components/auth/supabaseDeets.js";
-import Auth from "../Auth.jsx";
+// import { supabase } from "../Components/auth/supabaseDeets.js";
+// import Auth from "../Auth.jsx";
 import SignIn from "./Signup.jsx";
 
 export default function Home() {
-  const [session, setSession] = useState(null);
+  // const [session, setSession] = useState(null);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+  // useEffect(() => {
+  //   supabase.auth.getSession().then(({ data: { session } }) => {
+  //     setSession(session);
+  //   });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
+  //   supabase.auth.onAuthStateChange((_event, session) => {
+  //     setSession(session);
+  //   });
+  // }, []);
 
   return (
     <main>
@@ -42,7 +42,6 @@ export default function Home() {
         className="container"
         style={{ padding: "50px 0 100px 0" }}>
         <SignIn />
-        {/* {!session ? <Auth /> : <Account key={session.user.id} session={session} />} */}
       </div>
     </main>
   );

@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import TerrainIcon from '@mui/icons-material/Terrain';
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
-import { useAuth } from "../Providers/AuthProvider";
+// import { useAuth } from "../Providers/AuthProvider";
 
 const pages = ["Signup", "About", "Profile", "StudentDashboard"];
 const settings = ["/signup", "/about", "/profile", "/student-dashboard"];
@@ -158,7 +158,7 @@ function Navbar() {
                 </MenuItem>
               ))}
               <Divider />
-              <MenuItem onClick={handleSignOut}>Signout</MenuItem>
+              <MenuItem >Signout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>
