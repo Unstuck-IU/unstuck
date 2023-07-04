@@ -12,6 +12,7 @@ import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import InfoIcon from "@mui/icons-material/Info";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -33,12 +34,12 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const colors = tokens(theme.palette.mode);
   return (
     <MenuItem
-    active={selected === title}
-    style={{
-      color: colors.grey[100],
-    }}
-    onClick={() => setSelected(title)}
-    icon={icon}>
+      active={selected === title}
+      style={{
+        color: colors.grey[100],
+      }}
+      onClick={() => setSelected(title)}
+      icon={icon}>
       <Typography>{title}</Typography>
       <Link to={to} />
     </MenuItem>
@@ -113,7 +114,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  // src={`../../assets/user.png`}
+                  icon={<AccountCircleIcon />}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 /> */}
               </Box>
