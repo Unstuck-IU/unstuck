@@ -12,11 +12,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../theme";
-import supabase from "../../src/components/auth/supabaseDeets";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
-import Sidebar from "../global/Sidebar";
 
 function Copyright(props) {
   return (
@@ -36,8 +34,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-// const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [email, setEmail] = useState("");

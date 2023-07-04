@@ -1,28 +1,21 @@
 import { React, useState } from "react";
 import { Route, Routes, Link } from "react-router-dom";
+//theme / mui
+import { ColorModeContext, useMode } from "./theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+//pages
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
-// import Navbar from "./components/Navbar";
+//components
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/TopBar";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "./theme";
+import LoadingSpinner from "./components/LoadingSpinner";
+import ErrorPage from "./pages/ErrorPage";
 
-// commenting out for now in favour of the theme from ./theme.js
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: "#41644A",
-//     },
-//     secondary: {
-//       main: "#FF7B54",
-//     },
-//   },
-// });
 // prettier-ignore
 function App() {
   const [theme, colorMode] = useMode();
@@ -42,11 +35,12 @@ function App() {
               <Route path="/student-dashboard" element={<StudentDashboard />} />
               <Route path="/about" element={<About />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </main>
     </div>
       </ThemeProvider>
-      </ColorModeContext.Provider>
+    </ColorModeContext.Provider>
   );
 }
 

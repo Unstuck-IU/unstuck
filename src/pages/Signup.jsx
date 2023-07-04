@@ -1,21 +1,20 @@
-
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import supabase from '../Components/auth/supabaseDeets';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { customTheme } from '../customTheme';
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import supabase from "../Components/auth/supabaseDeets";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Providers/AuthProvider";
 
 function Copyright(props) {
   return (
@@ -36,31 +35,27 @@ function Copyright(props) {
   );
 }
 
-const defaultTheme = createTheme();
-
 export default function SignUp() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      setLoading(true)
-      const { data, error } = await supabase.auth.signUp({
-        email: formData.get('email'),
-        password: formData.get('password'),
-      },)
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const auth = useAuth();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // const formData = new FormData(event.currentTarget);
+    setLoading(true);
+    const { data, error } = auth.signUp({ email, password });
 
-      if (error) {
-        alert(error.error_description || error.message)
-      } else {
-          navigate("/profile")
-        
-      }
-      setLoading(false)
-    };
+    if (error) {
+      alert(error.error_description || error.message);
+    } else {
+      navigate("/profile");
+    }
+    setLoading(false);
+  };
 
   return (
     <Box m={"20px"}>
@@ -91,7 +86,7 @@ export default function SignUp() {
             <Grid
               container
               spacing={2}>
-              <Grid
+              {/* <Grid
                 item
                 xs={12}
                 sm={6}>
@@ -102,10 +97,12 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstName}
                   autoFocus
                 />
-              </Grid>
-              <Grid
+              </Grid> */}
+              {/* <Grid
                 item
                 xs={12}
                 sm={6}>
@@ -116,8 +113,10 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={(e) => setLastName(e.target.value)}
+                  value={lastName}
                 />
-              </Grid>
+              </Grid> */}
               <Grid
                 item
                 xs={12}>
@@ -128,6 +127,8 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                 />
               </Grid>
               <Grid
@@ -141,6 +142,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                 />
               </Grid>
               <Grid

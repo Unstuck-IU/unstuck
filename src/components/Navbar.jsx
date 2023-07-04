@@ -162,7 +162,7 @@ function Navbar() {
                 </MenuItem>
               ))}
               <Divider />
-              <MenuItem >Signout</MenuItem>
+              <MenuItem>Signout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>
