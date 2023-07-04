@@ -26,7 +26,6 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TerrainIcon from "@mui/icons-material/Terrain";
-import supabase from "../Components/auth/supabaseDeets";
 
 let { data, error } = await supabase.from("user_details").select(`*`);
 
