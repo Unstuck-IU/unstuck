@@ -12,10 +12,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../theme";
-// import { supabase } from "../../src/components/auth/supabaseDeets";
+import supabase from "../../src/components/auth/supabaseDeets";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
-import { useAuth } from '../Providers/AuthProvider';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Providers/AuthProvider";
 import Sidebar from "../global/Sidebar";
 
 function Copyright(props) {
@@ -37,47 +37,23 @@ function Copyright(props) {
   );
 }
 
-
-
 // const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const auth = useAuth();
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      setLoading(true)
-      const { data, error } = auth.signInPassword({
-        email: formData.get('email'),
-        password: formData.get('password'),
-      },)
-  
-      if (error) {
-        alert(error.error_description || error.message)
-      } else {
-          navigate("/student-dashboard",)
-        
-      }
-      setLoading(false)
-    };
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = auth.signInPassword({
       email: formData.get("email"),
       password: formData.get("password"),
     });
