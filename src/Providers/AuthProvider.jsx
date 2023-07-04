@@ -45,7 +45,6 @@ const AuthProvider = (props) => {
 
   const logOut = async () => {
     await auth.signOut();
-    router.push("/");
   };
 
 

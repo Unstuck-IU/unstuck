@@ -12,10 +12,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../theme";
-import { supabase } from "../supabaseClient";
+// import { supabase } from "../../src/components/auth/supabaseDeets";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import { useAuth } from '../Providers/AuthProvider';
+import Sidebar from "../global/Sidebar";
 
 function Copyright(props) {
   return (
@@ -38,7 +39,7 @@ function Copyright(props) {
 
 
 
-const defaultTheme = createTheme();
+// const defaultTheme = createTheme();
 
 
 
