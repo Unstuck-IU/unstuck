@@ -16,16 +16,6 @@ import Topbar from "./global/TopBar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#41644A",
-    },
-    secondary: {
-      main: "#FF7B54",
-    },
-  },
-});
 // prettier-ignore
 function App() {
   const [theme, colorMode] = useMode();

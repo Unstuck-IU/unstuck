@@ -7,7 +7,6 @@ import { mockTransactions } from "../data/mockData";
 //theme
 import { tokens } from "../theme";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { Box } from "@mui/material";
 //components
 import ProgressStepper from "../components/ProgressStepper";
 import TopicHeader from "../components/TopicHeader";

@@ -2,14 +2,15 @@ import { useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { supabase } from "../supabaseClient";
-import { handleSignOut } from "../supabaseClient";
+import { useAuth } from "../Providers/AuthProvider";
+
 //theme stuff
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import InfoIcon from "@mui/icons-material/Info";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -23,6 +24,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TerrainIcon from "@mui/icons-material/Terrain";
+import supabase from "../Components/auth/supabaseDeets";
 
 let { data, error } = await supabase.from("user_details").select(`*`);
 
@@ -44,6 +46,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
 };
 
 const Sidebar = () => {
+  let auth = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -110,7 +113,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  icon={<AccountCircleIcon />}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -168,7 +171,7 @@ const Sidebar = () => {
               />
               <MenuItem
                 icon={<LogoutIcon />}
-                onClick={handleSignOut}>
+                onClick={auth.logOut}>
                 {" "}
                 <Typography>Signout</Typography>
                 <Link to="/" />
@@ -179,7 +182,7 @@ const Sidebar = () => {
                 style={{
                   color: colors.grey[100],
                 }}
-                onClick={() => handleSignOut}
+                onClick={() => logOut}
                 icon={icon}>
                 <Typography>{title}</Typography>
               </MenuItem> */}

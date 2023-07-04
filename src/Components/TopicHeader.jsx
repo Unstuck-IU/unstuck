@@ -1,6 +1,6 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { supabase } from "../supabaseClient";
 import { useEffect } from "react";
+import supabase from "./auth/supabaseDeets";
 
 const TopicHeader = ({ topics, setTopics }) => {
   useEffect(() => {

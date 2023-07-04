@@ -1,21 +1,20 @@
-
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import supabase from '../Components/auth/supabaseDeets';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { customTheme } from '../customTheme';
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import supabase from "../Components/auth/supabaseDeets";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { customTheme } from "../customTheme";
 
 function Copyright(props) {
   return (
@@ -39,28 +38,26 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      setLoading(true)
-      const { data, error } = await supabase.auth.signUp({
-        email: formData.get('email'),
-        password: formData.get('password'),
-      },)
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    setLoading(true);
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
 
-      if (error) {
-        alert(error.error_description || error.message)
-      } else {
-          navigate("/profile")
-        
-      }
-      setLoading(false)
-    };
+    if (error) {
+      alert(error.error_description || error.message);
+    } else {
+      navigate("/profile");
+    }
+    setLoading(false);
+  };
 
   return (
     <Box m={"20px"}>

@@ -12,10 +12,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../theme";
-import { supabase } from "../supabaseClient";
+// import { supabase } from "../components/auth/supabaseDeets";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from '../Providers/AuthProvider';
+import { useAuth } from "../Providers/AuthProvider";
 
 function Copyright(props) {
   return (
@@ -36,39 +36,32 @@ function Copyright(props) {
   );
 }
 
-
-
-const defaultTheme = createTheme();
-
-
-
 export default function SignIn() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const auth = useAuth();
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      setLoading(true)
-      const { data, error } = auth.signInPassword({
-        email: formData.get('email'),
-        password: formData.get('password'),
-      },)
-  
-      if (error) {
-        alert(error.error_description || error.message)
-      } else {
-          navigate("/student-dashboard",)
-        
-      }
-      setLoading(false)
-    };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    setLoading(true);
+    const { data, error } = auth.signInPassword({
+      email: formData.get("email"),
+      password: formData.get("password"),
+    });
+
+    if (error) {
+      alert(error.error_description || error.message);
+    } else {
+      navigate("/student-dashboard");
+    }
+    setLoading(false);
+  };
 
   return (
     <Box m="20px">
