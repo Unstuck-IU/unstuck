@@ -2,8 +2,10 @@ import { useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+// import { supabase } from "../supabaseClient";
+// import { logOut } from ""
+import supabase from "../../src/components/auth/supabaseDeets";
 import { useAuth } from "../Providers/AuthProvider";
-
 //theme stuff
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";
@@ -46,7 +48,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
 };
 
 const Sidebar = () => {
-  let auth = useAuth();
+  const auth = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -109,13 +111,13 @@ const Sidebar = () => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center">
-                <img
+                {/* <img
                   alt="profile-user"
                   width="100px"
                   height="100px"
                   icon={<AccountCircleIcon />}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
+                /> */}
               </Box>
               <Box textAlign="center">
                 <Typography
@@ -182,7 +184,7 @@ const Sidebar = () => {
                 style={{
                   color: colors.grey[100],
                 }}
-                onClick={() => logOut}
+                onClick={() =>logOut}
                 icon={icon}>
                 <Typography>{title}</Typography>
               </MenuItem> */}
