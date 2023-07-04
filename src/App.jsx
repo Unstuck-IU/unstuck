@@ -1,7 +1,8 @@
-import { React } from "react";
-import { Route, Routes } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import "./App.css";
+import { React, useState } from "react";
+import { Route, Routes, Link } from "react-router-dom";
+//theme / mui
+import { ColorModeContext, useMode } from "./theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 //pages
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -10,19 +11,10 @@ import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
 //components
-import Navbar from "./components/Navbar";
+import Sidebar from "./global/Sidebar";
+import Topbar from "./global/TopBar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
-// // just writing example of how to show loading screen and fallback
-// // error page when waiting for promise to resolve
-// // from Beyond Fireship Youtube video "React VS Svelte...10 examples"
-// function ComponentWithAsyncData(){
-//   const number = use(Promise.resolve(69))
-
-//   return(
-//     <p>{number}</p>
-//   );
-// }
 
 const theme = createTheme({
   palette: {
@@ -34,43 +26,31 @@ const theme = createTheme({
     },
   },
 });
+// prettier-ignore
 function App() {
+  const [theme, colorMode] = useMode();
+  const [isSidebar, setIsSidebar] = useState(true);
   return (
-    <div>
+    <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={<Home />}
-          />
-          <Route
-            path="/signup"
-            element={<Signup />}
-          />
-          <Route
-            path="/signin"
-            element={<SignIn />}
-          />
-          <Route
-            path="/about"
-            element={<About />}
-          />
-          <Route
-            path="/profile"
-            element={<Profile />}
-          />
-          <Route
-            path="/student-dashboard"
-            element={<StudentDashboard />}
-          />
-          <Route
-            path="/*"
-            element={<ErrorPage />}
-          />
-        </Routes>
-      </ThemeProvider>
+        <CssBaseline />
+        <div className="app">
+          <Sidebar isSidebar={isSidebar} />
+          <main className="content">
+            <Topbar setIsSidebar={setIsSidebar} />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/student-dashboard" element={<StudentDashboard />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/*" element={<ErrorPage />} />
+            </Routes>
+          </main>
     </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

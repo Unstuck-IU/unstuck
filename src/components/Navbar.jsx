@@ -13,7 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import TerrainIcon from "@mui/icons-material/Terrain";
 import { Link } from "react-router-dom";
-import { handleSignOut, supabase } from "../supabaseClient";
 import { Divider } from "@mui/material";
 
 const pages = ["Signup", "About", "Profile", "StudentDashboard"];
@@ -163,7 +162,7 @@ function Navbar() {
                 </MenuItem>
               ))}
               <Divider />
-              <MenuItem onClick={handleSignOut}>Signout</MenuItem>
+              <MenuItem>Signout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>
