@@ -14,7 +14,7 @@ import StatBox from "../components/StatBox";
 import ProgressCircle from "../components/ProgressCircle";
 import { useEffect, useState } from "react";
 // import { createClient } from "@supabase/supabase-js";
-import { supabase } from "../supabaseClient.js";
+import supabase from "../../src/components/auth/supabaseDeets";
 
 // const Profile = () => {
 //   return (
