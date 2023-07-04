@@ -1,35 +1,45 @@
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { useTheme } from "@mui/material/styles";
+import { tokens } from "../theme";
+// import { supabase } from "../../src/components/auth/supabaseDeets";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
+import { useAuth } from '../Providers/AuthProvider';
+import Sidebar from "../global/Sidebar";
 
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { supabase } from '../supabaseClient';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/">
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}>
+      {"Copyright © "}
+      <Link
+        color="inherit"
+        href="/">
         Unstuck
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
 
-const defaultTheme = createTheme();
+
+// const defaultTheme = createTheme();
 
 
 
@@ -38,12 +48,16 @@ export default function SignIn() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  
+  const auth = useAuth();
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
     const handleSubmit = async (event) => {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
       setLoading(true)
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = auth.signInPassword({
         email: formData.get('email'),
         password: formData.get('password'),
       },)
@@ -57,27 +71,32 @@ export default function SignIn() {
       setLoading(false)
     };
 
-
-
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+    <Box m="20px">
+      <Container
+        component="main"
+        maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography
+            component="h1"
+            variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -103,7 +122,12 @@ export default function SignIn() {
               // value={password}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox
+                  value="remember"
+                  color="primary"
+                />
+              }
               label="Remember me"
             />
             <Button
@@ -111,18 +135,23 @@ export default function SignIn() {
               // onClick={handleSubmit}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+              sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="/resetpassword" variant="body2">
+              <Grid
+                item
+                xs>
+                <Link
+                  href="/resetpassword"
+                  variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link
+                  href="/signup"
+                  variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
@@ -131,6 +160,6 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
+    </Box>
   );
 }

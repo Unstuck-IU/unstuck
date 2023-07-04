@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { supabase } from './supabaseClient'
-
+// import { supabase } from './Components/auth/supabaseDeets'
+// import { useAuth } from './Providers/AuthProvider'
 export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
