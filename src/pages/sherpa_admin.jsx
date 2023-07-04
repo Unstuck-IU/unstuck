@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../supabaseClient.js";
+import supabase   from "../../src/components/auth/supabaseDeets.js"
+// import { supabase } from "../supabaseClient.js";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import OutlinedInput from '@mui/material/OutlinedInput';

@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import TerrainIcon from "@mui/icons-material/Terrain";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
+import supabase   from "../../src/components/auth/supabaseDeets";
 
 const pages = ["Signup", "About", "Profile", "StudentDashboard"];
 const settings = ["/signup", "/about", "/profile", "/student-dashboard"];

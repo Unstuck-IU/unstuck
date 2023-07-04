@@ -12,10 +12,10 @@ import Topbar from "./global/TopBar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Sherpa_admin from "./pages/sherpa_admin";
-import { Route, Routes } from "react-router-dom";
+// import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import "./App.css";
+// import { ThemeProvider, createTheme } from "@mui/material/styles";
+// import "./App.css";
 
 // commenting out for now in favour of the theme from ./theme.js
 // const theme = createTheme({
