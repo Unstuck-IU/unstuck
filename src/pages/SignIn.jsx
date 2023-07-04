@@ -12,7 +12,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../theme";
-// import { supabase } from "../components/auth/supabaseDeets";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";

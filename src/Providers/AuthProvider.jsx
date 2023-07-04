@@ -72,11 +72,13 @@ const AuthProvider = (props) => {
   };
   const signUp = async (email, password) => {
     try {
-      let userCred = auth.signUp(email, password);
-      if (userCred) {
-        console.log("Signed up successfully", userCred);
-      } else {
-        console.log("Sign up failed");
+      console.log("we called signUp successfully");
+      let { data, error } = auth.signUp(email, password);
+      if (error) {
+        console.log("Sign up failed. Error: \n", error);
+      }
+      if (data) {
+        console.log("Signed up successfully", data);
       }
     } catch (ex) {
       console.log("Auth failed", ex.message);
