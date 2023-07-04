@@ -24,11 +24,11 @@ function MyFormHelperText() {
 const Sherpa_admin = () => {
   const [users, setUsers] = useState([]);
 
-  const[user,setUser]=useState({
+  const[topic,setTopic]=useState({
     topic_string :''
   })
 
-  console.log(user)
+  console.log(topic)
 
   useEffect(() => {
     fetchUsers();
@@ -47,33 +47,41 @@ const Sherpa_admin = () => {
   if (users.length ===0) 
   return(null)
 
-  function handleChange(e){
-    setUser(prevFormData =>{
-      return{
-        ...prevFormData,
-        [e.target.topic]:e.target.value
-      }
-    })
+  // function handleChange(e){
+  //   setTopic(prevFormData =>{
+  //     return{
+  //       ...prevFormData,
+  //       [e.target.topic]:e.target.value
+  //     }
+  //   })
     
 
     
       
+  // }
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setTopic((prevFormData) => ({
+      ...prevFormData,
+      [name]: value
+    }));
   }
+  
   async function createTopic() {
-    
+    event.preventDefault();
 
 await supabase
   .from('topics')
   .insert(
-    { topic_string: user.topic_string},
+    { topic_string: topic.topic_string},
   )
   }
 
 
   return (<h1> Welcome {users [0].first_name} 
-  <Box component="form" noValidate autoComplete="off" name = 'topic'>
-      <FormControl sx={{ width: '25ch' }} onSubmit={createTopic}>
-        <OutlinedInput placeholder="Please enter the topic title"
+  <Box component="form" noValidate autoComplete="off" name = 'topic_string'onSubmit={createTopic}>
+      <FormControl sx={{ width: '25ch' }} >
+        <OutlinedInput name = 'topic_string'placeholder="Please enter the topic title"
         onChange={handleChange} />
         <MyFormHelperText />
       </FormControl>
@@ -81,6 +89,6 @@ await supabase
     </Box>
 </h1> )
 }
-//user key you use it with the map fxn could be needed above ref part 4 of videos
+//topic key you use it with the map fxn could be needed above ref part 4 of videos
 
 export default Sherpa_admin;

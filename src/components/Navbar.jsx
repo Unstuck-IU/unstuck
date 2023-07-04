@@ -18,7 +18,7 @@ import { Divider } from "@mui/material";
 
 const pages = ["Signup", "About", "Profile", "StudentDashboard"];
 const settings = ["/signup", "/about", "/profile", "/student-dashboard"];
-const { error } = await supabase.auth.signOut()
+// const { error } = await supabase.auth.signOut()
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
