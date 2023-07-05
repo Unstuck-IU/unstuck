@@ -11,7 +11,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import supabase from "../Components/auth/supabaseDeets";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
@@ -47,11 +46,14 @@ export default function SignUp() {
     event.preventDefault();
     // const formData = new FormData(event.currentTarget);
     setLoading(true);
-    const { data, error } = auth.signUp({ email, password });
+    const { data, error } = await auth.signUp({ email, password });
 
     if (error) {
+      console.log("error when trying to create new record in user_details table.");
       alert(error.error_description || error.message);
-    } else {
+    }
+    if (data) {
+      console.log("Successfully Signed Up", data);
       navigate("/profile");
     }
     setLoading(false);

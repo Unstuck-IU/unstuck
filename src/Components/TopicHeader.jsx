@@ -1,11 +1,12 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import supabase from "./auth/supabaseDeets";
 
 const TopicHeader = ({ topics, setTopics }) => {
+  const [fetchError, setFetchError] = useState("");
   useEffect(() => {
     const fetchTopics = async () => {
-      const { data, error } = await supabase.from("topics").select().single();
+      const { data, error } = await supabase.from("topics").select().eq("join_code", "123456");
 
       if (error) {
         setFetchError("Could not fetch the topics");

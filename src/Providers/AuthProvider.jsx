@@ -53,12 +53,12 @@ const AuthProvider = (props) => {
   //   return unsub; // to shut down onAuthStateChanged listener
   // }, [auth]);
 
-  const user = () => {
+  const user = async () => {
     try {
       const sessionDataKey = localStorage.key(0);
       const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
-      const sessionDataParsed = JSON.parse(sessionData);
-      let userId = sessionDataParsed.user.id;
+      const sessionDataParsed = await JSON.parse(sessionData);
+      let userId = await sessionDataParsed.user.id;
       console.log("creds1", userId);
       if (userId) {
         console.log("Logged in,", userId);
@@ -73,12 +73,14 @@ const AuthProvider = (props) => {
   const signUp = async (email, password) => {
     try {
       console.log("we called signUp successfully");
-      let { data, error } = auth.signUp(email, password);
+      let { data, error } = await auth.signUp(email, password);
       if (error) {
         console.log("Sign up failed. Error: \n", error);
+        return { data, error };
       }
       if (data) {
         console.log("Signed up successfully", data);
+        return { data, error };
       }
     } catch (ex) {
       console.log("Auth failed", ex.message);
