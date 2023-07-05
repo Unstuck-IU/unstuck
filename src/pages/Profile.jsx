@@ -19,7 +19,7 @@ import UpdateProfileForm from "../components/UpdateProfileForm";
 const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // auth.user needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
+  // auth.user needs to give us more details than just id, so we can update page details like name, avatar, etc.
 
   return (
     <Box m="20px">

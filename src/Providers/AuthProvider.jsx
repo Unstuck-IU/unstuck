@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import supabase from "../components/auth/supabaseDeets";
 // import useSupabase from "./SupabaseProvider";
-import supabase from "../Components/auth/supabaseDeets.js";
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
@@ -22,26 +22,10 @@ const AuthProvider = (props) => {
   console.log("props =", props);
   // const auth1 = supabase();
   // console.log("auth1 =", auth1)
-  const auth = supabase.auth;
-  console.log("auth", auth);
-  // const [user, setUser] = useState();
-  // console.log('user', user)
-  const signInPassword = async (email, password) => {
-    try {
-      let creds = await auth.signInWithPassword(email, password);
-      console.log("creds1", creds);
-      if (creds) {
-        console.log("Logged in,", creds.data.user, creds.user);
-      } else {
-        console.log("Login failed");
-      }
-    } catch (ex) {
-      console.log("Auth failed", ex.message);
-    }
-  };
+  console.log("auth", supabase.auth);
 
   const logOut = async () => {
-    await auth.signOut();
+    await supabase.auth.signOut();
     // router.push("/");
   };
 
@@ -70,10 +54,10 @@ const AuthProvider = (props) => {
       console.log("Auth failed", ex.message);
     }
   };
-  const signUp = async (email, password) => {
+  const signUp = async (emailField, passwordField) => {
     try {
       console.log("we called signUp successfully");
-      let { data, error } = await auth.signUp(email, password);
+      let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField });
       if (error) {
         console.log("Sign up failed. Error: \n", error);
         return { data, error };
@@ -87,12 +71,12 @@ const AuthProvider = (props) => {
     }
   };
 
-  // const currentSession = auth.getSession();
-  // const currentUser = auth.getUser();
-  // const signInMagic = auth.signInWithOtp;
-  // const signInSSO = auth.signInWithSSO;
-  // const signInToken = auth.signInWithIdToken;
-  // const signInOAuth = auth.signInWithOAuth;
+  // const currentSession = supabase.auth.getSession();
+  // const currentUser = supabase.auth.getUser();
+  // const signInMagic = supabase.auth.signInWithOtp;
+  // const signInSSO = supabase.auth.signInWithSSO;
+  // const signInToken = supabase.auth.signInWithIdToken;
+  // const signInOAuth = supabase.auth.signInWithOAuth;
 
   // const [session, setSession] = useState(null);
 
@@ -106,7 +90,7 @@ const AuthProvider = (props) => {
   //   });
   // }, []);
 
-  const values = { signUp, user, signInPassword, logOut };
+  const values = { signUp, user, logOut };
   console.log("values:", values);
   return <AuthContext.Provider value={values}>{children} </AuthContext.Provider>;
 };

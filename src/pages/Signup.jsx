@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
+import supabase from "../components/auth/supabaseDeets";
 
 function Copyright(props) {
   return (
@@ -46,7 +47,7 @@ export default function SignUp() {
     event.preventDefault();
     // const formData = new FormData(event.currentTarget);
     setLoading(true);
-    const { data, error } = await auth.signUp({ email, password });
+    const { data, error } = await auth.signUp(email, password);
 
     if (error) {
       console.log("error when trying to create new record in user_details table.");
