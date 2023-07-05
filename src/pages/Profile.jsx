@@ -16,6 +16,7 @@ import ProgressCircle from "../components/ProgressCircle";
 import { useAuth } from "../Providers/AuthProvider";
 import UpdateProfileForm from "../components/UpdateProfileForm";
 
+const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   // auth.user needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
@@ -244,6 +245,6 @@ import UpdateProfileForm from "../components/UpdateProfileForm";
       </Box> */}
     </Box>
   );
-}
+};
 
 export default Profile;
