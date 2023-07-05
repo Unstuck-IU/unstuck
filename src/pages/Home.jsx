@@ -2,35 +2,65 @@ import React from "react";
 import { useState, useEffect } from "react";
 import SignIn from "./Signup.jsx";
 import Box from "@mui/material/Box";
+import { Container, CssBaseline, Grid } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import { Copyright } from "@mui/icons-material";
+import Copyright2 from "../components/Copyright2.jsx";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "left",
+  color: theme.palette.text.secondary,
+}));
 
 export default function Home() {
-
-
   return (
-    <Box m="20px">
-      <div>
-        <h1>Unstuck!</h1>
-        <h3>
-          This is a platform for students to get experience through real-world projects to gain a greater understanding of their
-          skills, talents, interests and personality traits
-        </h3>
-        <p>
-          Sherpa's lead students through developing problem statements called "Stucks" which refer to the topic that the sherpa
-          has laid out. Then students start out on an Expedition, uncovering deeper learning and knowledge about the Stuck they
-          are diving into. Students are trained in the process of using critical thinking and design thinking to get more
-          understanding of a problem than they've ever had before.
-        </p>
-        <p>
-          Unstuck helps students find direction during the project phase, guiding them through self-reflection to get the most
-          learning possible from completing their projects. This will help give students direction after high-school, and it's all
-          about self-exploration!
-        </p>
-      </div>
-      <div
+    <div>
+      <Box sx={{ flexGrow: 1, m: 2 }}>
+        <div>
+          <CssBaseline />
+          <Grid
+            container
+            spacing={2}>
+            <Grid
+              item
+              xs={6}>
+              <Item>
+                <h1>Unstuck</h1>
+                <h2>Start your expedition with critical thinking: where learning becomes an adventure.</h2>
+                <h3>Learn how to use critical thinking to easily break down problems.</h3>
+                <ul>
+                  <li>A Sherpa (teacher) sets out a topic for their class.</li>
+                  <li>
+                    The app leads students through the process of developing problem statements related to the topic, called
+                    “stucks”.
+                  </li>
+                  <li>
+                    Students then using critical thinking skills to break down the stuck, gather feedback, and refine their
+                    analysis.
+                  </li>
+                  <li>Afterwards, students can develop the idea they want to prototype to solve the stuck.</li>
+                </ul>
+              </Item>
+            </Grid>
+            <Grid
+              item
+              xs={6}>
+              <Item>
+                {/* </div> */}
+                {/* <div
         className="container"
-        style={{ padding: "50px 0 100px 0" }}>
-        <SignIn />
-      </div>
-    </Box>
+        style={{ padding: "50px 0 100px 0" }}> */}
+                <SignIn />
+              </Item>
+            </Grid>
+          </Grid>
+        </div>
+      </Box>
+      <Copyright2 />
+    </div>
   );
 }
