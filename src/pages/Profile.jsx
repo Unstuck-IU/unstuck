@@ -14,12 +14,12 @@ import StatBox from "../components/StatBox";
 import ProgressCircle from "../components/ProgressCircle";
 // auth
 import { useAuth } from "../Providers/AuthProvider";
-import UpdateProfileForm from "../components/UpdateProfileForm";
+import UpdateProfileForm from "../Components/UpdateProfileForm";
 
 const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // auth.user needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
+  // auth.userLocal needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
 
   return (
     <Box m="20px">

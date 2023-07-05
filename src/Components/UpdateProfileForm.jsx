@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { useAuth } from "../Providers/AuthProvider";
-import supabase from "../components/auth/supabaseDeets";
+import { useAuth, supabase } from "../Providers/AuthProvider";
 // ui elements
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
