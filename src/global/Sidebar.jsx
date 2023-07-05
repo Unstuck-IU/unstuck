@@ -26,6 +26,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TerrainIcon from "@mui/icons-material/Terrain";
 
+// Adjust to get current user
 let { data, error } = await supabase.from("user_details").select(`*`);
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
@@ -123,12 +124,13 @@ const Sidebar = () => {
                   color={colors.grey[100]}
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}>
-                  {data[0].first_name}
+                    User Name
+                  {/* {data[0].first_name} */}
                 </Typography>
                 <Typography
                   variant="h5"
                   color={colors.greenAccent[500]}>
-                  {data[0].user_type}
+                  {/* {data[0].user_type} */}
                 </Typography>
               </Box>
             </Box>
@@ -151,11 +153,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <SubMenu
-              label="Account"
-              title="Account"
-              icon={<PersonOutlinedIcon />}>
-              <Item
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}>
+              Account
+            </Typography>
+            <Item
                 title="Sign Up"
                 to="/signup"
                 icon={<PersonAddIcon />}
@@ -169,24 +173,6 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-              <MenuItem
-                icon={<LogoutIcon />}
-                onClick={auth.logOut}>
-                {" "}
-                <Typography>Signout</Typography>
-                <Link to="/" />
-              </MenuItem>
-
-              {/* <MenuItem
-                title="Sign Out"
-                style={{
-                  color: colors.grey[100],
-                }}
-                onClick={() =>logOut}
-                icon={icon}>
-                <Typography>{title}</Typography>
-              </MenuItem> */}
-            </SubMenu>
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -270,6 +256,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+             <MenuItem
+                icon={<LogoutIcon />}
+                onClick={auth.logOut}>
+                {" "}
+                <Typography>Signout</Typography>
+                <Link to="/" />
+              </MenuItem>
           </Box>
         </Menu>
       </ProSidebar>
