@@ -15,25 +15,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}>
-      {"Copyright © "}
-      <Link
-        color="inherit"
-        href="/">
-        Unstuck
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -72,6 +53,7 @@ export default function SignUp() {
             flexDirection: "column",
             alignItems: "center",
           }}>
+          <h2>Start your adventure now</h2>
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -148,7 +130,7 @@ export default function SignUp() {
                   value={password}
                 />
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 xs={12}>
                 <FormControlLabel
@@ -160,7 +142,7 @@ export default function SignUp() {
                   }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -182,7 +164,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </Box>
   );
