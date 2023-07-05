@@ -2,10 +2,9 @@ import { useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-// import { supabase } from "../supabaseClient";
 // import { logOut } from ""
-import supabase from "../../src/components/auth/supabaseDeets";
-import { useAuth } from "../Providers/AuthProvider";
+
+import { useAuth, supabase } from "../Providers/AuthProvider";
 //theme stuff
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";

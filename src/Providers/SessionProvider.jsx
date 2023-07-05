@@ -6,146 +6,146 @@
 *
 */
 
+import { supabase } from './AuthProvider';
 
-// import { supabase } from '../Components/auth/supabaseDeets';
-// import React, {
-// 	createContext,
-// 	useContext,
-// 	useEffect,
-// 	useMemo,
-// 	useState
-// } from 'react';
-
-
-
-// const supabaseClient = supabase
-
-// const SessionContext = createContext({
-// 	isLoading,
-// 	session,
-// 	error,
-// 	supabaseClient
-// });
+import React, {
+	createContext,
+	useContext,
+	useEffect,
+	useMemo,
+	useState
+} from 'react';
 
 
-// export const SessionContextProvider = ({
-// 	supabaseClient,
-// 	initialSession = null,
-// 	children
-// }) => {
-// 	const [session, setSession] = useState(initialSession);
-// 	const [isLoading, setIsLoading] = useState(!initialSession);
-// 	const [error, setError] = useState();
 
-// 	useEffect(() => {
-// 		let mounted = true;
+const supabaseClient = supabase
 
-// 		async function getSession() {
-// 			const {
-// 				data: { session },
-// 				error
-// 			} = await supabaseClient.auth.getSession();
+const SessionContext = createContext({
+	isLoading,
+	session,
+	error,
+	supabaseClient
+});
 
-// 			// only update the react state if the component is still mounted
-// 			if (mounted) {
-// 				if (error) {
-// 					setError(error);
-// 					setIsLoading(false);
-// 					return;
-// 				}
 
-// 				setSession(session);
-// 				setIsLoading(false);
-// 			}
-// 		}
+export const SessionContextProvider = ({
+	supabaseClient,
+	initialSession = null,
+	children
+}) => {
+	const [session, setSession] = useState(initialSession);
+	const [isLoading, setIsLoading] = useState(!initialSession);
+	const [error, setError] = useState();
 
-// 		getSession();
+	useEffect(() => {
+		let mounted = true;
 
-// 		return () => {
-// 			mounted = false;
-// 		};
-// 	}, []);
+		async function getSession() {
+			const {
+				data: { session },
+				error
+			} = await supabaseClient.auth.getSession();
 
-// 	useEffect(() => {
-// 		const {
-// 			data: { subscription }
-// 		} = supabaseClient.auth.onAuthStateChange((event, session) => {
-// 			if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-// 				setSession(session);
-// 			}
+			// only update the react state if the component is still mounted
+			if (mounted) {
+				if (error) {
+					setError(error);
+					setIsLoading(false);
+					return;
+				}
 
-// 			if (event === 'SIGNED_OUT') {
-// 				setSession(null);
-// 			}
-// 		});
+				setSession(session);
+				setIsLoading(false);
+			}
+		}
 
-// 		return () => {
-// 			subscription.unsubscribe();
-// 		};
-// 	}, []);
+		getSession();
 
-// 	const value = useMemo(() => {
-// 		if (isLoading) {
-// 			return {
-// 				isLoading,
-// 				session,
-// 				error,
-// 				supabaseClient
-// 			};
-// 		}
+		return () => {
+			mounted = false;
+		};
+	}, []);
 
-// 		if (error) {
-// 			return {
-// 				isLoading: false,
-// 				session: null,
-// 				error,
-// 				supabaseClient
-// 			};
-// 		}
+	useEffect(() => {
+		const {
+			data: { subscription }
+		} = supabaseClient.auth.onAuthStateChange((event, session) => {
+			if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+				setSession(session);
+			}
 
-// 		return {
-// 			isLoading: false,
-// 			session,
-// 			error: null,
-// 			supabaseClient
-// 		};
-// 	}, [isLoading, session, error]);
+			if (event === 'SIGNED_OUT') {
+				setSession(null);
+			}
+		});
 
-// 	return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
-// };
+		return () => {
+			subscription.unsubscribe();
+		};
+	}, []);
 
-// export const useSessionContext = () => {
-// 	const context = useContext(SessionContext);
-// 	if (context === undefined) {
-// 		throw new Error(`useSessionContext must be used within a SessionContextProvider.`);
-// 	}
+	const value = useMemo(() => {
+		if (isLoading) {
+			return {
+				isLoading,
+				session,
+				error,
+				supabaseClient
+			};
+		}
 
-// 	return context;
-// };
+		if (error) {
+			return {
+				isLoading: false,
+				session: null,
+				error,
+				supabaseClient
+			};
+		}
 
-// export function useSupabaseClient() {
-// 	const context = useContext(SessionContext);
-// 	if (context === undefined) {
-// 		throw new Error(`useSupabaseClient must be used within a SessionContextProvider.`);
-// 	}
+		return {
+			isLoading: false,
+			session,
+			error: null,
+			supabaseClient
+		};
+	}, [isLoading, session, error]);
 
-// 	return context.supabaseClient;
-// }
+	return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
+};
 
-// export const useSession = () => {
-// 	const context = useContext(SessionContext);
-// 	if (context === undefined) {
-// 		throw new Error(`useSession must be used within a SessionContextProvider.`);
-// 	}
+export const useSessionContext = () => {
+	const context = useContext(SessionContext);
+	if (context === undefined) {
+		throw new Error(`useSessionContext must be used within a SessionContextProvider.`);
+	}
 
-// 	return context.session;
-// };
+	return context;
+};
 
-// export const useUser = () => {
-// 	const context = useContext(SessionContext);
-// 	if (context === undefined) {
-// 		throw new Error(`useUser must be used within a SessionContextProvider.`);
-// 	}
+export function useSupabaseClient() {
+	const context = useContext(SessionContext);
+	if (context === undefined) {
+		throw new Error(`useSupabaseClient must be used within a SessionContextProvider.`);
+	}
 
-// 	return context.session?.user ?? null;
-// };
+	return context.supabaseClient;
+}
+
+export const useSession = () => {
+	const context = useContext(SessionContext);
+	if (context === undefined) {
+		throw new Error(`useSession must be used within a SessionContextProvider.`);
+	}
+
+	return context.session;
+};
+
+export const useUser = () => {
+	const context = useContext(SessionContext);
+	if (context === undefined) {
+		throw new Error(`useUser must be used within a SessionContextProvider.`);
+	}
+
+	return context.session?.user ?? null;
+};

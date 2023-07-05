@@ -1,31 +1,25 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-// import useSupabase from "./SupabaseProvider";
-import supabase from "../Components/auth/supabaseDeets.js";
+
+
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
-/*
- *
- * Todo: Add .env helpers
- */
 
-// import.meta.env.VITE_SUPABASE_URL;
-// import.meta.env.VITE_SUPABASE_ANON_KEY;
-// const supabaseUrl = "https://ibcloulxdbsfsdvegstc.supabase.co";
-// const supabaseAnonKey =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliY2xvdWx4ZGJzZnNkdmVnc3RjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU2Mzk3MzQsImV4cCI6MjAwMTIxNTczNH0.aayqb-XCiBg055mG-xCI9fC2sVNNzUGdTjC262-he-w";
+import { createClient } from "@supabase/supabase-js";
 
-//const supAuth = auth1()
+let supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+let supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 
 const AuthProvider = (props) => {
   const { children } = props;
   console.log("props =", props);
-  // const auth1 = supabase();
-  // console.log("auth1 =", auth1)
+
   const auth = supabase.auth;
   console.log("auth", auth);
-  // const [user, setUser] = useState();
-  // console.log('user', user)
+
   const signInPassword = async (email, password) => {
     try {
       let creds = await auth.signInWithPassword(email, password);
@@ -53,13 +47,13 @@ const AuthProvider = (props) => {
   //   return unsub; // to shut down onAuthStateChanged listener
   // }, [auth]);
 
-  const user = () => {
+  const userLocal = () => {
     try {
       const sessionDataKey = localStorage.key(0);
       const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
       const sessionDataParsed = JSON.parse(sessionData);
       let userId = sessionDataParsed.user.id;
-      console.log("creds1", userId);
+      console.log("userId", userId);
       if (userId) {
         console.log("Logged in,", userId);
         return userId;
@@ -70,6 +64,16 @@ const AuthProvider = (props) => {
       console.log("Auth failed", ex.message);
     }
   };
+
+  
+  const userSupa = async () => {
+
+    const { data: { user } } = await supabase.auth.getUser()
+    console.log("user Supa Data", data)
+    return { data: {user} }
+  }
+
+
   const signUp = async (email, password) => {
     try {
       console.log("we called signUp successfully");
@@ -79,6 +83,7 @@ const AuthProvider = (props) => {
       }
       if (data) {
         console.log("Signed up successfully", data);
+        return 	{data, error} //returns the user id (string) or undefined if sign up failed.
       }
     } catch (ex) {
       console.log("Auth failed", ex.message);
@@ -86,7 +91,7 @@ const AuthProvider = (props) => {
   };
 
   // const currentSession = auth.getSession();
-  // const currentUser = auth.getUser();
+  // const currentUser = autnpmh.getUser();
   // const signInMagic = auth.signInWithOtp;
   // const signInSSO = auth.signInWithSSO;
   // const signInToken = auth.signInWithIdToken;
@@ -104,7 +109,7 @@ const AuthProvider = (props) => {
   //   });
   // }, []);
 
-  const values = { signUp, user, signInPassword, logOut };
+  const values = { signUp, userSupa, userLocal, signInPassword, logOut };
   console.log("values:", values);
   return <AuthContext.Provider value={values}>{children} </AuthContext.Provider>;
 };
