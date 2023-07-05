@@ -38,7 +38,7 @@ const UpdateProfileForm = () => {
   // const [avatarUrl, setAvatarUrl] = useState("")
   const handleUpdateUserDetails = async (e) => {
     e.preventDefault();
-    const userId = await auth.user();
+    const userId = await auth.userLocal();
 
     const { data, error } = await supabase
       .from("user_details")
@@ -69,7 +69,7 @@ const UpdateProfileForm = () => {
   // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const userId = await auth.user();
+      const userId = await auth.userLocal();
       console.log(userId);
       if (userId) {
         const { data, error } = await supabase.from("user_details").select("*").eq("user_id", userId).single();

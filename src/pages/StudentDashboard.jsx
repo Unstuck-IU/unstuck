@@ -28,8 +28,8 @@ const StudentDashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const auth = useAuth();
-  const user = auth.user();
-  const [fetchError, setFetchError] = useState(null);
+  const user = auth.userLocal;
+  // const [fetchError, setFetchError] = useState(null);
   const [topics, setTopics] = useState(null);
   return (
     <Box
@@ -41,7 +41,7 @@ const StudentDashboard = () => {
         alignContent: "center",
       }}>
       <ProgressStepper />
-      {fetchError && <p>{fetchError}</p>}
+      {/* {fetchError && <p>{fetchError}</p>} */}
       <TopicHeader
         topics={topics}
         setTopics={setTopics}

@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Providers/AuthProvider";
+import { useAuth, supabase } from "../Providers/AuthProvider";
 
 function Copyright(props) {
   return (
