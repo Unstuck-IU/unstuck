@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -52,6 +52,31 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [userDetails, setUserDetails] = useState(null);
+  const [fetchError, setFetchError] = useState("");
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const userId = await auth.user();
+      console.log(userId);
+      if (userId) {
+        const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
+        if (error) {
+          setFetchError("Could not fetch the user details");
+          setUserDetails(null);
+          console.log("data: ", data);
+          console.log("error: ", error);
+        }
+        if (data) {
+          setUserDetails(data);
+          setFetchError(null);
+          console.log("fetched user profile details of logged in user: ", data);
+        }
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
 
   return (
     <Box
@@ -124,13 +149,14 @@ const Sidebar = () => {
                   color={colors.grey[100]}
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}>
-                    User Name
+                  {userDetails ? userDetails[0].first_name : ""}
                   {/* {data[0].first_name} */}
                 </Typography>
                 <Typography
                   variant="h5"
                   color={colors.greenAccent[500]}>
                   {/* {data[0].user_type} */}
+                  {userDetails ? userDetails[0].first_name : ""}
                 </Typography>
               </Box>
             </Box>
@@ -160,19 +186,19 @@ const Sidebar = () => {
               Account
             </Typography>
             <Item
-                title="Sign Up"
-                to="/signup"
-                icon={<PersonAddIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Sign In"
-                to="/signin"
-                icon={<PersonOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+              title="Sign Up"
+              to="/signup"
+              icon={<PersonAddIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Sign In"
+              to="/signin"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -256,13 +282,13 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-             <MenuItem
-                icon={<LogoutIcon />}
-                onClick={auth.logOut}>
-                {" "}
-                <Typography>Signout</Typography>
-                <Link to="/" />
-              </MenuItem>
+            <MenuItem
+              icon={<LogoutIcon />}
+              onClick={auth.logOut}>
+              {" "}
+              <Typography>Signout</Typography>
+              <Link to="/" />
+            </MenuItem>
           </Box>
         </Menu>
       </ProSidebar>

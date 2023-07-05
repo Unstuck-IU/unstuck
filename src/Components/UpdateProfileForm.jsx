@@ -42,7 +42,7 @@ const UpdateProfileForm = () => {
     const { data, error } = await supabase
       .from("user_details")
       .update({ first_name: firstName, last_name: lastName, user_type: userType, display_name: displayName })
-      .eq("user_id", userId)
+      .eq("id", userId)
       .select();
 
     console.log("trying to update the user_details. UserId: ", userId);
@@ -71,22 +71,11 @@ const UpdateProfileForm = () => {
       const userId = await auth.userLocal();
       console.log(userId);
       if (userId) {
-        const { data, error } = await supabase.from("user_details").select("*").eq("user_id", userId).single();
-        console.log("THIS ONE - data", data);
-        console.log("THIS ONE - error", error);
-        if (data.length === 0) {
-          const { data, error } = await supabase.from("user_details").insert({ user_id: userId, user_type: "student" }).select();
-          console.log("after trying to create new row in user_details table", data, error);
+        const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
+        if (!data || data.length === 0) {
+          // const { data, error } = await supabase.from("user_details").insert({ id: userId, user_type: "student" }).select();
+          console.log("there is no data to use", error);
         }
-        if (data.first_name != null && data.last_name != null && data.display_name != null) {
-          console.log("is this RUNNING?");
-          const { data, error } = await supabase
-            .from("user_details")
-            .update({ completed_signup: true })
-            .eq("user_id", userId)
-            .select();
-        }
-
         if (error) {
           setFetchError("Could not fetch the user details");
           setUserDetails(null);
@@ -94,6 +83,14 @@ const UpdateProfileForm = () => {
           console.log("error: ", error);
         }
         if (data) {
+          if (data.first_name != null && data.last_name != null && data.display_name != null) {
+            console.log("is this RUNNING?");
+            const { data, error } = await supabase
+              .from("user_details")
+              .update({ completed_signup: true })
+              .eq("id", userId)
+              .select();
+          }
           setUserDetails(data);
           setFetchError(null);
           console.log("fetched user profile details of logged in user: ", data);
