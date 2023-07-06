@@ -52,12 +52,19 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [userDetails, setUserDetails] = useState(null);
+  const [userDetails, setUserDetails] = useState({
+    user_type: "",
+    first_name: "",
+    last_name: "",
+    avatar_url: "",
+    display_name: "",
+    completed_signup: false,
+  });
   const [fetchError, setFetchError] = useState("");
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const userId = await auth.user();
+      const userId = await auth.userLocal();
       console.log(userId);
       if (userId) {
         const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
@@ -149,14 +156,14 @@ const Sidebar = () => {
                   color={colors.grey[100]}
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}>
-                  {userDetails ? userDetails[0].first_name : ""}
+                  {userDetails ? userDetails.first_name : ""}
                   {/* {data[0].first_name} */}
                 </Typography>
                 <Typography
                   variant="h5"
                   color={colors.greenAccent[500]}>
                   {/* {data[0].user_type} */}
-                  {userDetails ? userDetails[0].first_name : ""}
+                  {userDetails ? userDetails.display_name : ""}
                 </Typography>
               </Box>
             </Box>
