@@ -12,7 +12,7 @@ import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
 //components
 import Sidebar from "./global/Sidebar";
-import Topbar from "./global/TopBar";
+import Topbar from "./global/Topbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
 

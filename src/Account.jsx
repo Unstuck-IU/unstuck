@@ -1,7 +1,7 @@
 // PLACEHOLDER FOR PROFILE - Delete as needed
 
 import { useState, useEffect } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./Providers/AuthProvider";
 
 export default function Account({ session }) {
   const [loading, setLoading] = useState(true);
