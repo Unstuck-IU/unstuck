@@ -117,7 +117,7 @@ const UpdateProfileForm = () => {
 
   return (
     <>
-      {userDetails && (
+      {/* {userDetails && (
         <Box
           sx={{
             height: 300,
@@ -127,13 +127,12 @@ const UpdateProfileForm = () => {
           }}>
           <Container>
             <Typography variant="h2">{userDetails.first_name}</Typography>
-            {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
             <Typography variant="h5">
               <div className="user-details">{userDetails.last_name}</div>
             </Typography>
           </Container>
         </Box>
-      )}
+      )} */}
       <Button
         variant="outlined"
         onClick={handleClickOpen}>
