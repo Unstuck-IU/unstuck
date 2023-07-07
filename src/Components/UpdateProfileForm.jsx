@@ -24,8 +24,6 @@ import { Copyright } from "@mui/icons-material";
 const UpdateProfileForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("student");
   const [displayName, setDisplayName] = useState("");
   const [completedSignup, setCompletedSignup] = useState(true);
@@ -189,31 +187,7 @@ const UpdateProfileForm = () => {
                     value={displayName}
                   />
                 </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                  />
-                </Grid>
+
                 <Grid
                   item
                   xs={12}
