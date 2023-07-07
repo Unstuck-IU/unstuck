@@ -17,6 +17,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+
   return (
     <div>
       <Box sx={{ flexGrow: 1, m: 2 }}>

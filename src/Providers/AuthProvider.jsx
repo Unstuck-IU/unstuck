@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-
-const AuthContext = createContext();
-export const useAuth = () => useContext(AuthContext);
-
 import { createClient } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
+
+export const AuthContext = createContext({
+  user: null,
+  session: null,
+});
 
 let supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 let supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -12,24 +14,96 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const AuthProvider = (props) => {
   const { children } = props;
-  console.log("props =", props);
+  // console.log("props =", props);
+  const navigate = useNavigate();
+  const [userSession, setUserSession] = useState(null);
+  const [submitError, setSubmitError] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [user, setUser] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const signInPassword = async (email, password) => {
+  useEffect(() => {
+    const fetchSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUserSession(session);
+      setUser(session?.user ?? null);
+      if (session) console.log("session: ", session);
+      if (user) {
+        console.log("user: ", user);
+      }
+    };
+    fetchSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log(`Supabase auth event: ${event}`);
+      setUserSession(session);
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (user != null) {
+        const { data, error } = await supabase
+          .from("user_details")
+          .select("*")
+          .eq("id", user?.id ? user?.id : null)
+          .single();
+        setUserDetails(data ?? null);
+        if (data) {
+          console.log("Successfully fetched userDetails: ", data);
+          setSubmitError(false);
+          setAlertMessage("Successfully fetched userDetails");
+        }
+
+        if (error) {
+          console.log("error occurred when trying to get user_details in AuthProvider useEffect: ", error);
+          setSubmitError(true);
+          setAlertMessage("User details could not be retrieved");
+        }
+        if (data.first_name != null && data.last_name != null && data.display_name != null && data.completed_signup != true) {
+          console.log("All user_details are filled out and completed_signup can be set to true");
+          const { data, error } = await supabase
+            .from("user_details")
+            .update({ completed_signup: true })
+            .eq("id", user.id)
+            .select();
+        }
+      }
+    };
+    fetchUserDetails();
+  }, [user]);
+
+  async function signInPassword(email, password) {
     try {
-      let creds = await supabase.auth.signInWithPassword(email, password);
-      console.log("creds1", creds);
-      if (creds) {
-        console.log("Logged in,", creds.data.user, creds.user);
-      } else {
-        console.log("Login failed");
+      let { data, error } = await supabase.auth.signInWithPassword(email, password);
+      if (data.user) {
+        console.log(data);
+        console.log("Logged in,", data.user);
+        setSubmitError(false);
+        setAlertMessage("Successfully signed in!");
+      }
+      if (error) {
+        console.log("Login failed, try a different email and password combo.");
+        setSubmitError(true);
+        setAlertMessage("Login failed, please try a different email and password, or sign up for an account.");
+        return error;
       }
     } catch (ex) {
       console.log("Auth failed", ex.message);
     }
-  };
+  }
 
   const logOut = async () => {
     await supabase.auth.signOut();
+    navigate("/");
+
     // router.push("/");
   };
 
@@ -52,7 +126,8 @@ const AuthProvider = (props) => {
         console.log("Logged in,", userId);
         return userId;
       } else {
-        console.log("Login failed");
+        console.log("Getting local user details failed");
+        setAlertMessage("Getting local user details failed");
       }
     } catch (ex) {
       console.log("Auth failed", ex.message);
@@ -62,9 +137,16 @@ const AuthProvider = (props) => {
   const userSupa = async () => {
     const {
       data: { user },
+      error,
     } = await supabase.auth.getUser();
-    console.log("user Supa Data", data);
-    return { data: { user } };
+    if (user) {
+      console.log("user Supa Data", data);
+      return { data: { user } };
+    }
+    if (error) {
+      console.log("Error getting supabase User data", error);
+      setAlertMessage("Error getting supabase User data. Are you signed in?");
+    }
   };
 
   const signUp = async (emailField, passwordField) => {
@@ -73,11 +155,13 @@ const AuthProvider = (props) => {
       let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField });
       if (error) {
         console.log("Sign up failed. Error: \n", error);
-        return { data, error };
+        setAlertMessage("Sign up failed, please try again.");
+        return error;
       }
       if (data) {
         console.log("Signed up successfully", data);
-        return { data, error };
+        setAlertMessage("Successfully signed up!");
+        return data;
       }
     } catch (ex) {
       console.log("Auth failed", ex.message);
@@ -103,9 +187,31 @@ const AuthProvider = (props) => {
   //   });
   // }, []);
 
-  const values = { signUp, userSupa, userLocal, signInPassword, logOut };
-  console.log("values:", values);
+  const values = {
+    user,
+    userSession,
+    userDetails,
+    setUserDetails,
+    submitError,
+    setSubmitError,
+    alertMessage,
+    setAlertMessage,
+    signUp,
+    userSupa,
+    userLocal,
+    signInPassword,
+    logOut,
+  };
+  console.log("useAuth useContext values:", values);
   return <AuthContext.Provider value={values}>{children} </AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useUser must be used within a AuthContextProvider.");
+  }
+  return context;
 };
 
 export default AuthProvider;

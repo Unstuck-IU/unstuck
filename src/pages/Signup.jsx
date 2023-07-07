@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, supabase } from "../Providers/AuthProvider";
 
@@ -37,16 +37,15 @@ function Copyright(props) {
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const auth = useAuth();
+  const { userSession, userDetails, signUp } = useAuth();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // const formData = new FormData(event.currentTarget);
     setLoading(true);
-    const { data, error } = await auth.signUp(email, password);
+    const { data, error } = await signUp(email, password);
 
     if (error) {
       console.log("error when trying to create new record in user_details table.");
@@ -54,10 +53,25 @@ export default function SignUp() {
     }
     if (data) {
       console.log("Successfully Signed Up", data);
-      navigate("/profile");
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    const redirectOnLogin = async () => {
+      console.log("redirected after signing up");
+      if (userSession != null) {
+        if (userDetails?.completed_signup === true && userDetails?.user_type === "student") {
+          navigate("/student-dashboard");
+        } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
+          navigate("/sherpa-dashboard");
+        } else if (userSession) {
+          navigate("/profile");
+        }
+      }
+    };
+    redirectOnLogin();
+  }, [loading]);
 
   return (
     <Box m={"20px"}>
@@ -174,10 +188,13 @@ export default function SignUp() {
               container
               justifyContent="flex-end">
               <Grid item>
+                {" "}
+                Already have an account?
                 <Link
+                  sx={{ m: 1, color: "secondary.main" }}
                   href="/signin"
-                  variant="body2">
-                  Already have an account? Sign in
+                  variant="inherit">
+                  Sign in
                 </Link>
               </Grid>
             </Grid>

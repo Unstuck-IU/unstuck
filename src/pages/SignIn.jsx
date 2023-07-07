@@ -1,6 +1,7 @@
+// mui imports
+import CssBaseline from "@mui/material/CssBaseline";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -10,9 +11,13 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import CloseIcon from "@mui/icons-material/Close";
+import { Alert, Collapse, IconButton } from "@mui/material";
+//theme imports
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../theme";
-import { useState } from "react";
+//react imports
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
 
@@ -40,8 +45,9 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const auth = useAuth();
-
+  const { userSession, userDetails, submitError, setSubmitError, alertMessage, signInPassword } = useAuth();
+  console.log("alertMessage: ", alertMessage);
+  console.log("submitError: ", submitError);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -49,18 +55,40 @@ export default function SignIn() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setLoading(true);
-    const { data, error } = auth.signInPassword({
+    const { data, error } = signInPassword({
       email: formData.get("email"),
       password: formData.get("password"),
     });
 
     if (error) {
       alert(error.error_description || error.message);
+      setSubmitError(true);
     } else {
-      navigate("/student-dashboard");
+      setSubmitError(false);
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    const redirectOnLogin = async () => {
+      if (userSession != null) {
+        console.log("is this being called AT ALL? ", userDetails);
+
+        if (userDetails.completed_signup === true && userDetails.user_type === "student") {
+          setLoading(false);
+          navigate("/student-dashboard");
+        } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
+          setLoading(false);
+          navigate("/sherpa-dashboard");
+        } else if (userSession) {
+          setLoading(false);
+          navigate("/profile");
+        }
+      }
+    };
+    redirectOnLogin();
+  }, [userSession]);
 
   return (
     <Box m="20px">
@@ -134,22 +162,47 @@ export default function SignIn() {
                 item
                 xs>
                 <Link
+                  sx={{ m: 1, color: colors.greenAccent[300] }}
                   href="/resetpassword"
                   variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
+                Don't have an account?
                 <Link
+                  sx={{ m: 1, color: colors.greenAccent[300] }}
                   href="/signup"
-                  variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  variant="body">
+                  Sign Up
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
+        {submitError && (
+          <Box>
+            <Collapse in={submitError}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setSubmitError(false);
+                    }}>
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}>
+                {alertMessage}
+              </Alert>
+            </Collapse>
+          </Box>
+        )}
       </Container>
     </Box>
   );

@@ -15,6 +15,7 @@ import ProgressCircle from "../components/ProgressCircle";
 // auth
 import { useAuth } from "../Providers/AuthProvider";
 import UpdateProfileForm from "../Components/UpdateProfileForm";
+import Copyright from "../components/Copyright2";
 
 const Profile = () => {
   const theme = useTheme();
@@ -22,7 +23,11 @@ const Profile = () => {
   // auth.userLocal needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
 
   return (
-    <Box m="20px">
+    <Box
+      m="20px"
+      display="flex"
+      flexDirection="column"
+      justifyContent="end">
       {/* HEADER */}
       <Box
         display="flex"
@@ -43,6 +48,8 @@ const Profile = () => {
         alignItems="center">
         <UpdateProfileForm />
       </Box>
+
+      <Copyright sx={{ mt: 0 }} />
       {/* GRID & CHARTS */}
       {/* <Box
         display="grid"
