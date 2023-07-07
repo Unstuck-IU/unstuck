@@ -15,6 +15,25 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, supabase } from "../Providers/AuthProvider";
 
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}>
+      {"Copyright © "}
+      <Link
+        color="inherit"
+        href="/">
+        Unstuck
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +46,7 @@ export default function SignUp() {
     event.preventDefault();
     // const formData = new FormData(event.currentTarget);
     setLoading(true);
-    const { data, error } = await auth.signUp({ email, password });
+    const { data, error } = await auth.signUp(email, password);
 
     if (error) {
       console.log("error when trying to create new record in user_details table.");
