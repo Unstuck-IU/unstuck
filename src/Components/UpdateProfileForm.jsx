@@ -19,7 +19,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Copyright } from "@mui/icons-material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const UpdateProfileForm = () => {
   const [firstName, setFirstName] = useState("");
@@ -31,6 +35,7 @@ const UpdateProfileForm = () => {
   const [completedSignup, setCompletedSignup] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [userDetails, setUserDetails] = useState(null);
+  const [open, setOpen] = useState(false);
   const auth = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -49,6 +54,7 @@ const UpdateProfileForm = () => {
     if (error) {
       setFetchError("Could not update the user details");
       console.log(error);
+      handleClose();
     }
     if (data) {
       setFirstName(data.first_name);
@@ -58,7 +64,15 @@ const UpdateProfileForm = () => {
       //   setAvatarUrl(data.avatar_url);
       setFetchError(null);
       console.log("updated user profile details: ", data);
+      handleClose();
     }
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleUserTypeChange = (event) => {
@@ -66,40 +80,40 @@ const UpdateProfileForm = () => {
   };
 
   // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = await auth.userLocal();
-      console.log(userId);
-      if (userId) {
-        const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
-        if (!data || data.length === 0) {
-          // const { data, error } = await supabase.from("user_details").insert({ id: userId, user_type: "student" }).select();
-          console.log("there is no data to use", error);
-        }
-        if (error) {
-          setFetchError("Could not fetch the user details");
-          setUserDetails(null);
-          console.log("data: ", data);
-          console.log("error: ", error);
-        }
-        if (data) {
-          if (data.first_name != null && data.last_name != null && data.display_name != null) {
-            console.log("is this RUNNING?");
-            const { data, error } = await supabase
-              .from("user_details")
-              .update({ completed_signup: true })
-              .eq("id", userId)
-              .select();
-          }
-          setUserDetails(data);
-          setFetchError(null);
-          console.log("fetched user profile details of logged in user: ", data);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserDetails = async () => {
+  //     const userId = await auth.userLocal();
+  //     console.log(userId);
+  //     if (userId) {
+  //       const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
+  //       if (!data || data.length === 0) {
+  //         // const { data, error } = await supabase.from("user_details").insert({ id: userId, user_type: "student" }).select();
+  //         console.log("there is no data to use", error);
+  //       }
+  //       if (error) {
+  //         setFetchError("Could not fetch the user details");
+  //         setUserDetails(null);
+  //         console.log("data: ", data);
+  //         console.log("error: ", error);
+  //       }
+  //       if (data) {
+  //         if (data.first_name != null && data.last_name != null && data.display_name != null) {
+  //           console.log("is this RUNNING?");
+  //           const { data, error } = await supabase
+  //             .from("user_details")
+  //             .update({ completed_signup: true })
+  //             .eq("id", userId)
+  //             .select();
+  //         }
+  //         setUserDetails(data);
+  //         setFetchError(null);
+  //         console.log("fetched user profile details of logged in user: ", data);
+  //       }
+  //     }
+  //   };
 
-    fetchUserDetails();
-  }, []);
+  //   fetchUserDetails();
+  // }, []);
 
   return (
     <>
@@ -120,142 +134,85 @@ const UpdateProfileForm = () => {
           </Container>
         </Box>
       )}
-      <Box m={"20px"}>
-        <Container
-          component="main"
-          maxWidth="xs">
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}>
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <AccountCircleIcon />
-            </Avatar>
-            <Typography
-              component="h1"
-              variant="h5">
-              Update your Profile Details
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleUpdateUserDetails}
-              sx={{ mt: 3 }}>
-              <Grid
-                container
-                spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    onChange={(e) => setFirstName(e.target.value)}
-                    value={firstName}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                    onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="displayName"
-                    label="Display Name"
-                    name="displayName"
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    value={displayName}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <FormControl>
-                    <FormLabel>User Type</FormLabel>
-                    <RadioGroup
-                      defaultValue="student"
-                      value={userType ? userType : "student"}
-                      onChange={handleUserTypeChange}
-                      name="user-type-selection-group"
-                      sx={{ my: 1 }}>
-                      <Radio
-                        value="student"
-                        label="Student"
-                        onChange={(e) => setUserType(e.target.value)}
-                      />
-                      <Radio
-                        value="sherpa"
-                        label="Sherpa"
-                        onChange={(e) => setUserType(e.target.value)}
-                      />
-                    </RadioGroup>
-                    <FormHelperText>Please don't select Sherpa if you're not. Honor Code.</FormHelperText>
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Update Profile
-              </Button>
-              <Grid
-                container
-                justifyContent="flex-end"></Grid>
-            </Box>
-          </Box>
-          <Copyright sx={{ mt: 5 }} />
-        </Container>
-      </Box>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}>
+        Update Profile
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}>
+        <DialogTitle>Update your profile</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Please enter your information.</DialogContentText>
+          <TextField
+            autoComplete="given-name"
+            name="firstName"
+            fullWidth
+            id="firstName"
+            label="First Name"
+            required
+            onChange={(e) => setFirstName(e.target.value)}
+            value={firstName}
+            autoFocus
+          />
+          <TextField
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            autoComplete="family-name"
+            required
+            onChange={(e) => setLastName(e.target.value)}
+            value={lastName}
+          />
+
+          <TextField
+            fullWidth
+            id="displayName"
+            label="Display Name"
+            name="displayName"
+            required
+            onChange={(e) => setDisplayName(e.target.value)}
+            value={displayName}
+          />
+          <TextField
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <FormControl>
+            <FormLabel>User Type</FormLabel>
+            <RadioGroup
+              defaultValue="student"
+              value={userType ? userType : "student"}
+              onChange={handleUserTypeChange}
+              name="user-type-selection-group"
+              sx={{ my: 1 }}>
+              <Radio
+                value="student"
+                label="Student"
+                onChange={(e) => setUserType(e.target.value)}
+              />
+              <Radio
+                value="sherpa"
+                label="Sherpa"
+                onChange={(e) => setUserType(e.target.value)}
+              />
+            </RadioGroup>
+            <FormHelperText>Please don't select Sherpa if you're not. Honor Code.</FormHelperText>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleUpdateUserDetails}>Submit</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
