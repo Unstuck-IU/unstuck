@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
-
 
 import { createClient } from "@supabase/supabase-js";
 
@@ -12,17 +10,13 @@ let supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-
 const AuthProvider = (props) => {
   const { children } = props;
   console.log("props =", props);
 
-  const auth = supabase.auth;
-  console.log("auth", auth);
-
   const signInPassword = async (email, password) => {
     try {
-      let creds = await auth.signInWithPassword(email, password);
+      let creds = await supabase.auth.signInWithPassword(email, password);
       console.log("creds1", creds);
       if (creds) {
         console.log("Logged in,", creds.data.user, creds.user);
@@ -35,7 +29,7 @@ const AuthProvider = (props) => {
   };
 
   const logOut = async () => {
-    await auth.signOut();
+    await supabase.auth.signOut();
     // router.push("/");
   };
 
@@ -65,19 +59,18 @@ const AuthProvider = (props) => {
     }
   };
 
-  
   const userSupa = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    console.log("user Supa Data", data);
+    return { data: { user } };
+  };
 
-    const { data: { user } } = await supabase.auth.getUser()
-    console.log("user Supa Data", data)
-    return { data: {user} }
-  }
-
-
-  const signUp = async (email, password) => {
+  const signUp = async (emailField, passwordField) => {
     try {
       console.log("we called signUp successfully");
-      let { data, error } = await auth.signUp(email, password);
+      let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField });
       if (error) {
         console.log("Sign up failed. Error: \n", error);
         return { data, error };
@@ -91,12 +84,12 @@ const AuthProvider = (props) => {
     }
   };
 
-  // const currentSession = auth.getSession();
-  // const currentUser = autnpmh.getUser();
-  // const signInMagic = auth.signInWithOtp;
-  // const signInSSO = auth.signInWithSSO;
-  // const signInToken = auth.signInWithIdToken;
-  // const signInOAuth = auth.signInWithOAuth;
+  // const currentSession = supabase.auth.getSession();
+  // const currentUser = supabase.auth.getUser();
+  // const signInMagic = supabase.auth.signInWithOtp;
+  // const signInSSO = supabase.auth.signInWithSSO;
+  // const signInToken = supabase.auth.signInWithIdToken;
+  // const signInOAuth = supabase.auth.signInWithOAuth;
 
   // const [session, setSession] = useState(null);
 
