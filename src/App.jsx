@@ -15,6 +15,7 @@ import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
+import Footer from "./components/Footer";
 
 // prettier-ignore
 function App() {
@@ -39,6 +40,7 @@ function App() {
             </Routes>
           </main>
     </div>
+      <Footer />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

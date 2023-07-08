@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import { Container, CssBaseline, Grid } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import { Copyright } from "@mui/icons-material";
-import Copyright2 from "../components/Copyright2.jsx";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -27,7 +25,7 @@ export default function Home() {
             spacing={2}>
             <Grid
               item
-              xs={6}>
+              xs={12}>
               <Item>
                 <h1>Unstuck</h1>
                 <h2>Start your expedition with critical thinking: where learning becomes an adventure.</h2>
@@ -48,7 +46,7 @@ export default function Home() {
             </Grid>
             <Grid
               item
-              xs={6}>
+              xs={12}>
               <Item>
                 {/* </div> */}
                 {/* <div
@@ -60,7 +58,6 @@ export default function Home() {
           </Grid>
         </div>
       </Box>
-      <Copyright2 />
     </div>
   );
 }
