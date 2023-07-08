@@ -40,6 +40,7 @@ const UpdateProfileForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   // const [avatarUrl, setAvatarUrl] = useState("")
+  
   const handleUpdateUserDetails = async (e) => {
     e.preventDefault();
     const userId = await auth.userLocal();
