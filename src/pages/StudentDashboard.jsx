@@ -27,50 +27,53 @@ import TrafficIcon from "@mui/icons-material/Traffic";
 const StudentDashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const auth = useAuth();
-  const user = auth.userLocal;
+  const { userDetails } = useAuth();
   // const [fetchError, setFetchError] = useState(null);
   const [topics, setTopics] = useState(null);
   return (
     <Box
-      className="student-dashboard"
-      sx={{
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        alignContent: "center",
-      }}>
-      <ProgressStepper />
-      {/* {fetchError && <p>{fetchError}</p>} */}
-      <TopicHeader
-        topics={topics}
-        setTopics={setTopics}
-      />
+      m="20px"
+      display="flex"
+      flexDirection="column"
+      justifyContent="end">
+      {/* HEADER */}
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center">
         <Header
-          title="DASHBOARD"
-          subtitle="Welcome to your dashboard"
+          title={userDetails.display_name + "'s Dashboard"}
+          subtitle="Welcome to your Unstuck Profile!"
         />
-
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}>
-            <AddCircleOutlineIcon sx={{ mr: "10px" }} />
-            Add Unstuck
-          </Button>
-        </Box>
+      </Box>
+      <ProgressStepper />
+      {/* {fetchError && <p>{fetchError}</p>} */}
+      <TopicHeader />
+      <Box
+        display="flex"
+        justifyContent="end"
+        alignItems="center"
+        mt="2rem">
+        <Button
+          sx={{
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+          }}>
+          <AddCircleOutlineIcon sx={{ mr: "10px" }} />
+          Add Unstuck
+        </Button>
       </Box>
       {/* Form for odding new Unstuck to the Topic */}
-      <Box></Box>
+      <Box
+        display="flex"
+        justifyContent="end"
+        alignItems="center"
+        mt="2rem">
+        {/* display all submitted stucks here */}
+      </Box>
     </Box>
   );
 };
