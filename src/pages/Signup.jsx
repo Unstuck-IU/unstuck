@@ -14,7 +14,6 @@ import Container from "@mui/material/Container";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, supabase } from "../Providers/AuthProvider";
-import Copyright2 from "../components/Copyright2.jsx";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -168,7 +167,6 @@ export default function SignUp() {
           </Box>
         </Container>
       </Box>
-      <Copyright2 />
     </div>
   );
 }
