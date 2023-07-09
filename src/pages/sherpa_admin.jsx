@@ -80,6 +80,9 @@ await supabase
 
 
   return (<h1> Welcome {users [0].first_name} 
+  {/* <div>
+      Active Users: {activeUsers.join(', ')}
+    </div> */}
   <Box component="form" noValidate autoComplete="off" name = 'topic_string'onSubmit={createTopic}>
       <FormControl sx={{ width: '25ch' }} >
         <OutlinedInput name = 'topic_string'placeholder="Please enter the topic title"
