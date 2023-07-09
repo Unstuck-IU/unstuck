@@ -17,10 +17,12 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
 import Footer from "./components/Footer";
 
+import { useAuth } from "./Providers/AuthProvider";
 // prettier-ignore
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
+  const { userSession } = useAuth();
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -29,15 +31,26 @@ function App() {
           <Sidebar isSidebar={isSidebar} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/student-dashboard" element={<StudentDashboard />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/*" element={<ErrorPage />} />
-            </Routes>
+              {userSession ? (
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/signin" element={<SignIn />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/student-dashboard" element={<StudentDashboard />} />
+                  <Route path="/*" element={<ErrorPage />} />
+                </Routes>
+                ) : (
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/signin" element={<SignIn />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/*" element={<ErrorPage />} />
+                </Routes>
+                )}
+
           </main>
     </div>
       <Footer />
