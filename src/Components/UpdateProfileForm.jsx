@@ -40,7 +40,7 @@ const UpdateProfileForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   // const [avatarUrl, setAvatarUrl] = useState("")
-  
+
   const handleUpdateUserDetails = async (e) => {
     e.preventDefault();
     const userId = await auth.userLocal();
@@ -153,7 +153,7 @@ const UpdateProfileForm = () => {
             label="First Name"
             required
             onChange={(e) => setFirstName(e.target.value)}
-            value={firstName}
+            value={firstName || ""}
             autoFocus
           />
           <TextField
@@ -164,7 +164,7 @@ const UpdateProfileForm = () => {
             autoComplete="family-name"
             required
             onChange={(e) => setLastName(e.target.value)}
-            value={lastName}
+            value={lastName || ""}
           />
 
           <TextField
@@ -174,7 +174,7 @@ const UpdateProfileForm = () => {
             name="displayName"
             required
             onChange={(e) => setDisplayName(e.target.value)}
-            value={displayName}
+            value={displayName || ""}
           />
           <TextField
             fullWidth
@@ -184,7 +184,7 @@ const UpdateProfileForm = () => {
             autoComplete="email"
             required
             onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            value={email || ""}
           />
           <FormControl>
             <FormLabel>User Type</FormLabel>
@@ -192,7 +192,7 @@ const UpdateProfileForm = () => {
               defaultValue="student"
               value={userType ? userType : "student"}
               onChange={handleUserTypeChange}
-              name="user-type-selection-group"
+              name="user-type-selection-group"                  
               sx={{ my: 1 }}>
               <Radio
                 value="student"
