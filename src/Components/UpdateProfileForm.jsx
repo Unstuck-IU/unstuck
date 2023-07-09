@@ -109,7 +109,7 @@ const UpdateProfileForm = () => {
 
   return (
     <>
-      <Button
+      {/* <Button
         variant="outlined"
         onClick={handleClickOpen}></Button>
       <Button
@@ -191,7 +191,7 @@ const UpdateProfileForm = () => {
           <Button onClick={handleUpdateUserDetails}>Submit</Button>
         </DialogActions>
       </Dialog>
-
+ */}
 
 
 
@@ -346,7 +346,6 @@ const UpdateProfileForm = () => {
                 justifyContent="flex-end"></Grid>
             </Box>
           </Box>
-          <Copyright sx={{ mt: 5 }} />
         </Container>
       </Box>
     </>
