@@ -158,31 +158,32 @@ export default function SignUp() {
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid> */}
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}>
-              Sign Up
-            </Button>
-            <Grid
-              container
-              justifyContent="flex-end">
-              <Grid item>
-                {" "}
-                Already have an account?
-                <Link
-                  sx={{ m: 1, color: "secondary.main" }}
-                  href="/signin"
-                  variant="inherit">
-                  Sign in
-                </Link>
               </Grid>
-            </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}>
+                Sign Up
+              </Button>
+              <Grid
+                container
+                justifyContent="flex-end">
+                <Grid item>
+                  {" "}
+                  Already have an account?
+                  <Link
+                    sx={{ m: 1, color: "secondary.main" }}
+                    href="/signin"
+                    variant="inherit">
+                    Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </div>
   );
 }
