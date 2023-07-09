@@ -1,24 +1,25 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import { useEffect } from "react";
-import supabase from "./auth/supabaseDeets";
+import { useState, useEffect } from "react";
+import { supabase } from "../Providers/AuthProvider";
 
 const TopicHeader = ({ topics, setTopics }) => {
-  useEffect(() => {
-    const fetchTopics = async () => {
-      const { data, error } = await supabase.from("topics").select().single();
+  // const [fetchError, setFetchError] = useState("");
+  // useEffect(() => {
+  //   const fetchTopics = async () => {
+    //   const { data, error } = await supabase.from("topics").select().eq("join_code", "123456");
 
-      if (error) {
-        setFetchError("Could not fetch the topics");
-        setTopics(null);
-        console.log(error);
-      }
-      if (data) {
-        setTopics(data);
-        setFetchError(null);
-      }
-    };
-    fetchTopics();
-  }, []);
+    //   if (error) {
+    //     // setFetchError("Could not fetch the topics");
+    //     // setTopics(null);
+    //     // console.log(error);
+    //   }
+    //   if (data) {
+    //     setTopics(data);
+    //     setFetchError(null);
+    //   }
+    // };
+    // fetchTopics();
+  // }, []);
   return (
     <>
       {topics && (

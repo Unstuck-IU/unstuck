@@ -12,13 +12,22 @@ import LineChart from "../components/LineChart";
 import BarChart from "../components/BarChart";
 import StatBox from "../components/StatBox";
 import ProgressCircle from "../components/ProgressCircle";
+// auth
+import { useAuth } from "../Providers/AuthProvider";
+import UpdateProfileForm from "../Components/UpdateProfileForm";
+import Copyright from "../components/Copyright2";
 
 const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  // auth.userLocal needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
 
   return (
-    <Box m="20px">
+    <Box
+      m="20px"
+      display="flex"
+      flexDirection="column"
+      justifyContent="end">
       {/* HEADER */}
       <Box
         display="flex"
@@ -30,13 +39,23 @@ const Profile = () => {
         />
       </Box>
 
-      {/* GRID & CHARTS */}
+      {/* Update User Details Button */}
+      {/* <Button variant="outlined">Update User Details</Button> */}
+      {/* Update User Details Modal */}
       <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center">
+        <UpdateProfileForm />
+      </Box>
+
+      <Copyright sx={{ mt: 0 }} />
+      {/* GRID & CHARTS */}
+      {/* <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
         gap="20px">
-        {/* ROW 1 */}
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -94,7 +113,6 @@ const Profile = () => {
           />
         </Box>
 
-        {/* ROW 2 */}
         <Box
           gridColumn="span 8"
           gridRow="span 2"
@@ -178,7 +196,6 @@ const Profile = () => {
           ))}
         </Box>
 
-        {/* ROW 3 */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
@@ -231,11 +248,8 @@ const Profile = () => {
             sx={{ marginBottom: "15px" }}>
             Geography Based Traffic
           </Typography>
-          {/* <Box height="200px">
-            <GeographyChart isDashboard={true} />
-          </Box> */}
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

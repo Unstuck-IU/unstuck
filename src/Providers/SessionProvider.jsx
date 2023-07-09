@@ -7,7 +7,7 @@
 */
 
 
-// import { supabase } from '../Components/auth/supabaseDeets';
+// import { supabase } from "./AuthProvider";
 // import React, {
 // 	createContext,
 // 	useContext,
