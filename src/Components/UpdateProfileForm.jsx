@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Alert, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useAuth, supabase } from "../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 // ui elements
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
@@ -25,31 +26,29 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const UpdateProfileForm = () => {
+const UpdateProfileForm = (props) => {
   const { userDetails, setUserDetails, user } = useAuth();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [userType, setUserType] = useState("student");
-  const [displayName, setDisplayName] = useState("");
   const [completedSignup, setCompletedSignup] = useState(false);
   // const [avatarUrl, setAvatarUrl] = useState("")
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [open, setOpen] = useState(false);
   const [isAlertShowing, setIsAlertShowing] = useState(false);
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const handleUpdateUserDetails = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (user) {
       const { data, error } = await supabase
         .from("user_details")
         .update({
-          first_name: firstName === "" ? userDetails?.first_name : firstName,
-          last_name: lastName === "" ? userDetails?.last_name : lastName,
+          first_name: props.firstName === "" ? userDetails?.first_name : props.firstName,
+          last_name: props.lastName === "" ? userDetails?.last_name : props.lastName,
           user_type: userType === "" ? userDetails?.user_type : userType,
-          display_name: displayName === "" ? userDetails?.display_name : displayName,
+          display_name: props.displayName === "" ? userDetails?.display_name : props.displayName,
         })
         .eq("id", user.id)
         .select()
@@ -73,8 +72,10 @@ const UpdateProfileForm = () => {
         setUserDetails(data);
         handleClose();
       }
+      navigate(0);
     }
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -132,8 +133,8 @@ const UpdateProfileForm = () => {
                 id="firstName"
                 label="First Name"
                 placeholder={userDetails?.first_name}
-                onChange={(e) => setFirstName(e.target.value)}
-                value={firstName}
+                onChange={(e) => props.setFirstName(e.target.value)}
+                value={props.firstName}
                 autoFocus
               />
               <TextField
@@ -143,8 +144,8 @@ const UpdateProfileForm = () => {
                 name="lastName"
                 placeholder={userDetails?.last_name}
                 autoComplete="family-name"
-                onChange={(e) => setLastName(e.target.value)}
-                value={lastName}
+                onChange={(e) => props.setLastName(e.target.value)}
+                value={props.lastName}
               />
               <TextField
                 fullWidth
@@ -152,8 +153,8 @@ const UpdateProfileForm = () => {
                 label="Display Name"
                 placeholder={userDetails?.display_name}
                 name="displayName"
-                onChange={(e) => setDisplayName(e.target.value)}
-                value={displayName}
+                onChange={(e) => props.setDisplayName(e.target.value)}
+                value={props.displayName}
               />
             </DialogContent>
             <DialogActions>

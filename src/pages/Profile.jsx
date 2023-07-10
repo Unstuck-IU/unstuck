@@ -32,14 +32,10 @@ const Item = styled(Paper)(({ theme }) => ({
 const Profile = () => {
   // auth.userLocal needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
 
-  // ui elements
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [userType, setUserType] = useState("student");
-  // const [displayName, setDisplayName] = useState("");
-  // const [completedSignup, setCompletedSignup] = useState(true);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userType, setUserType] = useState("student");
+  const [displayName, setDisplayName] = useState("");
   const [fetchError, setFetchError] = useState("");
   const [userDetails, setUserDetails] = useState(null);
   // const [open, setOpen] = useState(false);
@@ -96,7 +92,7 @@ const Profile = () => {
           subtitle="Welcome to your Unstuck Profile"
         />
         {userDetails && (
-          <Box sx={{ flexGrow: 1, m: 4 }}>
+          <Box sx={{ flexGrow: 1, m: 4, textAlign: "center" }}>
             <Grid>
               <Grid
                 item
@@ -109,14 +105,21 @@ const Profile = () => {
                     </Avatar>
 
                     <Typography variant="h4">
-                      <div className="user-details">{userDetails.display_name}</div>
+                      {userDetails.first_name} {userDetails.last_name}
                     </Typography>
                     <Typography variant="h5">
-                      {userDetails.first_name} {userDetails.last_name}
+                      <div className="user-details">{userDetails.display_name}</div>
                     </Typography>
                   </Container>
                   <Container>
-                    <UpdateProfileForm />
+                    <UpdateProfileForm
+                      firstName={firstName}
+                      setFirstName={setFirstName}
+                      lastName={lastName}
+                      setLastName={setLastName}
+                      displayName={displayName}
+                      setDisplayName={setDisplayName}
+                    />
                   </Container>
                 </Item>
               </Grid>
