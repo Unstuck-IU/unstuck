@@ -43,7 +43,7 @@ const AuthProvider = (props) => {
 
   const userLocal = async () => {
     try {
-      const sessionDataKey = localStorage.key(0);
+      const sessionDataKey = localStorage.key(1);
       const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
       const sessionDataParsed = await JSON.parse(sessionData);
       let userId = await sessionDataParsed.user.id;
@@ -58,6 +58,51 @@ const AuthProvider = (props) => {
       console.log("Auth failed", ex.message);
     }
   };
+
+  const storeLocally = async (someStr) => {
+    try {
+      localStorage.setItem("resText", someStr);
+      const resText = localStorage.getItem("resText")
+      if (resText != null) {
+        console.log("We found this pile of garbage in local storage:", resText)
+      } else {
+        console.log("Huh. So it's null.")
+      }
+    } catch (ex) {
+      console.log("So, um, someone shit the bed when they were setting local storage:", ex.message)
+    }
+  }
+
+  // This is just a helper to check what's currently stored in local storage. 
+  const getLocalStorage = async () => {
+    try {
+      const items = { ...localStorage };
+      if (!items) {
+        console.log("Shit's fucked up in local storage")
+      } else {
+        console.log("This is what's in local storage:", items)
+      }
+    } catch (ex) {
+      console.log("I dunno what to tell you, but here's an error message:", ex.message)
+    }
+  }
+
+  // This returns the user from the current session. If this session contains an expired token, it refreshes the token to get a new session
+  const userSupaSession = async () => {
+    try {
+      const userData = await supabase.auth.getSession()
+      //.then(console.log("This is data.session.user data:", { data: { user } }))
+
+      if ({ userData }) {
+        console.log("User session data from .getsession")
+        return userData.data.session.user.id
+      } else {
+        console.log("No user data")
+      }
+    } catch (ex) {
+      console.log("Failed to get a user session back", ex)
+    }
+  }
 
   const userSupa = async () => {
     const {
@@ -103,7 +148,7 @@ const AuthProvider = (props) => {
   //   });
   // }, []);
 
-  const values = { signUp, userSupa, userLocal, signInPassword, logOut };
+  const values = { signUp, userSupa, userLocal, signInPassword, logOut, storeLocally, getLocalStorage, userSupaSession };
   console.log("values:", values);
   return <AuthContext.Provider value={values}>{children} </AuthContext.Provider>;
 };

@@ -44,11 +44,31 @@ export default function SignIn() {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  // const textThing = "This is a response text thing. Here is some other text"
+
+  // auth.storeLocally(textThing)
+  //   .then((data) => { console.log(data) })
+
+  // auth.getLocalStorage()
+  //   .then((data) => { console.log(data) }
+  //   )
+
+  // const tempUserIdFromUserLocal = async () => {
+  //   const data = await auth.userLocal()
+  //   return data
+  // }
+  // const tempUserIdFromSupaLocal = async () => {
+  //   const data = await auth.userSupaSession()
+  //   return data
+  // }
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setLoading(true);
+
+
     const { data, error } = auth.signInPassword({
       email: formData.get("email"),
       password: formData.get("password"),
@@ -97,8 +117,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              // onChange={(e) => setEmail(e.target.value)}
-              // value={email}
+            // onChange={(e) => setEmail(e.target.value)}
+            // value={email}
             />
             <TextField
               margin="normal"
@@ -109,8 +129,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              // onChange={(e) => setPassword(e.target.value)}
-              // value={password}
+            // onChange={(e) => setPassword(e.target.value)}
+            // value={password}
             />
             <FormControlLabel
               control={
