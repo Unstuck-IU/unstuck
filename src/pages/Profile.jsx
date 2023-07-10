@@ -37,16 +37,15 @@ const Profile = () => {
   const [userType, setUserType] = useState("student");
   const [displayName, setDisplayName] = useState("");
   const [fetchError, setFetchError] = useState("");
-  const [userDetails, setUserDetails] = useState(null);
   // const [open, setOpen] = useState(false);
-  const auth = useAuth();
+  const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const userId = await auth.userLocal();
+      const userId = await userLocal();
       console.log(userId);
       if (userId) {
         const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
