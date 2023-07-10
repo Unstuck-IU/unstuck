@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useTheme } from "@mui/material";
+import { Alert, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useAuth, supabase } from "../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 // ui elements
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
@@ -19,46 +20,68 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Copyright } from "@mui/icons-material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-const UpdateProfileForm = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const UpdateProfileForm = (props) => {
+  const { userDetails, setUserDetails, user } = useAuth();
   const [userType, setUserType] = useState("student");
-  const [displayName, setDisplayName] = useState("");
-  const [completedSignup, setCompletedSignup] = useState(true);
-  const [fetchError, setFetchError] = useState("");
-  const [userDetails, setUserDetails] = useState(null);
-  const auth = useAuth();
+  const [completedSignup, setCompletedSignup] = useState(false);
+  // const [avatarUrl, setAvatarUrl] = useState("")
+  const [message, setMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
+  const [open, setOpen] = useState(false);
+  const [isAlertShowing, setIsAlertShowing] = useState(false);
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // const [avatarUrl, setAvatarUrl] = useState("")
+
   const handleUpdateUserDetails = async (e) => {
-    e.preventDefault();
-    const userId = await auth.userLocal();
-
-    const { data, error } = await supabase
-      .from("user_details")
-      .update({ first_name: firstName, last_name: lastName, user_type: userType, display_name: displayName })
-      .eq("id", userId)
-      .select();
-
-    console.log("trying to update the user_details. UserId: ", userId);
-    if (error) {
-      setFetchError("Could not update the user details");
-      console.log(error);
+    // e.preventDefault();
+    if (user) {
+      const { data, error } = await supabase
+        .from("user_details")
+        .update({
+          first_name: props.firstName === "" ? userDetails?.first_name : props.firstName,
+          last_name: props.lastName === "" ? userDetails?.last_name : props.lastName,
+          user_type: userType === "" ? userDetails?.user_type : userType,
+          display_name: props.displayName === "" ? userDetails?.display_name : props.displayName,
+        })
+        .eq("id", user.id)
+        .select()
+        .single();
+      if (error) {
+        console.log("Tried to update the user details and got an error: ", error);
+        setMessage("Tried to update the user details and got an error:    " + error.message);
+        setAlertSeverity("error");
+        setIsAlertShowing(true);
+      }
+      if (data) {
+        // setFirstName(data.first_name);
+        // setLastName(data.last_name);
+        // setUserType(data.user_type);
+        // setDisplayName(data.display_name);
+        //   setAvatarUrl(data.avatar_url);
+        console.log("Successfully updated your profile!", data);
+        setMessage("Successfully updated your profile!");
+        setAlertSeverity("success");
+        setIsAlertShowing(true);
+        setUserDetails(data);
+        handleClose();
+      }
+      navigate(0);
     }
-    if (data) {
-      setFirstName(data.first_name);
-      setLastName(data.last_name);
-      setUserType(data.user_type);
-      setDisplayName(data.display_name);
-      //   setAvatarUrl(data.avatar_url);
-      setFetchError(null);
-      console.log("updated user profile details: ", data);
-    }
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleUserTypeChange = (event) => {
@@ -67,193 +90,87 @@ const UpdateProfileForm = () => {
 
   // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = await auth.userLocal();
-      console.log(userId);
-      if (userId) {
-        const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
-        if (!data || data.length === 0) {
-          // const { data, error } = await supabase.from("user_details").insert({ id: userId, user_type: "student" }).select();
-          console.log("there is no data to use", error);
-        }
-        if (error) {
-          setFetchError("Could not fetch the user details");
-          setUserDetails(null);
-          console.log("data: ", data);
-          console.log("error: ", error);
-        }
-        if (data) {
-          if (data.first_name != null && data.last_name != null && data.display_name != null) {
-            console.log("is this RUNNING?");
-            const { data, error } = await supabase
-              .from("user_details")
-              .update({ completed_signup: true })
-              .eq("id", userId)
-              .select();
-          }
-          setUserDetails(data);
-          setFetchError(null);
+    const updateCompletionLevel = async () => {
+      console.log(userDetails);
+      if (user != null) {
+        if (userDetails?.first_name != null && userDetails?.last_name != null && userDetails?.display_name != null) {
+          console.log("Trying to update completed_signup on user_details table");
+          const { data, error } = await supabase
+            .from("user_details")
+            .update({ completed_signup: true })
+            .eq("id", user?.id)
+            .select();
+          // setUserDetails(data);
           console.log("fetched user profile details of logged in user: ", data);
         }
+        setMessage(null);
       }
     };
-
-    fetchUserDetails();
+    updateCompletionLevel();
   }, []);
 
   return (
     <>
-      {userDetails && (
-        <Box
-          sx={{
-            height: 300,
-            mt: "40px",
-            display: "flex",
-            flexDirection: "column",
-          }}>
-          <Container>
-            <Typography variant="h2">{userDetails.first_name}</Typography>
-            {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
-            <Typography variant="h5">
-              <div className="user-details">{userDetails.last_name}</div>
-            </Typography>
-          </Container>
-        </Box>
-      )}
       <Box m={"20px"}>
+        <Button
+          variant="outlined"
+          onClick={handleClickOpen}>
+          Update Profile
+        </Button>
         <Container
           component="main"
           maxWidth="xs">
           <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}>
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <AccountCircleIcon />
-            </Avatar>
-            <Typography
-              component="h1"
-              variant="h5">
-              Update your Profile Details
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleUpdateUserDetails}
-              sx={{ mt: 3 }}>
-              <Grid
-                container
-                spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    onChange={(e) => setFirstName(e.target.value)}
-                    value={firstName}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                    onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="displayName"
-                    label="Display Name"
-                    name="displayName"
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    value={displayName}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <FormControl>
-                    <FormLabel>User Type</FormLabel>
-                    <RadioGroup
-                      defaultValue="student"
-                      value={userType ? userType : "student"}
-                      onChange={handleUserTypeChange}
-                      name="user-type-selection-group"
-                      sx={{ my: 1 }}>
-                      <Radio
-                        value="student"
-                        label="Student"
-                        onChange={(e) => setUserType(e.target.value)}
-                      />
-                      <Radio
-                        value="sherpa"
-                        label="Sherpa"
-                        onChange={(e) => setUserType(e.target.value)}
-                      />
-                    </RadioGroup>
-                    <FormHelperText>Please don't select Sherpa if you're not. Honor Code.</FormHelperText>
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
+          <Dialog
+            open={open}
+            onClose={handleClose}>
+            <DialogTitle>Update your profile</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoComplete="given-name"
+                name="firstName"
                 fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Update Profile
-              </Button>
-              <Grid
-                container
-                justifyContent="flex-end"></Grid>
-            </Box>
-          </Box>
-          <Copyright sx={{ mt: 5 }} />
+                id="firstName"
+                label="First Name"
+                placeholder={userDetails?.first_name}
+                onChange={(e) => props.setFirstName(e.target.value)}
+                value={props.firstName}
+                autoFocus
+              />
+              <TextField
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                placeholder={userDetails?.last_name}
+                autoComplete="family-name"
+                onChange={(e) => props.setLastName(e.target.value)}
+                value={props.lastName}
+              />
+              <TextField
+                fullWidth
+                id="displayName"
+                label="Display Name"
+                placeholder={userDetails?.display_name}
+                name="displayName"
+                onChange={(e) => props.setDisplayName(e.target.value)}
+                value={props.displayName}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleUpdateUserDetails}>Submit</Button>
+            </DialogActions>
+          </Dialog>
+          {isAlertShowing && (
+            <Alert
+              severity={alertSeverity}
+              onClose={() => {
+                setIsAlertShowing(false);
+              }}>
+              {message}
+            </Alert>
+          )}
         </Container>
       </Box>
     </>

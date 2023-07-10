@@ -3,7 +3,6 @@ import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 // import { logOut } from ""
-
 import { useAuth, supabase } from "../Providers/AuthProvider";
 //theme stuff
 import "react-pro-sidebar/dist/css/styles.css";
@@ -27,7 +26,6 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TerrainIcon from "@mui/icons-material/Terrain";
 
 // Adjust to get current user
-let { data, error } = await supabase.from("user_details").select(`*`);
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
@@ -47,24 +45,16 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
 };
 
 const Sidebar = () => {
-  const auth = useAuth();
+  const { userDetails, setUserDetails, user, userLocal } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [userDetails, setUserDetails] = useState({
-    user_type: "",
-    first_name: "",
-    last_name: "",
-    avatar_url: "",
-    display_name: "",
-    completed_signup: false,
-  });
   const [fetchError, setFetchError] = useState("");
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const userId = await auth.userLocal();
+      const userId = await userLocal();
       console.log(userId);
       if (userId) {
         const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
@@ -168,15 +158,6 @@ const Sidebar = () => {
               </Box>
             </Box>
           )}
-
-          {/* <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/student-dashboard" element={<StudentDashboard />} />
-            </Routes> */}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
@@ -291,7 +272,7 @@ const Sidebar = () => {
             />
             <MenuItem
               icon={<LogoutIcon />}
-              onClick={auth.logOut}>
+              onClick={useAuth().logOut}>
               {" "}
               <Typography>Signout</Typography>
               <Link to="/" />

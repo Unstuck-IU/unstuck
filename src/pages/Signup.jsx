@@ -11,42 +11,22 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 // import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth, supabase } from "../Providers/AuthProvider";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}>
-      {"Copyright © "}
-      <Link
-        color="inherit"
-        href="/">
-        Unstuck
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const auth = useAuth();
+  const { userSession, userDetails, signUp } = useAuth();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // const formData = new FormData(event.currentTarget);
     setLoading(true);
-    const { data, error } = await auth.signUp(email, password);
+    const { data, error } = await signUp(email, password);
 
     if (error) {
       console.log("error when trying to create new record in user_details table.");
@@ -54,42 +34,58 @@ export default function SignUp() {
     }
     if (data) {
       console.log("Successfully Signed Up", data);
-      navigate("/profile");
     }
     setLoading(false);
   };
 
+  useEffect(() => {
+    const redirectOnLogin = async () => {
+      console.log("redirected after signing up");
+      if (userSession != null) {
+        if (userDetails?.completed_signup === true && userDetails?.user_type === "student") {
+          navigate("/student-dashboard");
+        } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
+          navigate("/sherpa-dashboard");
+        } else if (userSession) {
+          navigate("/profile");
+        }
+      }
+    };
+    redirectOnLogin();
+  }, [loading]);
+
   return (
-    <Box m={"20px"}>
-      <Container
-        component="main"
-        maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <h2>Start your adventure now</h2>
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography
-            component="h1"
-            variant="h5">
-            Sign up
-          </Typography>
+    <div>
+      <Box m={"20px"}>
+        <Container
+          component="main"
+          maxWidth="xs">
+          <CssBaseline />
           <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}>
-            <Grid
-              container
-              spacing={2}>
-              {/* <Grid
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}>
+            <h2>Start your adventure now</h2>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography
+              component="h1"
+              variant="h5">
+              Sign up
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}>
+              <Grid
+                container
+                spacing={2}>
+                {/* <Grid
                 item
                 xs={12}
                 sm={6}>
@@ -105,7 +101,7 @@ export default function SignUp() {
                   autoFocus
                 />
               </Grid> */}
-              {/* <Grid
+                {/* <Grid
                 item
                 xs={12}
                 sm={6}>
@@ -120,36 +116,36 @@ export default function SignUp() {
                   value={lastName}
                 />
               </Grid> */}
-              <Grid
-                item
-                xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                />
-              </Grid>
-              {/* <Grid
+                <Grid
+                  item
+                  xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="new-password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                  />
+                </Grid>
+                {/* <Grid
                 item
                 xs={12}>
                 <FormControlLabel
@@ -162,28 +158,32 @@ export default function SignUp() {
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid> */}
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}>
-              Sign Up
-            </Button>
-            <Grid
-              container
-              justifyContent="flex-end">
-              <Grid item>
-                <Link
-                  href="/signin"
-                  variant="body2">
-                  Already have an account? Sign in
-                </Link>
               </Grid>
-            </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}>
+                Sign Up
+              </Button>
+              <Grid
+                container
+                justifyContent="flex-end">
+                <Grid item>
+                  {" "}
+                  Already have an account?
+                  <Link
+                    sx={{ m: 1, color: "secondary.main" }}
+                    href="/signin"
+                    variant="inherit">
+                    Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </div>
   );
 }

@@ -1,22 +1,25 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import SignIn from "./Signup.jsx";
+import SignUp from "./Signup.jsx";
 import Box from "@mui/material/Box";
-import { Container, CssBaseline, Grid } from "@mui/material";
-import Paper from "@mui/material/Paper";
+import { Container, CssBaseline, Grid, useTheme } from "@mui/material";
+import Card from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import { Copyright } from "@mui/icons-material";
-import Copyright2 from "../components/Copyright2.jsx";
+import { tokens } from "../theme.js";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "left",
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.primary,
 }));
 
 export default function Home() {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [loading, setLoading] = useState(false);
+
   return (
     <div>
       <Box sx={{ flexGrow: 1, m: 2 }}>
@@ -24,11 +27,12 @@ export default function Home() {
           <CssBaseline />
           <Grid
             container
-            spacing={2}>
+            spacing={2}
+            sx={{ alignContent: "center", display: "flex", flexDirection: "column" }}>
             <Grid
               item
-              xs={6}>
-              <Item>
+              xs={12}>
+              <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[900] }}>
                 <h1>Unstuck</h1>
                 <h2>Start your expedition with critical thinking: where learning becomes an adventure.</h2>
                 <h3>Learn how to use critical thinking to easily break down problems.</h3>
@@ -48,19 +52,18 @@ export default function Home() {
             </Grid>
             <Grid
               item
-              xs={6}>
-              <Item>
+              xs={12}>
+              <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[900] }}>
                 {/* </div> */}
                 {/* <div
         className="container"
         style={{ padding: "50px 0 100px 0" }}> */}
-                <SignIn />
+                <SignUp />
               </Item>
             </Grid>
           </Grid>
         </div>
       </Box>
-      <Copyright2 />
     </div>
   );
 }
