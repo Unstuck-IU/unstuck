@@ -1,6 +1,3 @@
-
-
-
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -10,7 +7,9 @@ import StepLabel from "@mui/material/StepLabel";
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { StatementForm } from "./StatementForm";
-import SexiForm from "./SexiForm";
+
+
+
 const steps = [
   // "Post a Stuck",
   // "Pick a Stuck",
@@ -30,6 +29,12 @@ export default function ProgressStepper() {
   const totalSteps = () => {
     return steps.length;
   };
+
+  const handleLoad = () => {
+    const statement = getitem("formvalues")
+    console.log(formValues)
+    localStorage.getItem("statementText");
+  }
 
   const completedSteps = () => {
     return Object.keys(completed).length;
@@ -59,7 +64,7 @@ export default function ProgressStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleStep = (step) => () => {
+  const handleStep = (step) => {
     setActiveStep(step);
   };
 
@@ -80,45 +85,25 @@ export default function ProgressStepper() {
     event
   ) => {
     const { name, value } = event.target;
-    console.log("Type of form values from inside handleText \n", typeof (name), typeof (value), typeof (formValues), console.log({ formValues }))
+
     setFormValues({
       ...formValues,
       [name]: value
     }
 
     )
-    console.log("value\n", value, "name\n", name)
-    console.log("Type of form values\n", typeof (name), typeof (value), typeof (formValues), [name], [value], "value", value, "name", name)
   }
 
   const handleSave = () => {
     localStorage.setItem("formValues", formValues);
     console.log(formValues)
   }
-  // <CreateStuck />,
-  // <ChooseStuck />,
-  // <ExpandForm />,
-  // <ExampleForm />,
-  // <IllustrationForm />,
-  // <SubmitProblem />,
-  // <PeerStucks />
 
 
 
-  const [formData, setFormData] = useState({});
-  const [text2, setText2] = useState("");
-  const [text3, setText3] = useState("");
-  const [text4, setText4] = useState("");
-  const [text5, setText5] = useState("");
-  const [text6, setText6] = useState("");
-  const [text7, setText7] = useState("");
-  const [text8, setText8] = useState("");
-  const [text9, setText9] = useState("");
-  // const newText = "";
-  // const changeText = () => {
-  //   setText1(newText)
-  //   console.log("text1", text1)
-  // }
+
+  // const [formData, setFormData] = useState({});
+
 
   // const children = [
 
@@ -129,13 +114,22 @@ export default function ProgressStepper() {
   // ]
 
 
+  // [<CreateStuck />,
+  // <ChooseStuck />,
+  // <ExpandForm />,
+  // <ExampleForm />,
+  // <IllustrationForm />,
+  // <SubmitProblem />,
+  // <PeerStucks />]
+
+
 
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper nonLinear alternativeLabel activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
+            <StepButton color="inherit" onClick={() => handleStep(index)}>
               {label}
             </StepButton>
           </Step>

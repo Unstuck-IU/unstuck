@@ -52,10 +52,10 @@ const AuthProvider = (props) => {
         console.log("Logged in,", userId);
         return userId;
       } else {
-        console.log("Login failed");
+        console.log("No user ID found");
       }
     } catch (ex) {
-      console.log("Auth failed", ex.message);
+      console.log("Failure during retrieval of local user information", ex.message);
     }
   };
 
@@ -64,12 +64,12 @@ const AuthProvider = (props) => {
       localStorage.setItem("resText", someStr);
       const resText = localStorage.getItem("resText")
       if (resText != null) {
-        console.log("We found this pile of garbage in local storage:", resText)
+        console.log("The following item was successfully stored in local storage:", resText)
       } else {
-        console.log("Huh. So it's null.")
+        console.log("Returned as null while trying to place an item in local storeage.")
       }
     } catch (ex) {
-      console.log("So, um, someone shit the bed when they were setting local storage:", ex.message)
+      console.log("Something went wrong while trying to place an item in local storage:", ex.message)
     }
   }
 
@@ -78,12 +78,12 @@ const AuthProvider = (props) => {
     try {
       const items = { ...localStorage };
       if (!items) {
-        console.log("Shit's fucked up in local storage")
+        console.log("There's nothing currently stored in local storage")
       } else {
-        console.log("This is what's in local storage:", items)
+        console.log("The following items are in local storage:", items)
       }
     } catch (ex) {
-      console.log("I dunno what to tell you, but here's an error message:", ex.message)
+      console.log("getLocalStorage error:", ex.message)
     }
   }
 
@@ -129,8 +129,7 @@ const AuthProvider = (props) => {
     }
   };
 
-  // const currentSession = supabase.auth.getSession();
-  // const currentUser = supabase.auth.getUser();
+
   // const signInMagic = supabase.auth.signInWithOtp;
   // const signInSSO = supabase.auth.signInWithSSO;
   // const signInToken = supabase.auth.signInWithIdToken;
@@ -149,7 +148,7 @@ const AuthProvider = (props) => {
   // }, []);
 
   const values = { signUp, userSupa, userLocal, signInPassword, logOut, storeLocally, getLocalStorage, userSupaSession };
-  console.log("values:", values);
+  console.log("Values from AuthProvider:", values);
   return <AuthContext.Provider value={values}>{children} </AuthContext.Provider>;
 };
 
