@@ -15,7 +15,7 @@ import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
-
+import ProgressStepper from "./Components/ProgressStepper";
 // prettier-ignore
 function App() {
   const [theme, colorMode] = useMode();
@@ -33,12 +33,13 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/student-dashboard" element={<StudentDashboard />} />
+              <Route path="/currentstuck" element={<ProgressStepper />} />
               <Route path="/about" element={<About />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/*" element={<ErrorPage />} />
             </Routes>
           </main>
-    </div>
+        </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
