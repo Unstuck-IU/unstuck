@@ -71,6 +71,7 @@ const UpdateProfileForm = () => {
         setAlertSeverity("success");
         setIsAlertShowing(true);
         setUserDetails(data);
+        handleClose();
       }
     }
   };
@@ -109,243 +110,66 @@ const UpdateProfileForm = () => {
 
   return (
     <>
-      {/* <Button
-        variant="outlined"
-        onClick={handleClickOpen}></Button>
-      <Button
-        variant="outlined"
-        onClick={handleClickOpen}>
-        Update Profile
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}>
-        <DialogTitle>Update your profile</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please enter your information.</DialogContentText>
-          <TextField
-            autoComplete="given-name"
-            name="firstName"
-            fullWidth
-            id="firstName"
-            label="First Name"
-            required
-            onChange={(e) => setFirstName(e.target.value)}
-            value={firstName || ""}
-            autoFocus
-          />
-          <TextField
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            autoComplete="family-name"
-            required
-            onChange={(e) => setLastName(e.target.value)}
-            value={lastName || ""}
-          />
-
-          <TextField
-            fullWidth
-            id="displayName"
-            label="Display Name"
-            name="displayName"
-            required
-            onChange={(e) => setDisplayName(e.target.value)}
-            value={displayName || ""}
-          />
-          <TextField
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-            value={email || ""}
-          />
-          <FormControl>
-            <FormLabel>User Type</FormLabel>
-            <RadioGroup
-              defaultValue="student"
-              value={userType ? userType : "student"}
-              onChange={handleUserTypeChange}
-              name="user-type-selection-group"                  
-              sx={{ my: 1 }}>
-              <Radio
-                value="student"
-                label="Student"
-                onChange={(e) => setUserType(e.target.value)}
-              />
-              <Radio
-                value="sherpa"
-                label="Sherpa"
-                onChange={(e) => setUserType(e.target.value)}
-              />
-            </RadioGroup>
-            <FormHelperText>Please don't select Sherpa if you're not. Honor Code.</FormHelperText>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleUpdateUserDetails}>Submit</Button>
-        </DialogActions>
-      </Dialog>
- */}
-
-
-
-      {userDetails && (
-        <Box
-          sx={{
-            height: 300,
-            mt: "40px",
-            display: "flex",
-            flexDirection: "column",
-          }}>
-          <Container>
-            <Typography variant="h2">{userDetails.first_name}</Typography>
-            {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
-            <Typography variant="h5">
-              <div className="user-details">{userDetails.last_name}</div>
-            </Typography>
-          </Container>
-        </Box>
-      )}
       <Box m={"20px"}>
+        <Button
+          variant="outlined"
+          onClick={handleClickOpen}>
+          Update Profile
+        </Button>
         <Container
           component="main"
           maxWidth="xs">
           <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}>
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <AccountCircleIcon />
-            </Avatar>
-            <Typography
-              component="h1"
-              variant="h5">
-              Update your Profile Details
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleUpdateUserDetails}
-              sx={{ mt: 3 }}>
-              <Grid
-                container
-                spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    onChange={(e) => setFirstName(e.target.value)}
-                    value={firstName}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                    onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="displayName"
-                    label="Display Name"
-                    placeholder={userDetails?.display_name}
-                    name="displayName"
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    value={displayName}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <FormControl>
-                    <FormLabel>User Type</FormLabel>
-                    <RadioGroup
-                      defaultValue="student"
-                      value={userType ? userType : "student"}
-                      onChange={handleUserTypeChange}
-                      name="user-type-selection-group"
-                      sx={{ my: 1 }}>
-                      <Radio
-                        value="student"
-                        label="Student"
-                        onChange={(e) => setUserType(e.target.value)}
-                      />
-                      <Radio
-                        value="sherpa"
-                        label="Sherpa"
-                        onChange={(e) => setUserType(e.target.value)}
-                      />
-                    </RadioGroup>
-                    <FormHelperText>Please don't select Sherpa if you're not. Honor Code.</FormHelperText>
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
+          <Dialog
+            open={open}
+            onClose={handleClose}>
+            <DialogTitle>Update your profile</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoComplete="given-name"
+                name="firstName"
                 fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Update Profile
-              </Button>
-              <Grid
-                container
-                justifyContent="flex-end"></Grid>
-            </Box>
-          </Box>
+                id="firstName"
+                label="First Name"
+                placeholder={userDetails?.first_name}
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
+                autoFocus
+              />
+              <TextField
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                placeholder={userDetails?.last_name}
+                autoComplete="family-name"
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
+              />
+              <TextField
+                fullWidth
+                id="displayName"
+                label="Display Name"
+                placeholder={userDetails?.display_name}
+                name="displayName"
+                onChange={(e) => setDisplayName(e.target.value)}
+                value={displayName}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleUpdateUserDetails}>Submit</Button>
+            </DialogActions>
+          </Dialog>
+          {isAlertShowing && (
+            <Alert
+              severity={alertSeverity}
+              onClose={() => {
+                setIsAlertShowing(false);
+              }}>
+              {message}
+            </Alert>
+          )}
         </Container>
       </Box>
     </>
