@@ -246,7 +246,6 @@ const StudentDashboard = () => {
       </Box>
 
       {/* Form for odding new Unstuck to the Topic */}
-      <pre>{JSON.stringify(stucks, null, 2)}</pre>
       {activeStep === 1 && (
         // <StepOne/>
         <Box

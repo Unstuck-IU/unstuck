@@ -19,8 +19,7 @@ const steps = [
   // "Review Peers Stucks",
 ];
 
-export default function ProgressStepper() {
-  const [activeStep, setActiveStep] = useState(2);
+export default function ProgressStepper({ activeStep, setActiveStep }) {
   const [completed, setCompleted] = useState({});
   const [formValues, setFormValues] = useState({ statement: "", expand: "", explain: "", illustrate: "" });
   const totalSteps = () => {
