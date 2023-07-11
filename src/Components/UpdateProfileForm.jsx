@@ -138,6 +138,7 @@ const UpdateProfileForm = (props) => {
                 autoFocus
               />
               <TextField
+                sx={{ my: "10px" }}
                 fullWidth
                 id="lastName"
                 label="Last Name"
