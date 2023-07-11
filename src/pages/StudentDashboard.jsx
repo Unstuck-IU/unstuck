@@ -225,20 +225,20 @@ const StudentDashboard = () => {
         setActiveStep={setActiveStep}
       />
       {/* {fetchError && <p>{fetchError}</p>} */}
-
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="end">
-        <TopicHeader
-          joinCode={joinCode}
-          userDetails={userDetails}
-          topic={topic}
-        />
-
-        <AddStuckDialog topic={topic} />
-      </Box>
+      {activeStep <= 1 && (
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="end">
+          <TopicHeader
+            joinCode={joinCode}
+            userDetails={userDetails}
+            topic={topic}
+          />
+          <AddStuckDialog topic={topic} />
+        </Box>
+      )}
       {/* Form for odding new Unstuck to the Topic */}
       {activeStep <= 1 && (
         // <StepOne/>
@@ -259,7 +259,7 @@ const StudentDashboard = () => {
           ))}
         </Box>
       )}
-      {activeStep === 2 && (
+      {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography
           gutterBottom
@@ -276,7 +276,7 @@ const StudentDashboard = () => {
           component="div">
           Test Step 3
         </Typography>
-      )}
+      )} */}
     </Box>
   );
 };
