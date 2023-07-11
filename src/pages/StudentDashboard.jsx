@@ -6,7 +6,7 @@ import { useAuth, supabase } from "../Providers/AuthProvider";
 import { mockTransactions } from "../data/mockData";
 //theme
 import { tokens } from "../theme";
-import { Box, Button, Card, IconButton, Typography, useTheme, Alert } from "@mui/material";
+import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions } from "@mui/material";
 //components
 import ProgressStepper from "../components/ProgressStepper";
 import TopicHeader from "../components/TopicHeader";
@@ -21,6 +21,8 @@ import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -250,22 +252,51 @@ const StudentDashboard = () => {
         // <StepOne/>
         <Box
           display="flex"
-          flexGrow="inherit"
           alignItems="center"
           mt="2rem">
           {/* display all submitted stucks here */}
           {stucks?.map((stuck) => (
             <Card
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                fontSize: "14px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+                margin: "10px",
+                width: "300px",
+                height: "190px",
+                justifyContent: "space-between",
+              }}
               key={stuck.id}
+
               // onClick={handleRouteStuckDetailPage}
             >
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div">
-                Test Step 1 {stuck.student_id}
-              </Typography>
-              <Typography textAlign="center">{stuck.driving_question}</Typography>
+              <div>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div">
+                  Test Step 1 {stuck.student_id}
+                </Typography>
+                <Typography textAlign="left">{stuck.driving_question}</Typography>
+              </div>
+              <CardActions sx={{ justifyContent: "end" }}>
+                <Button
+                  sx={{
+                    backgroundColor: colors.blueAccent[700],
+                    color: colors.grey[100],
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    padding: "10px 20px",
+                  }}
+                  onClick={() => {
+                    // handleChosenStuck();
+                  }}>
+                  <CheckBoxOutlineBlankIcon sx={{ mr: "10px" }} />
+                  Select Stuck
+                </Button>
+              </CardActions>
             </Card>
           ))}
         </Box>
