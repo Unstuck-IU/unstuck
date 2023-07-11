@@ -21,25 +21,14 @@ const AuthProvider = (props) => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [user, setUser] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUserSession(session);
-      setUser(session?.user ?? null);
-      if (session) console.log("session: ", session);
-      if (user) {
-        console.log("user: ", user);
-      }
-    };
-    fetchSession();
-
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log(`Supabase auth event: ${event}`);
       setUserSession(session);
       setUser(session?.user ?? null);
+      setLoading(false);
     });
 
     return () => {
@@ -57,7 +46,6 @@ const AuthProvider = (props) => {
           .single();
         setUserDetails(data ?? null);
         if (data) {
-          console.log("Successfully fetched userDetails: ", data);
           setSubmitError(false);
           setAlertMessage("Successfully fetched userDetails");
         }
@@ -76,11 +64,13 @@ const AuthProvider = (props) => {
             .select();
         }
       }
+      setLoading(false);
     };
     fetchUserDetails();
   }, [user]);
 
   async function signInPassword(email, password) {
+    setLoading(true);
     try {
       let { data, error } = await supabase.auth.signInWithPassword(email, password);
       if (data.user) {
@@ -95,15 +85,17 @@ const AuthProvider = (props) => {
         setAlertMessage("Login failed, please try a different email and password, or sign up for an account.");
         return error;
       }
+      setLoading(false);
     } catch (ex) {
       console.log("Auth failed", ex.message);
     }
   }
 
   const logOut = async () => {
+    setLoading(true);
     await supabase.auth.signOut();
     navigate("/");
-
+    setLoading(false);
     // router.push("/");
   };
 
@@ -195,6 +187,7 @@ const AuthProvider = (props) => {
     submitError,
     setSubmitError,
     alertMessage,
+    loading,
     setAlertMessage,
     signUp,
     userSupa,

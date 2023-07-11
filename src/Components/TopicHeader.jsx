@@ -1,46 +1,45 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Typography, useTheme } from "@mui/material";
+import { tokens } from "../theme";
 import { useState, useEffect } from "react";
 import { supabase, useAuth } from "../Providers/AuthProvider";
 
-const TopicHeader = ({ ...props }) => {
-  const { userDetails } = useAuth();
-  const [topic, setTopic] = useState("");
+const TopicHeader = ({ topic }) => {
   const [sherpa, setSherpa] = useState("");
   const [fetchError, setFetchError] = useState("");
-  useEffect(() => {
-    const fetchTopic = async () => {
-      const { data, error } = await supabase.from("topic").select().eq("join_code", "123456");
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const { loading, userDetails, user } = useAuth();
 
-      if (error) {
-        // setFetchError("Could not fetch the topic");
-        // settopic(null);
-        // console.log(error);
-      }
-      if (data) {
-        setTopic(data);
-        setFetchError(null);
-      }
-    };
-    fetchTopic();
-  }, []);
   return (
     <>
       {topic && (
         <Box
           sx={{
-            height: 300,
-            mt: "40px",
+            mt: "30px",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
           }}>
-          <Container>
-            <Typography variant="h2">Topic</Typography>
-            {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
-            <Typography variant="h5">
-              <div className="topic">{topic.topic_string}</div>
+          <Container
+            sx={
+              {
+                // display: "flex",
+                // flexDirection: "column",
+                // justifyContent: "space-between",
+                // alignContent: "baseline",
+              }
+            }>
+            <Typography
+              variant="h2"
+              mr="10px">
+              Topic: {topic.topic_string}
             </Typography>
+            <Typography
+              variant="h4"
+              mr="10px">
+              Sherpa: {topic.user_details[0].first_name + " " + topic.user_details[0].last_name}
+            </Typography>
+            {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
           </Container>
-          <Button>Add Stuck</Button>
         </Box>
       )}
     </>
