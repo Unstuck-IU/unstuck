@@ -244,6 +244,7 @@ const StudentDashboard = () => {
         // <StepOne/>
         <Box
           display="flex"
+          flexWrap="wrap"
           alignItems="center"
           mt="2rem">
           {/* display all submitted stucks here */}
