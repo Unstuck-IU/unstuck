@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
+import Sherpa_dashboard from "./pages/sherpa_dashboard";
 //components
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
@@ -36,7 +37,7 @@ function App() {
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/sherpa-admin" element={<Sherpa_admin />} />
+                  <Route path="/sherpa-dashboard" element={<Sherpa_dashboard />} />
                   <Route path="/student-dashboard" element={<StudentDashboard />} />
                   <Route path="/*" element={<ErrorPage />} />
                 </Routes>
