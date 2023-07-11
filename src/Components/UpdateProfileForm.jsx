@@ -70,9 +70,9 @@ const UpdateProfileForm = (props) => {
         setAlertSeverity("success");
         setIsAlertShowing(true);
         setUserDetails(data);
-        handleClose();
       }
-      navigate(0);
+      handleClose();
+      // navigate(0);
     }
   };
 
