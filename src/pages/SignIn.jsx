@@ -32,14 +32,12 @@ export default function SignIn() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setLoading(true);
 
-
-    const { data, error } = auth.signInPassword({
+    const { data, error } = signInPassword({
       email: formData.get("email"),
       password: formData.get("password"),
     });
@@ -49,30 +47,27 @@ export default function SignIn() {
       setSubmitError(true);
     } else {
       setSubmitError(false);
+      redirectOnLogin();
     }
     setLoading(false);
   };
 
-  useEffect(() => {
-    setLoading(true);
-    const redirectOnLogin = async () => {
-      if (userSession != null) {
-        console.log("is this being called AT ALL? ", userDetails);
+  const redirectOnLogin = async () => {
+    if (userSession != null) {
+      console.log("is this being called AT ALL? ", userDetails);
 
-        if (userDetails.completed_signup === true && userDetails.user_type === "student") {
-          setLoading(false);
-          navigate("/student-dashboard");
-        } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
-          setLoading(false);
-          navigate("/sherpa-dashboard");
-        } else if (userSession) {
-          setLoading(false);
-          navigate("/profile");
-        }
+      if (userDetails.completed_signup === true && userDetails.user_type === "student") {
+        setLoading(false);
+        navigate("/student-dashboard");
+      } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
+        setLoading(false);
+        navigate("/sherpa-dashboard");
+      } else if (userSession) {
+        setLoading(false);
+        navigate("/profile");
       }
-    };
-    redirectOnLogin();
-  }, [userSession]);
+    }
+  };
 
   return (
     <Box m="20px">
@@ -109,8 +104,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-            // onChange={(e) => setEmail(e.target.value)}
-            // value={email}
+              // onChange={(e) => setEmail(e.target.value)}
+              // value={email}
             />
             <TextField
               margin="normal"
@@ -121,8 +116,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-            // onChange={(e) => setPassword(e.target.value)}
-            // value={password}
+              // onChange={(e) => setPassword(e.target.value)}
+              // value={password}
             />
             <FormControlLabel
               control={
