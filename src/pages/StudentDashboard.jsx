@@ -249,6 +249,7 @@ const StudentDashboard = () => {
           {/* display all submitted stucks here */}
           {stucks?.map((stuck, index) => (
             <StuckCard
+              key={stuck.id}
               stuck={stuck}
               activeStep={activeStep}
               setActiveStep={setActiveStep}
