@@ -50,30 +50,6 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [fetchError, setFetchError] = useState("");
-
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = await userLocal();
-      console.log(userId);
-      if (userId) {
-        const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
-        if (error) {
-          setFetchError("Could not fetch the user details");
-          setUserDetails(null);
-          console.log("data: ", data);
-          console.log("error: ", error);
-        }
-        if (data) {
-          setUserDetails(data);
-          setFetchError(null);
-          console.log("fetched user profile details of logged in user: ", data);
-        }
-      }
-    };
-
-    fetchUserDetails();
-  }, []);
 
   return (
     <Box

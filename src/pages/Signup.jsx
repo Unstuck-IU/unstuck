@@ -34,25 +34,23 @@ export default function SignUp() {
     }
     if (data) {
       console.log("Successfully Signed Up", data);
+      redirectOnLogin();
     }
     setLoading(false);
   };
 
-  useEffect(() => {
-    const redirectOnLogin = async () => {
-      console.log("redirected after signing up");
-      if (userSession != null) {
-        if (userDetails?.completed_signup === true && userDetails?.user_type === "student") {
-          navigate("/student-dashboard");
-        } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
-          navigate("/sherpa-dashboard");
-        } else if (userSession) {
-          navigate("/profile");
-        }
+  const redirectOnLogin = async () => {
+    console.log("redirected after signing up");
+    if (userSession != null) {
+      if (userDetails?.completed_signup === true && userDetails?.user_type === "student") {
+        navigate("/student-dashboard");
+      } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
+        navigate("/sherpa-dashboard");
+      } else if (userSession) {
+        navigate("/profile");
       }
-    };
-    redirectOnLogin();
-  }, [loading]);
+    }
+  };
 
   return (
     <div>
