@@ -74,7 +74,7 @@ const StudentDashboard = () => {
         console.log("from authProvider, userDetails: ", userDetails);
         const { data: fetchedTopic, error: fetchedTopicError } = await supabase
           .from("topic")
-          .select("*, user_details!inner(id,first_name, last_name)")
+          .select("*, user_details!inner(id,first_name, last_name)") // going
           // .select("topic_string, student_topic(*)")
           .eq("join_code", joinCode)
           .single();
@@ -106,13 +106,11 @@ const StudentDashboard = () => {
     const fetchStucks = async () => {
       console.log("trying to get stucks from the database");
       let { data: stuck, error } = await supabase
-        .from("stuck")
-        .select("*, user_topic!inner(*, user_details!inner(*))")
+        .from("stuck") // from this table
+        // getting details from two other tables using foreign keys (stuck is the original,
+        // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
+        .select("*, user_topic!inner(*, user_details!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
         .eq("user_topic.topic_id", topic.id);
-
-      // .select("*, user_topic!inner(user_details!inner(user_id, first_name, last_name, display_name)), topic_id)")
-      // let { data: stuck, error } = await supabase.from("stuck").select("*");
-      // .select("driving_question, user_details ( user_id, first_name, last_name, display_name )");
       if (error) {
         setFetchError("Could not fetch the list of stucks");
         setStucks(null);
