@@ -26,7 +26,6 @@ const UpdateProfileForm = () => {
   const [lastName, setLastName] = useState("");
   const [userType, setUserType] = useState("student");
   const [displayName, setDisplayName] = useState("");
-  const [completedSignup, setCompletedSignup] = useState(false);
   // const [avatarUrl, setAvatarUrl] = useState("")
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
@@ -76,7 +75,6 @@ const UpdateProfileForm = () => {
   // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
   useEffect(() => {
     const updateCompletionLevel = async () => {
-      console.log(userDetails);
       if (user != null) {
         if (userDetails?.first_name != null && userDetails?.last_name != null && userDetails?.display_name != null) {
           console.log("Trying to update completed_signup on user_details table");
