@@ -15,6 +15,9 @@ import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
+import ProgressStepper from "./Components/ProgressStepper";
+import Footer from "./components/Footer";
+
 import { useAuth } from "./Providers/AuthProvider";
 // prettier-ignore
 function App() {
@@ -29,28 +32,30 @@ function App() {
           <Sidebar isSidebar={isSidebar} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
-              {userSession ? (
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/signin" element={<SignIn />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/student-dashboard" element={<StudentDashboard />} />
-                  <Route path="/*" element={<ErrorPage />} />
-                </Routes>
-                ) : (
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/signin" element={<SignIn />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/*" element={<ErrorPage />} />
-                </Routes>
-                )}
 
+            {userSession ? (
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/student-dashboard" element={<StudentDashboard />} />
+                <Route path="/currentstuck" element={<ProgressStepper />} />
+                <Route path="/*" element={<ErrorPage />} />
+              </Routes>
+            ) : (
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/*" element={<ErrorPage />} />
+              </Routes>
+            )}
           </main>
-    </div>
+        </div>
+        <Footer />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import { Container, CssBaseline, Grid, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import { Copyright } from "@mui/icons-material";
-import Copyright2 from "../components/Copyright2.jsx";
 import { tokens } from "../theme.js";
 
 const Item = styled(Card)(({ theme }) => ({
@@ -33,7 +31,7 @@ export default function Home() {
             sx={{ alignContent: "center", display: "flex", flexDirection: "column" }}>
             <Grid
               item
-              xs={6}>
+              xs={12}>
               <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[900] }}>
                 <h1>Unstuck</h1>
                 <h2>Start your expedition with critical thinking: where learning becomes an adventure.</h2>
@@ -54,7 +52,7 @@ export default function Home() {
             </Grid>
             <Grid
               item
-              xs={6}>
+              xs={12}>
               <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[900] }}>
                 {/* </div> */}
                 {/* <div
@@ -66,7 +64,6 @@ export default function Home() {
           </Grid>
         </div>
       </Box>
-      <Copyright2 />
     </div>
   );
 }

@@ -109,7 +109,7 @@ const AuthProvider = (props) => {
 
   const userLocal = async () => {
     try {
-      const sessionDataKey = localStorage.key(0);
+      const sessionDataKey = localStorage.key(1);
       const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
       const sessionDataParsed = await JSON.parse(sessionData);
       let userId = await sessionDataParsed.user.id;
@@ -122,9 +122,54 @@ const AuthProvider = (props) => {
         setAlertMessage("Getting local user details failed");
       }
     } catch (ex) {
-      console.log("Auth failed", ex.message);
+      console.log("Failure during retrieval of local user information", ex.message);
     }
   };
+
+  const storeLocally = async (someStr) => {
+    try {
+      localStorage.setItem("resText", someStr);
+      const resText = localStorage.getItem("resText")
+      if (resText != null) {
+        console.log("The following item was successfully stored in local storage:", resText)
+      } else {
+        console.log("Returned as null while trying to place an item in local storeage.")
+      }
+    } catch (ex) {
+      console.log("Something went wrong while trying to place an item in local storage:", ex.message)
+    }
+  }
+
+  // This is just a helper to check what's currently stored in local storage. 
+  const getLocalStorage = async () => {
+    try {
+      const items = { ...localStorage };
+      if (!items) {
+        console.log("There's nothing currently stored in local storage")
+      } else {
+        console.log("The following items are in local storage:", items)
+      }
+    } catch (ex) {
+      console.log("getLocalStorage error:", ex.message)
+    }
+  }
+
+  // This returns the user from the current session. If this session contains an expired token, it refreshes the token to get a new session
+  const userSupaSession = async () => {
+    try {
+      const userData = await supabase.auth.getSession()
+      //.then(console.log("This is data.session.user data:", { data: { user } }))
+
+      if ({ userData }) {
+        console.log("User session data from .getsession")
+        return userData.data.session.user.id
+      } else {
+        console.log("No user data")
+      }
+    } catch (ex) {
+      console.log("Failed to get a user session back", ex)
+    }
+  }
 
   const userSupa = async () => {
     const {
@@ -160,8 +205,7 @@ const AuthProvider = (props) => {
     }
   };
 
-  // const currentSession = supabase.auth.getSession();
-  // const currentUser = supabase.auth.getUser();
+
   // const signInMagic = supabase.auth.signInWithOtp;
   // const signInSSO = supabase.auth.signInWithSSO;
   // const signInToken = supabase.auth.signInWithIdToken;
@@ -194,8 +238,11 @@ const AuthProvider = (props) => {
     userLocal,
     signInPassword,
     logOut,
+    storeLocally,
+    getLocalStorage,
+    userSupaSession,
   };
-  console.log("useAuth useContext values:", values);
+  console.log("useAuth useContext Values from AuthProvider:", values);
   return <AuthContext.Provider value={values}>{children} </AuthContext.Provider>;
 };
 

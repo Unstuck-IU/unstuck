@@ -61,7 +61,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsAlertShowing(false);
-    }, 4000);
+    }, 5000);
   });
 
   useEffect(() => {
@@ -151,9 +151,7 @@ const StudentDashboard = () => {
             .from("user_topic")
             .insert([{ user_id: userDetails.user_id, topic_id: fetchedTopic.id }])
             .select();
-          setMessage(
-            `User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}' using join code: ' ${newJoinCode} '`
-          );
+          setMessage(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`);
           setAlertSeverity("success");
           setIsAlertShowing(true);
           setJoinCode(newJoinCode);

@@ -21,25 +21,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}>
-      {"Copyright © "}
-      <Link
-        color="inherit"
-        href="/">
-        Unstuck
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,6 +36,7 @@ export default function SignIn() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     setLoading(true);
+
     const { data, error } = signInPassword({
       email: formData.get("email"),
       password: formData.get("password"),
@@ -65,30 +47,27 @@ export default function SignIn() {
       setSubmitError(true);
     } else {
       setSubmitError(false);
+      redirectOnLogin();
     }
     setLoading(false);
   };
 
-  useEffect(() => {
-    setLoading(true);
-    const redirectOnLogin = async () => {
-      if (userSession != null) {
-        console.log("is this being called AT ALL? ", userDetails);
+  const redirectOnLogin = async () => {
+    if (userSession != null) {
+      console.log("is this being called AT ALL? ", userDetails);
 
-        if (userDetails.completed_signup === true && userDetails.user_type === "student") {
-          setLoading(false);
-          navigate("/student-dashboard");
-        } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
-          setLoading(false);
-          navigate("/sherpa-dashboard");
-        } else if (userSession) {
-          setLoading(false);
-          navigate("/profile");
-        }
+      if (userDetails.completed_signup === true && userDetails.user_type === "student") {
+        setLoading(false);
+        navigate("/student-dashboard");
+      } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
+        setLoading(false);
+        navigate("/sherpa-dashboard");
+      } else if (userSession) {
+        setLoading(false);
+        navigate("/profile");
       }
-    };
-    redirectOnLogin();
-  }, [userSession]);
+    }
+  };
 
   return (
     <Box m="20px">
@@ -180,7 +159,6 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
         {submitError && (
           <Box>
             <Collapse in={submitError}>

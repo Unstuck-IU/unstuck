@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Alert, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useAuth, supabase } from "../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 // ui elements
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
@@ -19,30 +20,34 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-const UpdateProfileForm = () => {
+const UpdateProfileForm = (props) => {
   const { userDetails, setUserDetails, user } = useAuth();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [userType, setUserType] = useState("student");
-  const [displayName, setDisplayName] = useState("");
   // const [avatarUrl, setAvatarUrl] = useState("")
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
+  const [open, setOpen] = useState(false);
   const [isAlertShowing, setIsAlertShowing] = useState(false);
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const handleUpdateUserDetails = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (user) {
       const { data, error } = await supabase
         .from("user_details")
         .update({
-          first_name: firstName === "" ? userDetails?.first_name : firstName,
-          last_name: lastName === "" ? userDetails?.last_name : lastName,
+          first_name: props.firstName === "" ? userDetails?.first_name : props.firstName,
+          last_name: props.lastName === "" ? userDetails?.last_name : props.lastName,
           user_type: userType === "" ? userDetails?.user_type : userType,
-          display_name: displayName === "" ? userDetails?.display_name : displayName,
+          display_name: props.displayName === "" ? userDetails?.display_name : props.displayName,
         })
         .eq("id", user.id)
         .select()
@@ -64,8 +69,18 @@ const UpdateProfileForm = () => {
         setAlertSeverity("success");
         setIsAlertShowing(true);
         setUserDetails(data);
+        handleClose();
       }
+      navigate(0);
     }
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleUserTypeChange = (event) => {
@@ -95,124 +110,66 @@ const UpdateProfileForm = () => {
   return (
     <>
       <Box m={"20px"}>
+        <Button
+          variant="outlined"
+          onClick={handleClickOpen}>
+          Update Profile
+        </Button>
         <Container
           component="main"
           maxWidth="xs">
           <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}>
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <AccountCircleIcon />
-            </Avatar>
-            <Typography
-              component="h1"
-              variant="h5">
-              Update Your Profile Details
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleUpdateUserDetails}
-              sx={{ mt: 3 }}>
-              <Grid
-                container
-                spacing={2}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    placeholder={userDetails?.first_name}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    value={firstName}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <TextField
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    placeholder={userDetails?.last_name}
-                    name="lastName"
-                    autoComplete="family-name"
-                    onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}>
-                  <TextField
-                    fullWidth
-                    id="displayName"
-                    label="Display Name"
-                    placeholder={userDetails?.display_name}
-                    name="displayName"
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    value={displayName}
-                  />
-                </Grid>
-
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}>
-                  <FormControl>
-                    <FormLabel>User Type</FormLabel>
-                    <RadioGroup
-                      defaultValue="student"
-                      onChange={handleUserTypeChange}
-                      name="user-type-selection-group">
-                      <Radio
-                        value="student"
-                        label="Student"
-                        onChange={(e) => setUserType(e.target.value)}
-                      />
-                      <Radio
-                        value="sherpa"
-                        label="Sherpa"
-                        onChange={(e) => setUserType(e.target.value)}
-                        sx={{ color: colors.greenAccent[400] }}
-                      />
-                    </RadioGroup>
-                    <FormHelperText sx={{ color: colors.greenAccent[400] }}>
-                      Please don't select Sherpa if you're not. Honor Code.
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
+          <Dialog
+            open={open}
+            onClose={handleClose}>
+            <DialogTitle>Update your profile</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoComplete="given-name"
+                name="firstName"
                 fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}>
-                Update Profile
-              </Button>
-            </Box>
-            {isAlertShowing && (
-              <Alert
-                severity={alertSeverity}
-                onClose={() => {
-                  setIsAlertShowing(false);
-                }}>
-                {message}
-              </Alert>
-            )}
-          </Box>
+                id="firstName"
+                label="First Name"
+                placeholder={userDetails?.first_name}
+                onChange={(e) => props.setFirstName(e.target.value)}
+                value={props.firstName}
+                autoFocus
+              />
+              <TextField
+                sx={{ my: "10px" }}
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                placeholder={userDetails?.last_name}
+                autoComplete="family-name"
+                onChange={(e) => props.setLastName(e.target.value)}
+                value={props.lastName}
+              />
+              <TextField
+                fullWidth
+                id="displayName"
+                label="Display Name"
+                placeholder={userDetails?.display_name}
+                name="displayName"
+                onChange={(e) => props.setDisplayName(e.target.value)}
+                value={props.displayName}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleUpdateUserDetails}>Submit</Button>
+            </DialogActions>
+          </Dialog>
+          {isAlertShowing && (
+            <Alert
+              severity={alertSeverity}
+              onClose={() => {
+                setIsAlertShowing(false);
+              }}>
+              {message}
+            </Alert>
+          )}
         </Container>
       </Box>
     </>
