@@ -8,7 +8,7 @@ import { mockTransactions } from "../data/mockData";
 import { tokens } from "../theme";
 import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions } from "@mui/material";
 //components
-import ProgressStepper from "../components/ProgressStepper";
+import ProgressStepper from "../Components/ProgressStepper";
 import TopicHeader from "../components/TopicHeader";
 import Header from "../components/Header";
 import LineChart from "../components/LineChart";

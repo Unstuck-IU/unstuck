@@ -24,7 +24,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const formData = new FormData(event.currentTarget);
+
     setLoading(true);
     const { data, error } = await signUp(email, password);
 
@@ -83,37 +83,7 @@ export default function SignUp() {
               <Grid
                 container
                 spacing={2}>
-                {/* <Grid
-                item
-                xs={12}
-                sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  value={firstName}
-                  autoFocus
-                />
-              </Grid> */}
-                {/* <Grid
-                item
-                xs={12}
-                sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  onChange={(e) => setLastName(e.target.value)}
-                  value={lastName}
-                />
-              </Grid> */}
+
                 <Grid
                   item
                   xs={12}>
@@ -143,19 +113,7 @@ export default function SignUp() {
                     value={password}
                   />
                 </Grid>
-                {/* <Grid
-                item
-                xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value="allowExtraEmails"
-                      color="primary"
-                    />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
+
               </Grid>
               <Button
                 type="submit"
