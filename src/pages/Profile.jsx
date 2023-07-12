@@ -20,6 +20,8 @@ import { useAuth, supabase } from "../Providers/AuthProvider";
 import UpdateProfileForm from "../Components/UpdateProfileForm";
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
+import "./Profile.css";
+import "../assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -29,7 +31,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const Profile = () => {
+const Profile = ({ handlePageTitle }) => {
   // auth.userLocal needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
 
   const [firstName, setFirstName] = useState("");
@@ -41,6 +43,11 @@ const Profile = () => {
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  
+  useEffect(() => {
+    handlePageTitle("Profile", "Welcome to your profile");
+  }, []);
 
   // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
   useEffect(() => {
@@ -80,90 +87,124 @@ const Profile = () => {
 
   return (
     <div>
+      {/* <Box
+        gridColumn="span 12"
+        justifyContent="space-between"
+        marginLeft="10px"
+        marginRight="10px"
+        alignItems="center"
+        height="500px"
+        sx={{
+          backgroundImage: `url("../src/assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg")`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          height: "100%",
+          width: "100%",
+        }}>
+        <Header
+          title="Profile"
+          subtitle="Welcome to your Unstuck Profile"
+        />
+      </Box> */}
       <Box
         gridColumn="span 12"
         justifyContent="space-between"
         marginLeft="10px"
         marginRight="10px"
         alignItems="center">
-        <Header
-          title="Profile"
-          subtitle="Welcome to your Unstuck Profile"
-        />
         {userDetails && (
-          <Box sx={{ flexGrow: 1, m: 4, textAlign: "center" }}>
-            <Grid>
-              <Grid
-                item
-                xs={6}
-                md={8}>
-                <Item>
-                  <Container>
-                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                      <AccountCircleIcon />
-                    </Avatar>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            p={2}>
+            <Box
+              display="flex"
+              alignItems="center"
+              borderRadius="3px">
+              {/* <Item> */}
+              {/* <Container> */}
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <AccountCircleIcon />
+              </Avatar>
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
+                p={2}
+                borderRadius="3px"
+                rowGap="10px">
+                <Typography variant="h4">
+                  {userDetails.first_name} {userDetails.last_name}
+                </Typography>
 
-                    <Typography variant="h4">
-                      {userDetails.first_name} {userDetails.last_name}
-                    </Typography>
-                    <Typography variant="h5">
-                      <div className="user-details">{userDetails.display_name}</div>
-                    </Typography>
-                  </Container>
-                  <Container>
-                    <UpdateProfileForm
-                      firstName={firstName}
-                      setFirstName={setFirstName}
-                      lastName={lastName}
-                      setLastName={setLastName}
-                      displayName={displayName}
-                      setDisplayName={setDisplayName}
-                    />
-                  </Container>
-                </Item>
-              </Grid>
-            </Grid>
+                <Typography variant="h5">
+                  <div className="user-details">{userDetails.display_name}</div>
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box display="flex">
+              <UpdateProfileForm
+                firstName={firstName}
+                setFirstName={setFirstName}
+                lastName={lastName}
+                setLastName={setLastName}
+                displayName={displayName}
+                setDisplayName={setDisplayName}
+              />
+            </Box>
           </Box>
         )}
 
         <Box sx={{ flexGrow: 1, m: 4, justifyContent: "Center" }}>
-          <Grid
+          {/* <Grid         container
+            spacing={2}> */}
+          {/* <Grid
             container
-            spacing={2}>
+            spacing={1}
+            justifyContent="center"
+            marginLeft={1}>
             <Grid
               item
-              xs={6}
-              md={8}>
-              <Item>
-                <Container>
-                  <Typography variant="h4">Placeholder</Typography>
-                  <ul>
-                    Placeholder
-                    <li>Placeholder 1</li>
-                    <li>Placeholder 2</li>
-                    <li>Placeholder 3</li>
-                  </ul>
-                </Container>
-              </Item>
-            </Grid>
+              xs={12}
+              sm={12}
+              md={6}
+              direction="row"
+              maxWidth="400"
+              justifyContent="space-evenly"
+              alignContent="center"> */}
+          {/* <Item> */}
+          <Box display="flex">
+            <Typography variant="h4">My Stucks and Unstucks</Typography>
+            <ul>
+              Placeholder
+              <li>Placeholder 1</li>
+              <li>Placeholder 2</li>
+              <li>Placeholder 3</li>
+            </ul>
+          </Box>
+          {/* </Item>
+            </Grid> */}
 
-            <Grid
+          {/* <Grid
               item
-              xs={6}
-              md={4}>
-              <Item>
-                <Container>
-                  <Typography variant="h4">Badges</Typography>
-                  <ul>
-                    Placeholder
-                    <li>Badge 1</li>
-                    <li>Badge 2</li>
-                    <li>Badge 3</li>
-                  </ul>
-                </Container>
-              </Item>
+              xs={12}
+              sm={12}
+              md={6}>
+              <Item> */}
+          <Box>
+            <Typography variant="h4">Badges</Typography>
+            <ul>
+              Placeholder
+              <li>Badge 1</li>
+              <li>Badge 2</li>
+              <li>Badge 3</li>
+            </ul>
+          </Box>
+          {/* </Item>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Box>
       </Box>
     </div>

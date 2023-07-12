@@ -28,7 +28,7 @@ import JoinTopicDialog from "../components/JoinTopicDialog";
 import StuckCard from "../components/stuckCard";
 import AddStuckDialog from "../components/AddStuckDialog";
 
-const StudentDashboard = () => {
+const StudentDashboard = ({handlePageTitle}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
@@ -40,6 +40,13 @@ const StudentDashboard = () => {
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
 
+  useEffect(() => {
+  if (userDetails) {
+    handlePageTitle("Student Dashboard", userDetails.display_name);
+  }
+}, []
+  )
+  
   useEffect(() => {
     if (userDetails) {
       const fetchLastTopicId = async () => {
@@ -194,12 +201,12 @@ const StudentDashboard = () => {
       {/* HEADER */}
       <Box
         display="flex"
-        justifyContent="space-between"
+        justifyContent="end"
         alignItems="center">
-        <Header
+        {/* <Header
           title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
           subtitle="Welcome to your Unstuck Profile!"
-        />
+        /> */}
 
         <Box
           display="flex"

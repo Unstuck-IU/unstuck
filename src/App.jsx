@@ -25,6 +25,13 @@ function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   const { userSession } = useAuth();
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+
+  const handlePageTitle = (title, subtitle) => {
+    setTitle(title);
+    setSubtitle(subtitle);
+  }
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -32,7 +39,9 @@ function App() {
         <div className="app">
           <Sidebar isSidebar={isSidebar} />
           <main className="content">
-            <Topbar setIsSidebar={setIsSidebar} />
+            <Topbar setIsSidebar={setIsSidebar} 
+            title={title}
+            subtitle={subtitle}/>
 
             {userSession ? (
               <Routes>
@@ -40,9 +49,9 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/profile" element={<Profile />} />
-                  <Route path="/sherpa-dashboard" element={<Sherpa_dashboard />} />
-                <Route path="/student-dashboard" element={<StudentDashboard />} />
+                <Route path="/profile" element={<Profile handlePageTitle={handlePageTitle}/>} />
+                <Route path="/sherpa-dashboard" element={<Sherpa_dashboard handlePageTitle={handlePageTitle}/>} />
+                <Route path="/student-dashboard" element={<StudentDashboard handlePageTitle={handlePageTitle} />} />
                 <Route path="/currentstuck" element={<ProgressStepper />} />
                 <Route path="/*" element={<ErrorPage />} />
               </Routes>
@@ -57,6 +66,7 @@ function App() {
             )}
           </main>
     </div>
+    <Footer />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

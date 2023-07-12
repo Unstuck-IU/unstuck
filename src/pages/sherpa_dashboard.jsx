@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // import supabase   from "../../src/components/auth/supabaseDeets.js"
 // import { supabase } from "../supabaseClient.js";
-import { supabase } from "../Providers/AuthProvider";
+import { supabase, useAuth } from "../Providers/AuthProvider";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -11,7 +11,6 @@ import Button from "@mui/material/Button";
 
 function MyFormHelperText() {
   const { focused } = useFormControl() || {};
-
   const helperText = React.useMemo(() => {
     if (focused) {
       return "This field is being focused";
@@ -22,13 +21,19 @@ function MyFormHelperText() {
 
   return <FormHelperText>{helperText}</FormHelperText>;
 }
-const Sherpa_dashboard = () => {
-  const [user, setUser] = useState(null);
-
+const Sherpa_dashboard = ({ handlePageTitle }) => {
+  // const [user, setUser] = useState(null);
+  const { loading, userDetails, user } = useAuth();
+  const [User_id, setUser_id] = useState("");
   const [topic, setTopic] = useState({
     topic_string: "",
   });
 
+  useEffect(() => {
+    if (userDetails) {
+      handlePageTitle("Sherpa Dashboard", userDetails.display_name);
+    }
+  }, [userDetails]);
   console.log(topic);
 
   // useEffect(() => {
@@ -39,6 +44,7 @@ const Sherpa_dashboard = () => {
   //   let { data, error } = await supabase
   //     .from("user_details")
   //     .select("first_name")
+
   //     setUsers(data)
   //   console.log(users)
 
@@ -55,24 +61,23 @@ const Sherpa_dashboard = () => {
   //   })
 
   // }
-  const [User_id, setUser_id] = useState("");
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUser(user.id);
-      } else {
-        // handle error
-      }
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const {
+  //       data: { user },
+  //       error,
+  //     } = await supabase.auth.getUser();
+  //     if (user) {
+  //       setUser(user.id);
+  //     } else {
+  //       // handle error
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
-  console.log(user);
+  // console.log(user);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -103,8 +108,7 @@ const Sherpa_dashboard = () => {
         noValidate
         autoComplete="off"
         name="topic_string"
-        onSubmit={createTopic}
-      >
+        onSubmit={createTopic}>
         <FormControl sx={{ width: "25ch" }}>
           <OutlinedInput
             name="topic_string"
@@ -113,7 +117,9 @@ const Sherpa_dashboard = () => {
           />
           <MyFormHelperText />
         </FormControl>
-        <Button variant="outlined" type="submit">
+        <Button
+          variant="outlined"
+          type="submit">
           Submit
         </Button>
       </Box>
