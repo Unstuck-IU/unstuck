@@ -103,8 +103,7 @@ const Sherpa_dashboard = () => {
         noValidate
         autoComplete="off"
         name="topic_string"
-        onSubmit={createTopic}
-      >
+        onSubmit={createTopic}>
         <FormControl sx={{ width: "25ch" }}>
           <OutlinedInput
             name="topic_string"
@@ -113,7 +112,9 @@ const Sherpa_dashboard = () => {
           />
           <MyFormHelperText />
         </FormControl>
-        <Button variant="outlined" type="submit">
+        <Button
+          variant="outlined"
+          type="submit">
           Submit
         </Button>
       </Box>
