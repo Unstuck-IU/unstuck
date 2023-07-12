@@ -20,7 +20,6 @@ import { useAuth, supabase } from "../Providers/AuthProvider";
 import UpdateProfileForm from "../Components/UpdateProfileForm";
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import "./Profile.css";
 import "../assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg";
 
 const Item = styled(Paper)(({ theme }) => ({
