@@ -47,6 +47,7 @@ export default function SignIn() {
       setSubmitError(true);
     } else {
       setSubmitError(false);
+
       redirectOnLogin();
     }
     setLoading(false);
@@ -54,16 +55,20 @@ export default function SignIn() {
 
   const redirectOnLogin = async () => {
     if (userSession != null) {
-      console.log("is this being called AT ALL? ", userDetails);
-
       if (userDetails.completed_signup === true && userDetails.user_type === "student") {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         navigate("/student-dashboard");
       } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         navigate("/sherpa-dashboard");
       } else if (userSession) {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         navigate("/profile");
       }
     }

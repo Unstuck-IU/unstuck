@@ -22,6 +22,7 @@ const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -30,12 +31,12 @@ const AuthProvider = (props) => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
-
     return () => {
       authListener.subscription.unsubscribe();
     };
   }, []);
 
+  //runs after fetching user
   useEffect(() => {
     const fetchUserDetails = async () => {
       if (user != null) {
@@ -48,6 +49,7 @@ const AuthProvider = (props) => {
         if (data) {
           setSubmitError(false);
           setAlertMessage("Successfully fetched userDetails");
+          setSignedIn(true);
         }
 
         if (error) {
@@ -69,8 +71,30 @@ const AuthProvider = (props) => {
     fetchUserDetails();
   }, [user]);
 
+  //runs after fetching userDetails
+  useEffect(() => {
+    if (userDetails != null) {
+      if (
+        userDetails?.completed_signup === true &&
+        userDetails?.user_type === "student" &&
+        window.location.pathname === "/signin"
+      ) {
+        navigate("/student-dashboard");
+      } else if (
+        userDetails.completed_signup === true &&
+        userDetails.user_type === "sherpa" &&
+        window.location.pathname === "/signin"
+      ) {
+        navigate("/sherpa-dashboard");
+      } else if (userSession && window.location.pathname === "/signin") {
+        navigate("/profile");
+      }
+    }
+  }, [signedIn]);
+
   async function signInPassword(email, password) {
     setLoading(true);
+
     try {
       let { data, error } = await supabase.auth.signInWithPassword(email, password);
       if (data.user) {
@@ -90,6 +114,25 @@ const AuthProvider = (props) => {
       console.log("Auth failed", ex.message);
     }
   }
+
+  const signUp = async (emailField, passwordField) => {
+    try {
+      console.log("we called signUp successfully");
+      let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField, redirectTo: "/signin" });
+      if (error) {
+        console.log("Sign up failed. Error: \n", error);
+        setAlertMessage("Sign up failed, please try again.");
+        return error;
+      }
+      if (data) {
+        console.log("Signed up successfully", data);
+        setAlertMessage("Successfully signed up!");
+        return data;
+      }
+    } catch (ex) {
+      console.log("Auth failed", ex.message);
+    }
+  };
 
   const logOut = async () => {
     setLoading(true);
@@ -129,47 +172,47 @@ const AuthProvider = (props) => {
   const storeLocally = async (someStr) => {
     try {
       localStorage.setItem("resText", someStr);
-      const resText = localStorage.getItem("resText")
+      const resText = localStorage.getItem("resText");
       if (resText != null) {
-        console.log("The following item was successfully stored in local storage:", resText)
+        console.log("The following item was successfully stored in local storage:", resText);
       } else {
-        console.log("Returned as null while trying to place an item in local storeage.")
+        console.log("Returned as null while trying to place an item in local storeage.");
       }
     } catch (ex) {
-      console.log("Something went wrong while trying to place an item in local storage:", ex.message)
+      console.log("Something went wrong while trying to place an item in local storage:", ex.message);
     }
-  }
+  };
 
-  // This is just a helper to check what's currently stored in local storage. 
+  // This is just a helper to check what's currently stored in local storage.
   const getLocalStorage = async () => {
     try {
       const items = { ...localStorage };
       if (!items) {
-        console.log("There's nothing currently stored in local storage")
+        console.log("There's nothing currently stored in local storage");
       } else {
-        console.log("The following items are in local storage:", items)
+        console.log("The following items are in local storage:", items);
       }
     } catch (ex) {
-      console.log("getLocalStorage error:", ex.message)
+      console.log("getLocalStorage error:", ex.message);
     }
-  }
+  };
 
   // This returns the user from the current session. If this session contains an expired token, it refreshes the token to get a new session
   const userSupaSession = async () => {
     try {
-      const userData = await supabase.auth.getSession()
+      const userData = await supabase.auth.getSession();
       //.then(console.log("This is data.session.user data:", { data: { user } }))
 
       if ({ userData }) {
-        console.log("User session data from .getsession")
-        return userData.data.session.user.id
+        console.log("User session data from .getsession");
+        return userData.data.session.user.id;
       } else {
-        console.log("No user data")
+        console.log("No user data");
       }
     } catch (ex) {
-      console.log("Failed to get a user session back", ex)
+      console.log("Failed to get a user session back", ex);
     }
-  }
+  };
 
   const userSupa = async () => {
     const {
@@ -185,26 +228,6 @@ const AuthProvider = (props) => {
       setAlertMessage("Error getting supabase User data. Are you signed in?");
     }
   };
-
-  const signUp = async (emailField, passwordField) => {
-    try {
-      console.log("we called signUp successfully");
-      let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField });
-      if (error) {
-        console.log("Sign up failed. Error: \n", error);
-        setAlertMessage("Sign up failed, please try again.");
-        return error;
-      }
-      if (data) {
-        console.log("Signed up successfully", data);
-        setAlertMessage("Successfully signed up!");
-        return data;
-      }
-    } catch (ex) {
-      console.log("Auth failed", ex.message);
-    }
-  };
-
 
   // const signInMagic = supabase.auth.signInWithOtp;
   // const signInSSO = supabase.auth.signInWithSSO;
