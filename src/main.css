@@ -8,8 +8,27 @@ body,
   height: 100%;
   width: 100%;
   font-family: "Urbanist", sans-serif;
+  display: flex;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 1;
+}
 .app {
   display: flex;
   position: relative;

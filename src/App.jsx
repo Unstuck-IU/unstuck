@@ -29,30 +29,36 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar isSidebar={isSidebar} />
+          <Sidebar className="sidebar" isSidebar={isSidebar} />
           <main className="content">
-            <Topbar setIsSidebar={setIsSidebar} />
-
-            {userSession && !loading ? (
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/sherpa-dashboard" element={<SherpaDashboard />} />
-                <Route path="/student-dashboard" element={<StudentDashboard />} />
-                <Route path="/*" element={<ErrorPage />} />
-              </Routes>
-            ) : (!loading ? (
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/*" element={<ErrorPage />} />
-              </Routes>
-            ) : ( <LoadingSpinner />))}
+            <div className="header">
+              <Topbar setIsSidebar={setIsSidebar} />
+            </div>
+            <div className="page-content">
+              {userSession && !loading ? (
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/signin" element={<SignIn />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/sherpa-dashboard" element={<SherpaDashboard />} />
+                  <Route path="/student-dashboard" element={<StudentDashboard />} />
+                  <Route path="/*" element={<ErrorPage />} />
+                </Routes>
+              ) : (!loading ? (
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/signin" element={<SignIn />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/*" element={<ErrorPage />} />
+                </Routes>
+              ) : ( <LoadingSpinner />))}
+              </div>
+            <div className="footer">
+              <Footer />
+            </div>
           </main>
     </div>
       </ThemeProvider>
