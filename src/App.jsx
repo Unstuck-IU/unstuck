@@ -70,7 +70,6 @@ function App() {
             </div>
           </main>
     </div>
-    <Footer />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
