@@ -21,21 +21,21 @@ const AuthProvider = (props) => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [user, setUser] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log(`Supabase auth event: ${event}`);
       setUserSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
     });
-
     return () => {
       authListener.subscription.unsubscribe();
     };
   }, []);
 
+  //runs after fetching user
   useEffect(() => {
     const fetchUserDetails = async () => {
       if (user != null) {
@@ -48,6 +48,7 @@ const AuthProvider = (props) => {
         if (data) {
           setSubmitError(false);
           setAlertMessage("Successfully fetched userDetails");
+          setSignedIn(true);
         }
 
         if (error) {
@@ -64,10 +65,30 @@ const AuthProvider = (props) => {
             .select();
         }
       }
-      setLoading(false);
     };
     fetchUserDetails();
   }, [user]);
+
+  //runs after fetching userDetails
+  useEffect(() => {
+    if (userDetails != null) {
+      if (
+        userDetails?.completed_signup === true &&
+        userDetails?.user_type === "student" &&
+        window.location.pathname === "/signin"
+      ) {
+        navigate("/student-dashboard");
+      } else if (
+        userDetails.completed_signup === true &&
+        userDetails.user_type === "sherpa" &&
+        window.location.pathname === "/signin"
+      ) {
+        navigate("/sherpa-dashboard");
+      } else if (userSession && window.location.pathname === "/signin") {
+        navigate("/profile");
+      }
+    }
+  }, [signedIn]);
 
   async function signInPassword(email, password) {
     setLoading(true);
@@ -78,18 +99,42 @@ const AuthProvider = (props) => {
         console.log("Logged in,", data.user);
         setSubmitError(false);
         setAlertMessage("Successfully signed in!");
+        setLoading(false);
       }
       if (error) {
         console.log("Login failed, try a different email and password combo.");
         setSubmitError(true);
         setAlertMessage("Login failed, please try a different email and password, or sign up for an account.");
         return error;
+        setLoading(false);
       }
       setLoading(false);
     } catch (ex) {
       console.log("Auth failed", ex.message);
+      setLoading(false);
     }
   }
+
+  const signUp = async (emailField, passwordField) => {
+    setLoading(true);
+    try {
+      console.log("we called signUp successfully");
+      let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField, redirectTo: "/signin" });
+      if (error) {
+        console.log("Sign up failed. Error: \n", error);
+        setAlertMessage("Sign up failed, please try again.");
+        return error;
+      }
+      if (data) {
+        console.log("Signed up successfully", data);
+        setAlertMessage("Successfully signed up!");
+        return data;
+      }
+    } catch (ex) {
+      console.log("Auth failed", ex.message);
+    }
+    setLoading(false);
+  };
 
   const logOut = async () => {
     setLoading(true);
@@ -99,15 +144,8 @@ const AuthProvider = (props) => {
     // router.push("/");
   };
 
-  // useEffect(() => {
-  //   const unsub = onAuthStateChanged(auth, (user) => {
-  //     console.log("onAuthStateChanged() - new User!!", user);
-  //     setUser(user);
-  //   });
-  //   return unsub; // to shut down onAuthStateChanged listener
-  // }, [auth]);
-
   const userLocal = async () => {
+    setLoading(true);
     try {
       const sessionDataKey = localStorage.key(1);
       const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
@@ -124,54 +162,62 @@ const AuthProvider = (props) => {
     } catch (ex) {
       console.log("Failure during retrieval of local user information", ex.message);
     }
+    setLoading(false);
   };
 
   const storeLocally = async (someStr) => {
+    setLoading(true);
     try {
       localStorage.setItem("resText", someStr);
-      const resText = localStorage.getItem("resText")
+      const resText = localStorage.getItem("resText");
       if (resText != null) {
-        console.log("The following item was successfully stored in local storage:", resText)
+        console.log("The following item was successfully stored in local storage:", resText);
       } else {
-        console.log("Returned as null while trying to place an item in local storeage.")
+        console.log("Returned as null while trying to place an item in local storeage.");
       }
     } catch (ex) {
-      console.log("Something went wrong while trying to place an item in local storage:", ex.message)
+      console.log("Something went wrong while trying to place an item in local storage:", ex.message);
     }
-  }
+    setLoading(false);
+  };
 
-  // This is just a helper to check what's currently stored in local storage. 
+  // This is just a helper to check what's currently stored in local storage.
   const getLocalStorage = async () => {
+    setLoading(true);
     try {
       const items = { ...localStorage };
       if (!items) {
-        console.log("There's nothing currently stored in local storage")
+        console.log("There's nothing currently stored in local storage");
       } else {
-        console.log("The following items are in local storage:", items)
+        console.log("The following items are in local storage:", items);
       }
     } catch (ex) {
-      console.log("getLocalStorage error:", ex.message)
+      console.log("getLocalStorage error:", ex.message);
     }
-  }
+    setLoading(false);
+  };
 
   // This returns the user from the current session. If this session contains an expired token, it refreshes the token to get a new session
   const userSupaSession = async () => {
+    setLoading(true);
     try {
-      const userData = await supabase.auth.getSession()
+      const userData = await supabase.auth.getSession();
       //.then(console.log("This is data.session.user data:", { data: { user } }))
 
       if ({ userData }) {
-        console.log("User session data from .getsession")
-        return userData.data.session.user.id
+        console.log("User session data from .getsession");
+        return userData.data.session.user.id;
       } else {
-        console.log("No user data")
+        console.log("No user data");
       }
     } catch (ex) {
-      console.log("Failed to get a user session back", ex)
+      console.log("Failed to get a user session back", ex);
     }
-  }
+    setLoading(false);
+  };
 
   const userSupa = async () => {
+    setLoading(true);
     const {
       data: { user },
       error,
@@ -184,44 +230,13 @@ const AuthProvider = (props) => {
       console.log("Error getting supabase User data", error);
       setAlertMessage("Error getting supabase User data. Are you signed in?");
     }
+    setLoading(false);
   };
-
-  const signUp = async (emailField, passwordField) => {
-    try {
-      console.log("we called signUp successfully");
-      let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField });
-      if (error) {
-        console.log("Sign up failed. Error: \n", error);
-        setAlertMessage("Sign up failed, please try again.");
-        return error;
-      }
-      if (data) {
-        console.log("Signed up successfully", data);
-        setAlertMessage("Successfully signed up!");
-        return data;
-      }
-    } catch (ex) {
-      console.log("Auth failed", ex.message);
-    }
-  };
-
 
   // const signInMagic = supabase.auth.signInWithOtp;
   // const signInSSO = supabase.auth.signInWithSSO;
   // const signInToken = supabase.auth.signInWithIdToken;
   // const signInOAuth = supabase.auth.signInWithOAuth;
-
-  // const [session, setSession] = useState(null);
-
-  // useEffect(() => {
-  //   supabase.auth.getSession().then(({ data: { session } }) => {
-  //     setSession(session);
-  //   });
-
-  //   supabase.auth.onAuthStateChange((_event, session) => {
-  //     setSession(session);
-  //   });
-  // }, []);
 
   const values = {
     user,

@@ -138,7 +138,7 @@ export default function ProgressStepper({ activeStep, setActiveStep }) {
         ) : (
           <React.Fragment>
             <StatementForm
-              step={activeStep - 2} // setting as -2 because the first 2 steps don't have components attached yet
+              step={activeStep - 2} // setting as -2 because the first 2 steps don't have form components to show
               formValues={formValues}
               handleTextFieldChange={handleTextFieldChange}
             />

@@ -15,29 +15,35 @@ const TopicHeader = ({ topic }) => {
       {topic && (
         <Box
           sx={{
-            mt: "30px",
             display: "flex",
             flexDirection: "row",
           }}>
           <Container
-            sx={
-              {
-                // display: "flex",
-                // flexDirection: "column",
-                // justifyContent: "space-between",
-                // alignContent: "baseline",
-              }
-            }>
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignContent: "baseline",
+            }}>
             <Typography
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignContent: "baseline",
+                mr: "10px",
+              }}
               variant="h2"
-              mr="10px">
-              Topic: {topic.topic_string}
+              color={colors.grey[100]}
+              fontWeight="bold">
+              Topic:{"  "}
+              <Typography
+                variant="h2"
+                ml="10px">
+                {topic.topic_string}
+              </Typography>
             </Typography>
-            <Typography
-              variant="h4"
-              mr="10px">
-              Sherpa: {topic.user_details[0].first_name + " " + topic.user_details[0].last_name}
-            </Typography>
+
             {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
           </Container>
         </Box>

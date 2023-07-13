@@ -11,6 +11,7 @@ import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions
 import ProgressStepper from "../components/ProgressStepper";
 import TopicHeader from "../components/TopicHeader";
 import Header from "../components/Header";
+import StepHeader from "../components/StepHeader";
 import LineChart from "../components/LineChart";
 // import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../components/BarChart";
@@ -35,7 +36,7 @@ const StudentDashboard = ({handlePageTitle}) => {
   const [topic, setTopic] = useState("");
   const [joinCode, setJoinCode] = useState(null);
   const [stucks, setStucks] = useState([]);
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
@@ -46,26 +47,27 @@ const StudentDashboard = ({handlePageTitle}) => {
   }
 }, []
   )
-  
+    const [firstTime, setFirstTime] = useState(false);
+
   useEffect(() => {
-    if (userDetails) {
+    if (!loading && userDetails != null) {
       const fetchLastTopicId = async () => {
         let { data: lastTopicId, error: lastTopicIdError } = await supabase
           .from("topic")
           .select("*, user_details!inner(last_topic_id_viewed, id, first_name, last_name)")
-          .eq("id", userDetails.last_topic_id_viewed)
+          .eq("id", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
           .single();
-        console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
-        console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
         if (lastTopicId) {
+          console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
           setTopic(lastTopicId);
+        } else {
+          setFirstTime(true);
+          console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
         }
       };
-      if (!loading) {
-        fetchLastTopicId();
-      }
+      fetchLastTopicId();
     }
-  }, [userDetails]);
+  }, [loading]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -201,12 +203,18 @@ const StudentDashboard = ({handlePageTitle}) => {
       {/* HEADER */}
       <Box
         display="flex"
-        justifyContent="end"
-        alignItems="center">
-        {/* <Header
+        justifyContent="space-between"
+        alignItems="center"
+        alignContent="center">
+        <Header
           title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
           subtitle="Welcome to your Unstuck Profile!"
-        /> */}
+        />
+        <TopicHeader
+          joinCode={joinCode}
+          userDetails={userDetails}
+          topic={topic}
+        />
 
         <Box
           display="flex"
@@ -222,25 +230,24 @@ const StudentDashboard = ({handlePageTitle}) => {
               {message}
             </Alert>
           )}
-          <JoinTopicDialog handleJoinTopic={handleJoinTopic} />
+          <JoinTopicDialog
+            handleJoinTopic={handleJoinTopic}
+            firstTime={firstTime}
+          />
         </Box>
       </Box>
       <ProgressStepper
         activeStep={activeStep}
         setActiveStep={setActiveStep}
       />
+      <StepHeader activeStep={activeStep} />
       {/* {fetchError && <p>{fetchError}</p>} */}
       {activeStep <= 1 && (
         <Box
           display="flex"
           flexDirection="row"
-          justifyContent="space-between"
+          justifyContent="end"
           alignItems="end">
-          <TopicHeader
-            joinCode={joinCode}
-            userDetails={userDetails}
-            topic={topic}
-          />
           <AddStuckDialog topic={topic} />
         </Box>
       )}
