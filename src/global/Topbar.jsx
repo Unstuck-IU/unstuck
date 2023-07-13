@@ -30,7 +30,7 @@ const Topbar = ({ title, subtitle }) => {
         alignItems="center"
         height="200px"
         sx={{
-          backgroundImage: `url("../src/assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg")`,
+          backgroundImage: `url("../src/assets/images/3706.jpg")`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
