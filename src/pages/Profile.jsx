@@ -24,7 +24,7 @@ import styled from "@emotion/styled";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
-  padding: theme.spacing(1),
+  padding: theme.spacing(3),
   textAlign: "left",
   color: theme.palette.text.secondary,
 }));
@@ -42,42 +42,6 @@ const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = await userLocal();
-      console.log(userId);
-      if (userId) {
-        const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
-        if (!data || data.length === 0) {
-          // const { data, error } = await supabase.from("user_details").insert({ id: userId, user_type: "student" }).select();
-          console.log("there is no data to use", error);
-        }
-        if (error) {
-          setFetchError("Could not fetch the user details");
-          setUserDetails(null);
-          console.log("data: ", data);
-          console.log("error: ", error);
-        }
-        if (data) {
-          if (data.first_name != null && data.last_name != null && data.display_name != null) {
-            console.log("is this RUNNING?");
-            const { data, error } = await supabase
-              .from("user_details")
-              .update({ completed_signup: true })
-              .eq("id", userId)
-              .select();
-          }
-          setUserDetails(data);
-          setFetchError(null);
-          console.log("fetched user profile details of logged in user: ", data);
-        }
-      }
-    };
-
-    fetchUserDetails();
-  }, []);
-
   return (
     <Box
       gridColumn="span 12"
@@ -89,7 +53,39 @@ const Profile = () => {
         title="Profile"
         subtitle="Welcome to your Unstuck Profile"
       />
-      {userDetails && (
+      {userDetails?.completed_signup === false && (
+        <Box sx={{ flexGrow: 1, m: 4, textAlign: "left" }}>
+          <Grid>
+            <Grid
+              item
+              xs={6}
+              md={8}>
+              <Item>
+                <Typography
+                  variant="h4"
+                  mb="10px">
+                  <div className="user-details">It looks like your first time signing in!</div>
+                </Typography>
+                <Typography variant="h5">
+                  <div className="user-details">
+                    Thanks for joining Unstuck, you're going to have a great time. First thing you need to do is to update your
+                    profile so people know who you are around here!
+                  </div>
+                </Typography>
+              </Item>
+            </Grid>
+          </Grid>
+          <UpdateProfileForm
+            firstName={firstName}
+            setFirstName={setFirstName}
+            lastName={lastName}
+            setLastName={setLastName}
+            displayName={displayName}
+            setDisplayName={setDisplayName}
+          />
+        </Box>
+      )}
+      {userDetails?.completed_signup === true && (
         <Box sx={{ flexGrow: 1, m: 4, textAlign: "center" }}>
           <Grid>
             <Grid
@@ -97,28 +93,24 @@ const Profile = () => {
               xs={6}
               md={8}>
               <Item>
-                <Container>
-                  <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                    <AccountCircleIcon />
-                  </Avatar>
+                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                  <AccountCircleIcon />
+                </Avatar>
 
-                  <Typography variant="h4">
-                    {userDetails.first_name} {userDetails.last_name}
-                  </Typography>
-                  <Typography variant="h5">
-                    <div className="user-details">{userDetails.display_name}</div>
-                  </Typography>
-                </Container>
-                <Container>
-                  <UpdateProfileForm
-                    firstName={firstName}
-                    setFirstName={setFirstName}
-                    lastName={lastName}
-                    setLastName={setLastName}
-                    displayName={displayName}
-                    setDisplayName={setDisplayName}
-                  />
-                </Container>
+                <Typography variant="h4">
+                  {userDetails?.first_name} {userDetails?.last_name}
+                </Typography>
+                <Typography variant="h5">
+                  <div className="user-details">{userDetails?.display_name}</div>
+                </Typography>
+                <UpdateProfileForm
+                  firstName={firstName}
+                  setFirstName={setFirstName}
+                  lastName={lastName}
+                  setLastName={setLastName}
+                  displayName={displayName}
+                  setDisplayName={setDisplayName}
+                />
               </Item>
             </Grid>
           </Grid>
@@ -134,15 +126,13 @@ const Profile = () => {
             xs={6}
             md={8}>
             <Item>
-              <Container>
-                <Typography variant="h4">Placeholder</Typography>
-                <ul>
-                  Placeholder
-                  <li>Placeholder 1</li>
-                  <li>Placeholder 2</li>
-                  <li>Placeholder 3</li>
-                </ul>
-              </Container>
+              <Typography variant="h4">Placeholder</Typography>
+              <ul>
+                Placeholder
+                <li>Placeholder 1</li>
+                <li>Placeholder 2</li>
+                <li>Placeholder 3</li>
+              </ul>
             </Item>
           </Grid>
 
@@ -151,15 +141,13 @@ const Profile = () => {
             xs={6}
             md={4}>
             <Item>
-              <Container>
-                <Typography variant="h4">Badges</Typography>
-                <ul>
-                  Placeholder
-                  <li>Badge 1</li>
-                  <li>Badge 2</li>
-                  <li>Badge 3</li>
-                </ul>
-              </Container>
+              <Typography variant="h4">Badges</Typography>
+              <ul>
+                Placeholder
+                <li>Badge 1</li>
+                <li>Badge 2</li>
+                <li>Badge 3</li>
+              </ul>
             </Item>
           </Grid>
         </Grid>

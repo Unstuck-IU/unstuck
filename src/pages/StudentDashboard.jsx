@@ -153,6 +153,7 @@ const StudentDashboard = () => {
           setAlertSeverity("info");
           setIsAlertShowing(true);
           setJoinCode(newJoinCode);
+          setFirstTime(false);
         } else if (userDetails && fetchedTopic.id) {
           const { data: user_topic, error } = await supabase
             .from("user_topic")
@@ -162,6 +163,7 @@ const StudentDashboard = () => {
           setAlertSeverity("success");
           setIsAlertShowing(true);
           setJoinCode(newJoinCode);
+          setFirstTime(false);
         }
         // updating the database with the last topic id viewed, to help load the correct one next time
         const { data: updatedUser, error } = await supabase
@@ -188,83 +190,109 @@ const StudentDashboard = () => {
       </Box>
     );
   return (
-    <Box
-      m="20px"
-      display="flex"
-      flexDirection="column"
-      justifyContent="end">
-      {/* HEADER */}
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        alignContent="center">
-        <Header
-          title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
-          subtitle="Welcome to your Unstuck Profile!"
-        />
-        <TopicHeader
-          joinCode={joinCode}
-          userDetails={userDetails}
-          topic={topic}
-        />
-
-        <Box
-          display="flex"
-          justifyContent="end"
-          alignItems="center">
-          {isAlertShowing && (
-            <Alert
-              sx={{ mr: "10px" }}
-              severity={alertSeverity}
-              onClose={() => {
-                setIsAlertShowing(false);
-              }}>
-              {message}
-            </Alert>
-          )}
-          <JoinTopicDialog
-            handleJoinTopic={handleJoinTopic}
-            firstTime={firstTime}
-          />
-        </Box>
-      </Box>
-      <ProgressStepper
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
-      />
-      <StepHeader activeStep={activeStep} />
-      {/* {fetchError && <p>{fetchError}</p>} */}
-      {activeStep <= 1 && (
+    <>
+      {isAlertShowing && (
+        <Alert
+          sx={{ position: "fixed", mt: "-10px", alignSelf: "end" }}
+          severity={alertSeverity}
+          onClose={() => {
+            setIsAlertShowing(false);
+          }}>
+          {message}
+        </Alert>
+      )}
+      <Box m="20px">
+        {/* HEADER */}
         <Box
           display="flex"
           flexDirection="row"
-          justifyContent="end"
-          alignItems="end">
-          <AddStuckDialog topic={topic} />
+          flexWrap="wrap"
+          alignItems="baseline"
+          alignContent="flex-start">
+          <Box sx={{ mr: "10px" }}>
+            <Header
+              title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
+              subtitle="Welcome to your Unstuck Profile!"
+            />
+          </Box>
         </Box>
-      )}
-      {/* Form for odding new Unstuck to the Topic */}
-      {activeStep <= 1 && (
-        // <StepOne/>
+        <ProgressStepper
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+        />
         <Box
           display="flex"
+          flexDirection="row"
           flexWrap="wrap"
-          alignItems="center"
-          mt="2rem">
-          {/* display all submitted stucks here */}
-          {stucks?.map((stuck, index) => (
-            <StuckCard
-              key={stuck.id}
-              stuck={stuck}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-              index={index}
+          justifyContent="space-between"
+          alignItems="baseline"
+          alignContent="flex-start">
+          <Box sx={{ mb: "10px" }}>
+            <TopicHeader
+              joinCode={joinCode}
+              userDetails={userDetails}
+              topic={topic}
             />
-          ))}
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="end"
+            alignItems="center">
+            <JoinTopicDialog
+              handleJoinTopic={handleJoinTopic}
+              firstTime={firstTime}
+            />
+          </Box>
         </Box>
-      )}
-      {/* {activeStep === 2 && (
+      </Box>
+      <Box m="20px">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center">
+          <StepHeader activeStep={activeStep} />
+
+          {/* {fetchError && <p>{fetchError}</p>} */}
+          {activeStep < 1 && (
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="end"
+              alignItems="end">
+              <AddStuckDialog topic={topic} />
+            </Box>
+          )}
+          {activeStep === 1 && (
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="end"
+              alignItems="end">
+              <Button>Select Stuck</Button>
+            </Box>
+          )}
+        </Box>
+        {/* Form for odding new Unstuck to the Topic */}
+        {activeStep <= 1 && (
+          // <StepOne/>
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            alignItems="center"
+            m="2rem">
+            {/* display all submitted stucks here */}
+            {stucks?.map((stuck, index) => (
+              <StuckCard
+                key={stuck.id}
+                stuck={stuck}
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+                index={index}
+              />
+            ))}
+          </Box>
+        )}
+        {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography
           gutterBottom
@@ -282,7 +310,8 @@ const StudentDashboard = () => {
           Test Step 3
         </Typography>
       )} */}
-    </Box>
+      </Box>
+    </>
   );
 };
 

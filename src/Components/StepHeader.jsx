@@ -26,31 +26,22 @@ const StepHeader = ({ activeStep }) => {
       {activeStep >= 0 && (
         <Box
           sx={{
-            mt: "30px",
+            m: "30px",
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
           }}>
-          <Container
-            sx={
-              {
-                // display: "flex",
-                // flexDirection: "column",
-                // justifyContent: "space-between",
-                // alignContent: "baseline",
-              }
-            }>
-            <Typography
-              variant="h2"
-              mr="10px">
-              Step: {steps[activeStep + 1].primary}
-            </Typography>
-            <Typography
-              variant="h4"
-              mr="10px">
-              {steps[activeStep + 1].secondary}
-            </Typography>
-            {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
-          </Container>
+          <Typography
+            variant="h2"
+            fontWeight="bold"
+            mr="10px">
+            Step: {steps[activeStep + 1].primary}
+          </Typography>
+          <Typography
+            variant="h4"
+            mr="10px">
+            {steps[activeStep + 1].secondary}
+          </Typography>
+          {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
         </Box>
       )}
     </>
