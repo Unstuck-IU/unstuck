@@ -21,8 +21,7 @@ const AuthProvider = (props) => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [user, setUser] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -38,6 +37,7 @@ const AuthProvider = (props) => {
   //runs after fetching user
   useEffect(() => {
     const fetchUserDetails = async () => {
+      console.log("AuthProvider: fetching userDetails");
       if (user != null) {
         const { data, error } = await supabase
           .from("user_details")
@@ -48,26 +48,36 @@ const AuthProvider = (props) => {
         if (data) {
           setSubmitError(false);
           setAlertMessage("Successfully fetched userDetails");
-          setSignedIn(true);
+          if (data.first_name != null && data.last_name != null && data.display_name != null && data.completed_signup != true) {
+            console.log("All user_details are filled out and completed_signup can be set to true");
+            const { data, error } = await supabase
+              .from("user_details")
+              .update({ completed_signup: true })
+              .eq("id", user.id)
+              .select();
+          }
         }
-
         if (error) {
           console.log("error occurred when trying to get user_details in AuthProvider useEffect: ", error);
           setSubmitError(true);
           setAlertMessage("User details could not be retrieved");
         }
-        if (data.first_name != null && data.last_name != null && data.display_name != null && data.completed_signup != true) {
-          console.log("All user_details are filled out and completed_signup can be set to true");
-          const { data, error } = await supabase
-            .from("user_details")
-            .update({ completed_signup: true })
-            .eq("id", user.id)
-            .select();
-        }
       }
+      setLoading(false);
     };
     fetchUserDetails();
   }, [user]);
+
+  // //runs after fetching userDetails
+  // useEffect(() => {
+  //   if (userDetails != null && window.location.pathname === "/signin") {
+  //     if (userDetails.completed_signup === true && userDetails.user_type === "sherpa" && window.location.pathname === "/signin") {
+  //       navigate("/sherpa-dashboard");
+  //     } else if (userSession && window.location.pathname === "/signin") {
+  //       navigate("/profile");
+  //     }
+  //   }
+  // }, [signedIn]);
 
   //runs after fetching userDetails
   useEffect(() => {
@@ -88,7 +98,7 @@ const AuthProvider = (props) => {
         navigate("/profile");
       }
     }
-  }, [signedIn]);
+  }, [userDetails]);
 
   async function signInPassword(email, password) {
     setLoading(true);
@@ -119,7 +129,13 @@ const AuthProvider = (props) => {
     setLoading(true);
     try {
       console.log("we called signUp successfully");
-      let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField, redirectTo: "/signin" });
+      let { data, error } = await supabase.auth.signUp({
+        email: emailField,
+        password: passwordField,
+        options: {
+          emailRedirectTo: "http://localhost:5173/profile", // you will have to make the project part dynamic in whichever way the framework you are using allows you to do this.
+        },
+      });
       if (error) {
         console.log("Sign up failed. Error: \n", error);
         setAlertMessage("Sign up failed, please try again.");
@@ -145,7 +161,6 @@ const AuthProvider = (props) => {
   };
 
   const userLocal = async () => {
-    setLoading(true);
     try {
       const sessionDataKey = localStorage.key(1);
       const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
@@ -166,7 +181,6 @@ const AuthProvider = (props) => {
   };
 
   const storeLocally = async (someStr) => {
-    setLoading(true);
     try {
       localStorage.setItem("resText", someStr);
       const resText = localStorage.getItem("resText");
@@ -183,7 +197,6 @@ const AuthProvider = (props) => {
 
   // This is just a helper to check what's currently stored in local storage.
   const getLocalStorage = async () => {
-    setLoading(true);
     try {
       const items = { ...localStorage };
       if (!items) {
@@ -199,7 +212,6 @@ const AuthProvider = (props) => {
 
   // This returns the user from the current session. If this session contains an expired token, it refreshes the token to get a new session
   const userSupaSession = async () => {
-    setLoading(true);
     try {
       const userData = await supabase.auth.getSession();
       //.then(console.log("This is data.session.user data:", { data: { user } }))
@@ -217,7 +229,6 @@ const AuthProvider = (props) => {
   };
 
   const userSupa = async () => {
-    setLoading(true);
     const {
       data: { user },
       error,
@@ -247,6 +258,7 @@ const AuthProvider = (props) => {
     setSubmitError,
     alertMessage,
     loading,
+    setLoading,
     setAlertMessage,
     signUp,
     userSupa,

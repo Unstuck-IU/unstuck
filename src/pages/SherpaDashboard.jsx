@@ -31,30 +31,6 @@ const Sherpa_dashboard = () => {
 
   console.log(topic);
 
-  // useEffect(() => {
-  //   fetchUsers();
-  // }, []);
-
-  // async function fetchUsers() {
-  //   let { data, error } = await supabase
-  //     .from("user_details")
-  //     .select("first_name")
-  //     setUsers(data)
-  //   console.log(users)
-
-  // }
-  // if (users.length ===0)
-  // return(null)
-
-  // function handleChange(e){
-  //   setTopic(prevFormData =>{
-  //     return{
-  //       ...prevFormData,
-  //       [e.target.topic]:e.target.value
-  //     }
-  //   })
-
-  // }
   const [User_id, setUser_id] = useState("");
 
   useEffect(() => {
