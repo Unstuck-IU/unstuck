@@ -79,94 +79,92 @@ const Profile = () => {
   }, []);
 
   return (
-    <div>
-      <Box
-        gridColumn="span 12"
-        justifyContent="space-between"
-        marginLeft="10px"
-        marginRight="10px"
-        alignItems="center">
-        <Header
-          title="Profile"
-          subtitle="Welcome to your Unstuck Profile"
-        />
-        {userDetails && (
-          <Box sx={{ flexGrow: 1, m: 4, textAlign: "center" }}>
-            <Grid>
-              <Grid
-                item
-                xs={6}
-                md={8}>
-                <Item>
-                  <Container>
-                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                      <AccountCircleIcon />
-                    </Avatar>
-
-                    <Typography variant="h4">
-                      {userDetails.first_name} {userDetails.last_name}
-                    </Typography>
-                    <Typography variant="h5">
-                      <div className="user-details">{userDetails.display_name}</div>
-                    </Typography>
-                  </Container>
-                  <Container>
-                    <UpdateProfileForm
-                      firstName={firstName}
-                      setFirstName={setFirstName}
-                      lastName={lastName}
-                      setLastName={setLastName}
-                      displayName={displayName}
-                      setDisplayName={setDisplayName}
-                    />
-                  </Container>
-                </Item>
-              </Grid>
-            </Grid>
-          </Box>
-        )}
-
-        <Box sx={{ flexGrow: 1, m: 4, justifyContent: "Center" }}>
-          <Grid
-            container
-            spacing={2}>
+    <Box
+      gridColumn="span 12"
+      justifyContent="space-between"
+      marginLeft="10px"
+      marginRight="10px"
+      alignItems="center">
+      <Header
+        title="Profile"
+        subtitle="Welcome to your Unstuck Profile"
+      />
+      {userDetails && (
+        <Box sx={{ flexGrow: 1, m: 4, textAlign: "center" }}>
+          <Grid>
             <Grid
               item
               xs={6}
               md={8}>
               <Item>
                 <Container>
-                  <Typography variant="h4">Placeholder</Typography>
-                  <ul>
-                    Placeholder
-                    <li>Placeholder 1</li>
-                    <li>Placeholder 2</li>
-                    <li>Placeholder 3</li>
-                  </ul>
-                </Container>
-              </Item>
-            </Grid>
+                  <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    <AccountCircleIcon />
+                  </Avatar>
 
-            <Grid
-              item
-              xs={6}
-              md={4}>
-              <Item>
+                  <Typography variant="h4">
+                    {userDetails.first_name} {userDetails.last_name}
+                  </Typography>
+                  <Typography variant="h5">
+                    <div className="user-details">{userDetails.display_name}</div>
+                  </Typography>
+                </Container>
                 <Container>
-                  <Typography variant="h4">Badges</Typography>
-                  <ul>
-                    Placeholder
-                    <li>Badge 1</li>
-                    <li>Badge 2</li>
-                    <li>Badge 3</li>
-                  </ul>
+                  <UpdateProfileForm
+                    firstName={firstName}
+                    setFirstName={setFirstName}
+                    lastName={lastName}
+                    setLastName={setLastName}
+                    displayName={displayName}
+                    setDisplayName={setDisplayName}
+                  />
                 </Container>
               </Item>
             </Grid>
           </Grid>
         </Box>
+      )}
+
+      <Box sx={{ flexGrow: 1, m: 4, justifyContent: "Center" }}>
+        <Grid
+          container
+          spacing={2}>
+          <Grid
+            item
+            xs={6}
+            md={8}>
+            <Item>
+              <Container>
+                <Typography variant="h4">Placeholder</Typography>
+                <ul>
+                  Placeholder
+                  <li>Placeholder 1</li>
+                  <li>Placeholder 2</li>
+                  <li>Placeholder 3</li>
+                </ul>
+              </Container>
+            </Item>
+          </Grid>
+
+          <Grid
+            item
+            xs={6}
+            md={4}>
+            <Item>
+              <Container>
+                <Typography variant="h4">Badges</Typography>
+                <ul>
+                  Placeholder
+                  <li>Badge 1</li>
+                  <li>Badge 2</li>
+                  <li>Badge 3</li>
+                </ul>
+              </Container>
+            </Item>
+          </Grid>
+        </Grid>
       </Box>
-    </div>
+    </Box>
   );
 };
 

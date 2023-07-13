@@ -21,7 +21,7 @@ const AuthProvider = (props) => {
   const [alertMessage, setAlertMessage] = useState(null);
   const [user, setUser] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,6 @@ const AuthProvider = (props) => {
       console.log(`Supabase auth event: ${event}`);
       setUserSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
     });
     return () => {
       authListener.subscription.unsubscribe();
@@ -66,7 +65,6 @@ const AuthProvider = (props) => {
             .select();
         }
       }
-      setLoading(false);
     };
     fetchUserDetails();
   }, [user]);
@@ -94,7 +92,6 @@ const AuthProvider = (props) => {
 
   async function signInPassword(email, password) {
     setLoading(true);
-
     try {
       let { data, error } = await supabase.auth.signInWithPassword(email, password);
       if (data.user) {
@@ -102,20 +99,24 @@ const AuthProvider = (props) => {
         console.log("Logged in,", data.user);
         setSubmitError(false);
         setAlertMessage("Successfully signed in!");
+        setLoading(false);
       }
       if (error) {
         console.log("Login failed, try a different email and password combo.");
         setSubmitError(true);
         setAlertMessage("Login failed, please try a different email and password, or sign up for an account.");
         return error;
+        setLoading(false);
       }
       setLoading(false);
     } catch (ex) {
       console.log("Auth failed", ex.message);
+      setLoading(false);
     }
   }
 
   const signUp = async (emailField, passwordField) => {
+    setLoading(true);
     try {
       console.log("we called signUp successfully");
       let { data, error } = await supabase.auth.signUp({ email: emailField, password: passwordField, redirectTo: "/signin" });
@@ -132,6 +133,7 @@ const AuthProvider = (props) => {
     } catch (ex) {
       console.log("Auth failed", ex.message);
     }
+    setLoading(false);
   };
 
   const logOut = async () => {
@@ -142,15 +144,8 @@ const AuthProvider = (props) => {
     // router.push("/");
   };
 
-  // useEffect(() => {
-  //   const unsub = onAuthStateChanged(auth, (user) => {
-  //     console.log("onAuthStateChanged() - new User!!", user);
-  //     setUser(user);
-  //   });
-  //   return unsub; // to shut down onAuthStateChanged listener
-  // }, [auth]);
-
   const userLocal = async () => {
+    setLoading(true);
     try {
       const sessionDataKey = localStorage.key(1);
       const sessionData = localStorage.getItem(sessionDataKey); //get user data from local storage (if available)
@@ -167,9 +162,11 @@ const AuthProvider = (props) => {
     } catch (ex) {
       console.log("Failure during retrieval of local user information", ex.message);
     }
+    setLoading(false);
   };
 
   const storeLocally = async (someStr) => {
+    setLoading(true);
     try {
       localStorage.setItem("resText", someStr);
       const resText = localStorage.getItem("resText");
@@ -181,10 +178,12 @@ const AuthProvider = (props) => {
     } catch (ex) {
       console.log("Something went wrong while trying to place an item in local storage:", ex.message);
     }
+    setLoading(false);
   };
 
   // This is just a helper to check what's currently stored in local storage.
   const getLocalStorage = async () => {
+    setLoading(true);
     try {
       const items = { ...localStorage };
       if (!items) {
@@ -195,10 +194,12 @@ const AuthProvider = (props) => {
     } catch (ex) {
       console.log("getLocalStorage error:", ex.message);
     }
+    setLoading(false);
   };
 
   // This returns the user from the current session. If this session contains an expired token, it refreshes the token to get a new session
   const userSupaSession = async () => {
+    setLoading(true);
     try {
       const userData = await supabase.auth.getSession();
       //.then(console.log("This is data.session.user data:", { data: { user } }))
@@ -212,9 +213,11 @@ const AuthProvider = (props) => {
     } catch (ex) {
       console.log("Failed to get a user session back", ex);
     }
+    setLoading(false);
   };
 
   const userSupa = async () => {
+    setLoading(true);
     const {
       data: { user },
       error,
@@ -227,24 +230,13 @@ const AuthProvider = (props) => {
       console.log("Error getting supabase User data", error);
       setAlertMessage("Error getting supabase User data. Are you signed in?");
     }
+    setLoading(false);
   };
 
   // const signInMagic = supabase.auth.signInWithOtp;
   // const signInSSO = supabase.auth.signInWithSSO;
   // const signInToken = supabase.auth.signInWithIdToken;
   // const signInOAuth = supabase.auth.signInWithOAuth;
-
-  // const [session, setSession] = useState(null);
-
-  // useEffect(() => {
-  //   supabase.auth.getSession().then(({ data: { session } }) => {
-  //     setSession(session);
-  //   });
-
-  //   supabase.auth.onAuthStateChange((_event, session) => {
-  //     setSession(session);
-  //   });
-  // }, []);
 
   const values = {
     user,
