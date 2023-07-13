@@ -20,14 +20,13 @@ const Topbar = ({ title, subtitle }) => {
     <Box
       display="flex"
       justifyContent="space-between"
-      p={2}
-      >
-        <Box 
+      p={2}>
+      <Box
         display="flex"
         gridColumn="span 12"
         justifyContent="space-between"
-        marginLeft="10px"
-        marginRight="10px"
+        marginLeft="5px"
+        marginRight="5px"
         alignItems="center"
         height="200px"
         sx={{
@@ -38,8 +37,8 @@ const Topbar = ({ title, subtitle }) => {
           height: "100%",
           width: "100%",
         }}>
-      {/* SEARCH BAR */}
-      {/* <Box
+        {/* SEARCH BAR */}
+        {/* <Box
         display="flex"
         backgroundColor={colors.primary[400]}
         borderRadius="3px">
@@ -53,11 +52,11 @@ const Topbar = ({ title, subtitle }) => {
           <SearchIcon />
         </IconButton>
       </Box> */}
-      <Header
-        title={title}
-        subtitle={subtitle}
-      />
-      {/* <Box display="flex" mb="30px"
+        <Header
+          title={title}
+          subtitle={subtitle}
+        />
+        {/* <Box display="flex" mb="30px"
     height="100px">
       <Typography
         variant="h2"
@@ -73,24 +72,26 @@ const Topbar = ({ title, subtitle }) => {
       </Typography>
     </Box> */}
 
-      {/* ICONS */}
-      <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
-        </IconButton>
-        {/* <IconButton>
+        {/* ICONS */}
+        <Box display="flex">
+          <IconButton
+            sx={{ color: colors.primary[150] }}
+            onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+          </IconButton>
+          {/* <IconButton>
           <NotificationsOutlinedIcon />
         </IconButton> */}
-        {/* <IconButton>
+          {/* <IconButton>
           <SettingsOutlinedIcon />
         </IconButton> */}
-        <IconButton
-          component={Link}
-          to="/profile">
-          <PersonOutlinedIcon />
-        </IconButton>
+          <IconButton
+            component={Link}
+            to="/profile">
+            <PersonOutlinedIcon sx={{ color: colors.primary[150] }} />
+          </IconButton>
+        </Box>
       </Box>
-    </Box>
     </Box>
   );
 };

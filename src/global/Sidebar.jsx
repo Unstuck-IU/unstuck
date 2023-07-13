@@ -55,7 +55,7 @@ const Sidebar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background: `${colors.primary[150]} !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -127,7 +127,7 @@ const Sidebar = () => {
                 </Typography>
                 <Typography
                   variant="h5"
-                  color={colors.greenAccent[500]}>
+                  color={colors.primary[450]}>
                   {/* {data[0].user_type} */}
                   {userDetails ? userDetails.display_name : ""}
                 </Typography>

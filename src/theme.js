@@ -17,7 +17,8 @@ export const tokens = (mode) => ({
           900: "#141414",
         },
         primary: {
-          100: "#d0d1d5",
+          // 100: "#d0d1d5",
+          100: "#f2e3db",
           200: "#a1a4ab",
           300: "#727681",
           400: "#1F2A40",
@@ -26,6 +27,10 @@ export const tokens = (mode) => ({
           700: "#0c101b",
           800: "#080b12",
           900: "#040509",
+          150: "#f2e3db", //greens palette
+          250: "#41644a",
+          350: "#263a29",
+          450: "#e86a33",
         },
         greenAccent: {
           100: "#dbf5ee",
@@ -60,6 +65,17 @@ export const tokens = (mode) => ({
           800: "#2a2d64",
           900: "#151632",
         },
+        yellowAccent: {
+          100: "#f5f2c1",
+          200: "#f5f3ab",
+          300: "#f5f093",
+          400: "#f5f17a",
+          500: "#f5f062",
+          600: "#f5ef49",
+          700: "#f5f031",
+          800: "#f5f118",
+          900: "#f5f100",
+        },
       }
     : {
         grey: {
@@ -83,6 +99,11 @@ export const tokens = (mode) => ({
           700: "#727681",
           800: "#a1a4ab",
           900: "#d0d1d5",
+          950: "#f2e3db",
+          150: "#f2e3db", //greens palette
+          250: "#41644A",
+          350: "#263A29",
+          450: "#E86A33",
         },
         greenAccent: {
           100: "#0f2922",
@@ -117,6 +138,17 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
+        yellowAccent: {
+          100: "#f5f2c1",
+          200: "#f5f3ab",
+          300: "#f5f093",
+          400: "#f5f17a",
+          500: "#f5f062",
+          600: "#f5ef49",
+          700: "#f5f031",
+          800: "#f5f118",
+          900: "#f5f100",
+        },
       }),
 });
 
@@ -133,8 +165,10 @@ export const themeSettings = (mode) => {
               main: colors.primary[300],
             },
             secondary: {
+              // main: colors.greenAccent[600],
               main: colors.greenAccent[600],
             },
+            // },
             neutral: {
               dark: colors.grey[700],
               main: colors.grey[500],
@@ -150,7 +184,8 @@ export const themeSettings = (mode) => {
               main: colors.primary[100],
             },
             secondary: {
-              main: colors.greenAccent[300],
+              // main: colors.greenAccent[600],
+              main: colors.primary[450],
             },
             neutral: {
               dark: colors.grey[700],
@@ -183,7 +218,7 @@ export const themeSettings = (mode) => {
       },
       h5: {
         fontFamily: ["Urbanist", "sans-serif"].join(","),
-        fontSize: 16,
+        fontSize: 18,
       },
       h6: {
         fontFamily: ["Urbanist", "sans-serif"].join(","),

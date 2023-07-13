@@ -43,45 +43,8 @@ const Profile = ({ handlePageTitle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  
   useEffect(() => {
     handlePageTitle("Profile", "Welcome to your profile");
-  }, []);
-
-  // fetching the currently logged in user_details, and update them if the userId changes(like a new user signs in)
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const userId = await userLocal();
-      console.log(userId);
-      if (userId) {
-        const { data, error } = await supabase.from("user_details").select("*").eq("id", userId).single();
-        if (!data || data.length === 0) {
-          // const { data, error } = await supabase.from("user_details").insert({ id: userId, user_type: "student" }).select();
-          console.log("there is no data to use", error);
-        }
-        if (error) {
-          setFetchError("Could not fetch the user details");
-          setUserDetails(null);
-          console.log("data: ", data);
-          console.log("error: ", error);
-        }
-        if (data) {
-          if (data.first_name != null && data.last_name != null && data.display_name != null) {
-            console.log("is this RUNNING?");
-            const { data, error } = await supabase
-              .from("user_details")
-              .update({ completed_signup: true })
-              .eq("id", userId)
-              .select();
-          }
-          setUserDetails(data);
-          setFetchError(null);
-          console.log("fetched user profile details of logged in user: ", data);
-        }
-      }
-    };
-
-    fetchUserDetails();
   }, []);
 
   return (
@@ -106,104 +69,105 @@ const Profile = ({ handlePageTitle }) => {
           subtitle="Welcome to your Unstuck Profile"
         />
       </Box> */}
+
       <Box
         gridColumn="span 12"
         justifyContent="space-between"
-        marginLeft="10px"
-        marginRight="10px"
+        marginLeft="20px"
+        marginRight="20px"
         alignItems="center">
         {userDetails && (
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            p={2}>
+          <Paper>
             <Box
               display="flex"
-              alignItems="center"
-              borderRadius="3px">
-              {/* <Item> */}
-              {/* <Container> */}
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <AccountCircleIcon />
-              </Avatar>
+              justifyContent="space-between"
+              // backgroundColor="#E86A33"
+              p={1}>
               <Box
                 display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
-                p={2}
-                borderRadius="3px"
-                rowGap="10px">
-                <Typography variant="h4">
-                  {userDetails.first_name} {userDetails.last_name}
-                </Typography>
+                alignItems="center"
+                borderRadius="3px">
+                {/* <Item> */}
+                {/* <Container> */}
+                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                  <AccountCircleIcon />
+                </Avatar>
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  p={2}
+                  borderRadius="3px"
+                  rowGap="10px">
+                  <Typography variant="h4">
+                    {userDetails.first_name} {userDetails.last_name}
+                  </Typography>
 
-                <Typography variant="h5">
-                  <div className="user-details">{userDetails.display_name}</div>
-                </Typography>
+                  <Typography variant="h5">
+                    <div className="user-details">{userDetails.display_name}</div>
+                  </Typography>
+                </Box>
+              </Box>
+              <Box display="flex">
+                <UpdateProfileForm
+                  firstName={firstName}
+                  setFirstName={setFirstName}
+                  lastName={lastName}
+                  setLastName={setLastName}
+                  displayName={displayName}
+                  setDisplayName={setDisplayName}
+                />
               </Box>
             </Box>
-
-            <Box display="flex">
-              <UpdateProfileForm
-                firstName={firstName}
-                setFirstName={setFirstName}
-                lastName={lastName}
-                setLastName={setLastName}
-                displayName={displayName}
-                setDisplayName={setDisplayName}
-              />
-            </Box>
-          </Box>
+          </Paper>
         )}
 
-        <Box sx={{ flexGrow: 1, m: 4, justifyContent: "Center" }}>
-          {/* <Grid         container
-            spacing={2}> */}
-          {/* <Grid
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          // backgroundColor="#41644A"
+          p={0}>
+          <Grid
             container
             spacing={1}
             justifyContent="center"
-            marginLeft={1}>
+            // marginLeft={-2}
+            marginTop={2}>
             <Grid
               item
               xs={12}
               sm={12}
               md={6}
-              direction="row"
               maxWidth="400"
               justifyContent="space-evenly"
-              alignContent="center"> */}
-          {/* <Item> */}
-          <Box display="flex">
-            <Typography variant="h4">My Stucks and Unstucks</Typography>
-            <ul>
-              Placeholder
-              <li>Placeholder 1</li>
-              <li>Placeholder 2</li>
-              <li>Placeholder 3</li>
-            </ul>
-          </Box>
-          {/* </Item>
-            </Grid> */}
+              alignContent="center">
+              <Item>
+                <Typography variant="h4">My Stucks and Unstucks</Typography>
+                <ul>
+                  Placeholder
+                  <li>Placeholder 1</li>
+                  <li>Placeholder 2</li>
+                  <li>Placeholder 3</li>
+                </ul>
+              </Item>
+            </Grid>
 
-          {/* <Grid
+            <Grid
               item
               xs={12}
               sm={12}
               md={6}>
-              <Item> */}
-          <Box>
-            <Typography variant="h4">Badges</Typography>
-            <ul>
-              Placeholder
-              <li>Badge 1</li>
-              <li>Badge 2</li>
-              <li>Badge 3</li>
-            </ul>
-          </Box>
-          {/* </Item>
+              <Item>
+                <Typography variant="h4">Badges</Typography>
+                <ul>
+                  Placeholder
+                  <li>Badge 1</li>
+                  <li>Badge 2</li>
+                  <li>Badge 3</li>
+                </ul>
+              </Item>
             </Grid>
-          </Grid> */}
+          </Grid>
         </Box>
       </Box>
     </div>
