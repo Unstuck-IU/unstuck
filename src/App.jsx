@@ -23,7 +23,7 @@ import { useAuth } from "./Providers/AuthProvider";
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-  const { userSession, loading } = useAuth();
+  const { userSession, loading, userDetails} = useAuth();
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -42,8 +42,12 @@ function App() {
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/sherpa-dashboard" element={<SherpaDashboard />} />
-                  <Route path="/student-dashboard" element={<StudentDashboard />} />
+                  {userDetails?.user_type === "sherpa" && (
+                    <Route path="/sherpa-dashboard" element={<SherpaDashboard />} />
+                    )}
+                  {userDetails?.user_type === "student" && (
+                    <Route path="/student-dashboard" element={<StudentDashboard />} />
+                    )}
                   <Route path="/*" element={<ErrorPage />} />
                 </Routes>
               ) : (!loading ? (

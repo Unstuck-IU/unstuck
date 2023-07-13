@@ -45,7 +45,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
 };
 
 const Sidebar = () => {
-  const { userDetails, setUserDetails, user, userLocal } = useAuth();
+  const { userDetails, userSession, setUserDetails, user, userLocal } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -86,14 +86,17 @@ const Sidebar = () => {
                 justifyContent="space-between"
                 alignItems="center"
                 ml="15px">
-                <Box alignItems="baseline">
-                  <TerrainIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-                  <Typography
-                    variant="h3"
-                    color={colors.grey[100]}>
-                    <TerrainIcon sx={{ mr: 1 }} />
-                    Unstuck
-                  </Typography>
+                <Box>
+                  <Box
+                    display="flex"
+                    alignItems="end">
+                    <TerrainIcon sx={{ mb: "-2px", fontSize: 30, mr: "5px" }} />
+                    <Typography
+                      variant="h3"
+                      color={colors.grey[100]}>
+                      Unstuck
+                    </Typography>
+                  </Box>
                 </Box>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -163,34 +166,42 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}>
-              Pages
-            </Typography>
-            <Item
-              title="Profile"
-              to="/profile"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Student Dashboard"
-              to="/student-dashboard"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {userSession != null && (
+              <>
+                <Typography
+                  variant="h6"
+                  color={colors.grey[300]}
+                  sx={{ m: "15px 0 5px 20px" }}>
+                  Pages
+                </Typography>
+                <Item
+                  title="Profile"
+                  to="/profile"
+                  icon={<PersonOutlinedIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+                {userDetails?.user_type === "student" && (
+                  <Item
+                    title="Student Dashboard"
+                    to="/student-dashboard"
+                    icon={<HomeOutlinedIcon />}
+                    selected={selected}
+                    setSelected={setSelected}
+                  />
+                )}
 
-            <Item
-              title="Sherpa Dashboard"
-              to="/sherpa-dashboard"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+                {userDetails?.user_type === "sherpa" && (
+                  <Item
+                    title="Sherpa Dashboard"
+                    to="/sherpa-dashboard"
+                    icon={<HomeOutlinedIcon />}
+                    selected={selected}
+                    setSelected={setSelected}
+                  />
+                )}
+              </>
+            )}
             {/* <Item
               title="Calendar"
               to="/calendar"
@@ -246,13 +257,17 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <MenuItem
-              icon={<LogoutIcon />}
-              onClick={useAuth().logOut}>
-              {" "}
-              <Typography>Signout</Typography>
-              <Link to="/" />
-            </MenuItem>
+            {userSession != null && (
+              <>
+                <MenuItem
+                  icon={<LogoutIcon />}
+                  onClick={useAuth().logOut}>
+                  {" "}
+                  <Typography>Signout</Typography>
+                  <Link to="/" />
+                </MenuItem>
+              </>
+            )}
           </Box>
         </Menu>
       </ProSidebar>
