@@ -23,7 +23,7 @@ import { useAuth } from "./Providers/AuthProvider";
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-  const { userSession } = useAuth();
+  const { userSession, loading } = useAuth();
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
 
