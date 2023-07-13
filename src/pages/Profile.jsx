@@ -122,26 +122,6 @@ const Profile = ({ handlePageTitle }) => {
           </Paper>
         )}
 
-      <Box sx={{ flexGrow: 1, m: 4, justifyContent: "Center" }}>
-        <Grid
-          container
-          spacing={2}>
-          <Grid
-            item
-            xs={6}
-            md={8}>
-            <Item>
-              <Container>
-                <Typography variant="h4">Placeholder</Typography>
-                <ul>
-                  Placeholder
-                  <li>Placeholder 1</li>
-                  <li>Placeholder 2</li>
-                  <li>Placeholder 3</li>
-                </ul>
-              </Container>
-            </Item>
-          </Grid>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -151,8 +131,8 @@ const Profile = ({ handlePageTitle }) => {
             container
             spacing={1}
             justifyContent="center"
-            // marginLeft={-2}
-            marginTop={2}>
+       
+           marginTop={2}>
             <Grid
               item
               xs={12}
@@ -170,27 +150,9 @@ const Profile = ({ handlePageTitle }) => {
                   <li>Placeholder 3</li>
                 </ul>
               </Item>
-            </Grid>
-
-          <Grid
-            item
-            xs={6}
-            md={4}>
-            <Item>
-              <Container>
-                <Typography variant="h4">Badges</Typography>
-                <ul>
-                  Placeholder
-                  <li>Badge 1</li>
-                  <li>Badge 2</li>
-                  <li>Badge 3</li>
-                </ul>
-              </Container>
-            </Item>
-          </Grid>
-        </Grid>
-      </Box>
-    </Box>
+              </Grid>
+            
+            
             <Grid
               item
               xs={12}
@@ -205,9 +167,9 @@ const Profile = ({ handlePageTitle }) => {
                   <li>Badge 3</li>
                 </ul>
               </Item>
+            </Grid> 
             </Grid>
-          </Grid>
-        </Box>
+       </Box>
       </Box>
     </div>
   );
