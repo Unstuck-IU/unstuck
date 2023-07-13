@@ -9,7 +9,7 @@ import { tokens } from "../theme";
 import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions } from "@mui/material";
 //components
 import ProgressStepper from "../Components/ProgressStepper";
-import TopicHeader from "../components/TopicHeader";
+
 import Header from "../components/Header";
 import LineChart from "../components/LineChart";
 // import GeographyChart from "../../components/GeographyChart";
@@ -24,9 +24,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import LoadingSpinner from "../components/LoadingSpinner";
-import JoinTopicDialog from "../components/JoinTopicDialog";
-import StuckCard from "../components/stuckCard";
-import AddStuckDialog from "../components/AddStuckDialog";
+
+// import StuckCard from "../components/stuckCard";
+
 
 const StudentDashboard = () => {
   const theme = useTheme();
@@ -35,10 +35,8 @@ const StudentDashboard = () => {
   const [topic, setTopic] = useState("");
   const [joinCode, setJoinCode] = useState(null);
   const [stucks, setStucks] = useState([]);
-  const [activeStep, setActiveStep] = useState(1);
-  const [message, setMessage] = useState("");
-  const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (userDetails) {
@@ -172,6 +170,7 @@ const StudentDashboard = () => {
     }
   };
 
+  
   if (loading)
     return (
       <Box
@@ -201,62 +200,19 @@ const StudentDashboard = () => {
           subtitle="Welcome to your Unstuck Profile!"
         />
 
-        <Box
-          display="flex"
-          justifyContent="end"
-          alignItems="center">
-          {isAlertShowing && (
-            <Alert
-              sx={{ mr: "10px" }}
-              severity={alertSeverity}
-              onClose={() => {
-                setIsAlertShowing(false);
-              }}>
-              {message}
-            </Alert>
-          )}
-          <JoinTopicDialog handleJoinTopic={handleJoinTopic} />
-        </Box>
       </Box>
       <ProgressStepper
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
+        // activeStep={activeStep}
+        // setActiveStep={setActiveStep}
+        handleJoinTopic={handleJoinTopic}
+        joinCode={joinCode}
+        topic={topic}
+        isAlertShowing={isAlertShowing}
+        setIsAlertShowing={setIsAlertShowing}
+        stucks={stucks}
+        setStucks={setStucks}
       />
-      {/* {fetchError && <p>{fetchError}</p>} */}
-      {activeStep <= 1 && (
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="end">
-          <TopicHeader
-            joinCode={joinCode}
-            userDetails={userDetails}
-            topic={topic}
-          />
-          <AddStuckDialog topic={topic} />
-        </Box>
-      )}
-      {/* Form for odding new Unstuck to the Topic */}
-      {activeStep <= 1 && (
-        // <StepOne/>
-        <Box
-          display="flex"
-          flexWrap="wrap"
-          alignItems="center"
-          mt="2rem">
-          {/* display all submitted stucks here */}
-          {stucks?.map((stuck, index) => (
-            <StuckCard
-              key={stuck.id}
-              stuck={stuck}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-              index={index}
-            />
-          ))}
-        </Box>
-      )}
+
       {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography
