@@ -83,7 +83,7 @@ const Profile = ({ handlePageTitle }) => {
               justifyContent="space-between"
               // backgroundColor="#E86A33"
               p={1}
-              sx={{ background: theme.palette.mode === "dark" ? colors.grey[800] : colors.primary[900] }}>
+              sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[800] : colors.primary[900] }}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -122,7 +122,9 @@ const Profile = ({ handlePageTitle }) => {
             </Box>
           </Paper>
         )}
-        <Paper></Paper>
+
+        {/* sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }} */}
+
         <Box
           display="flex"
           justifyContent="space-between"
@@ -140,8 +142,13 @@ const Profile = ({ handlePageTitle }) => {
               md={6}
               maxWidth="400"
               justifyContent="space-evenly"
-              alignContent="center">
-              <Item>
+              alignContent="center"
+              // style={{
+              //   color: `${colors.primary[200]}`, //Changes the menu items text colours
+              // }}
+            >
+              <Item
+              sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[800] : colors.primary[900] }}>
                 <Typography
                   variant="h4"
                   color="white"

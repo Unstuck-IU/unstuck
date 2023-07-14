@@ -64,17 +64,16 @@ export const tokens = (mode) => ({
           900: "#2c100f",
         },
         blueAccent: {
-          50: "#e7fffc",
           100: "#c3fff8",
           200: "#8ffff3",
           300: "#42ffea",
           400: "#00ffe9",
           500: "#00f7ff",
           600: "#00c4dd",
-          700: "#009ab1",
+          700: "#007a8d",
           800: "#025464", //Colour from palette
           900: "#012930",
-         
+
           // 100: "#e1e2fe",
           // 200: "#c3c6fd",
           // 300: "#a4a9fc",
@@ -131,7 +130,7 @@ export const tokens = (mode) => ({
         },
         whiteOnly: {
           100: "#000000",
-        }
+        },
       }
     : {
         grey: {
@@ -194,9 +193,9 @@ export const tokens = (mode) => ({
           900: "#f8dcdb",
         },
         blueAccent: {
-          100: "#025464", //Colour from palette
-          200: "#007a8d",
-          300: "#009ab1",
+          100: "#012930",
+          200: "#025464", //Colour from palette
+          300: "#007a8d",
           400: "#00c4dd",
           500: "#00f7ff",
           600: "#00ffe9",
@@ -258,7 +257,7 @@ export const tokens = (mode) => ({
         },
         whiteOnly: {
           100: "#000000",
-        }
+        },
       }),
 });
 

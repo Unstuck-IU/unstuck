@@ -116,7 +116,7 @@ const UpdateProfileForm = (props) => {
           borderStyle="solid"
           sx={{
             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
-            borderColor: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100]
+            borderColor: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
           }}>
           Update Profile
         </Button>

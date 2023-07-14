@@ -29,7 +29,7 @@ import JoinTopicDialog from "../components/JoinTopicDialog";
 import StuckCard from "../components/stuckCard";
 import AddStuckDialog from "../components/AddStuckDialog";
 
-const StudentDashboard = ({handlePageTitle}) => {
+const StudentDashboard = ({ handlePageTitle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
@@ -42,12 +42,11 @@ const StudentDashboard = ({handlePageTitle}) => {
   const [isAlertShowing, setIsAlertShowing] = useState(false);
 
   useEffect(() => {
-  if (userDetails) {
-    handlePageTitle("Student Dashboard", userDetails.display_name);
-  }
-}, []
-  )
-    const [firstTime, setFirstTime] = useState(false);
+    if (userDetails) {
+      handlePageTitle("Student Dashboard", userDetails.display_name);
+    }
+  }, []);
+  const [firstTime, setFirstTime] = useState(false);
 
   useEffect(() => {
     if (!loading && userDetails != null) {
@@ -208,7 +207,7 @@ const StudentDashboard = ({handlePageTitle}) => {
         alignContent="center">
         <Header
           title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
-          subtitle="Welcome to your Unstuck Profile!"
+          subtitle="Welcome to your Unstuck Dashboard!"
         />
         <TopicHeader
           joinCode={joinCode}

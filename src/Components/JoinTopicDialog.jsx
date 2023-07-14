@@ -34,14 +34,14 @@ export default function JoinTopicDialog({ ...props }) {
       {props.firstTime ? (
         <Button
           sx={{
-            // backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
-            backgroundColor: colors.greenAccent[700],
+            backgroundColor: colors.blueAccent[700],
+            color: colors.black[100],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
           }}
           variant="outlined"
+          borderStyle="solid"
           onClick={handleClickOpen}>
           <AddCircleOutlineIcon sx={{ mr: "10px" }} />
           Join Topic
@@ -49,7 +49,7 @@ export default function JoinTopicDialog({ ...props }) {
       ) : (
         <Button
           sx={{
-            // backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.blueAccent[700],
             color: colors.grey[100],
             fontSize: "14px",
             fontWeight: "bold",
