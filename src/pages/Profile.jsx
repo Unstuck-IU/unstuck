@@ -83,7 +83,7 @@ const Profile = ({ handlePageTitle }) => {
               justifyContent="space-between"
               // backgroundColor="#E86A33"
               p={1}
-              sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[800] : colors.primary[900] }}>
+              sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -148,7 +148,7 @@ const Profile = ({ handlePageTitle }) => {
               // }}
             >
               <Item
-              sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[800] : colors.primary[900] }}>
+              sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[950] : colors.primary[900] }}>
                 <Typography
                   variant="h4"
                   color="white"

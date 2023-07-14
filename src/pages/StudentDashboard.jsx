@@ -29,7 +29,6 @@ import TopicHeader from "../components/TopicHeader";
 
 // import StuckCard from "../components/stuckCard";
 
-
 const StudentDashboard = ({ handlePageTitle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -49,7 +48,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
       const fetchLastTopicId = async () => {
         let { data: lastTopicId, error: lastTopicIdError } = await supabase
           .from("topic")
-          .select("*, user_details!inner(last_topic_id_viewed, id, first_name, last_name)")
+          .select("*, user_details!user_topic!inner(last_topic_id_viewed, id, first_name, last_name)")
           .eq("id", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
           .single();
         if (lastTopicId) {
@@ -176,28 +175,24 @@ const StudentDashboard = ({ handlePageTitle }) => {
     }
   };
 
-
-  // Update all instances to handleSexiFormUpload or some variant for clarity? 
+  // Update all instances to handleSexiFormUpload or some variant for clarity?
   const handleUpload = async (formValues) => {
     const { data, error } = await supabase
-      .from('stuck')
+      .from("stuck")
       .update({
         statement_text: formValues.statement,
         expand_text: formValues.expand,
         example_text: formValues.example,
-        illustration_text: formValues.illustrate
+        illustration_text: formValues.illustrate,
       })
-      .eq("user_topic_id", 36) // Todo: ? Add join with user_topic on topic id and return? 
+      .eq("user_topic_id", 36) // Todo: ? Add join with user_topic on topic id and return?
       .eq("id", 27); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
     if (error) {
-
-      console.log("Error received while updating Stuck table entries. \n", error)
-
-
+      console.log("Error received while updating Stuck table entries. \n", error);
     }
 
-    console.log("handleUpload Student Dashboard Data", data)
-  }
+    console.log("handleUpload Student Dashboard Data", data);
+  };
 
   if (loading)
     return (
@@ -217,24 +212,39 @@ const StudentDashboard = ({ handlePageTitle }) => {
       m="20px"
       display="flex"
       flexDirection="column"
-      justifyContent="end">
+      justifyContent="end"
+      gridColumn="span 12"
+        // marginLeft="20px"
+        // marginRight="20px"
+        alignItems="center"
+        >
       {/* HEADER */}
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        alignContent="center">
+        alignContent="center"
+        sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
         <Header
           title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
           subtitle="Welcome to your Unstuck Dashboard!"
         />
+        
         <TopicHeader
           joinCode={joinCode}
           userDetails={userDetails}
           topic={topic}
         />
-
       </Box>
+      <Box
+      m="20px"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      p={2}
+      borderRadius="3px"
+      rowGap="10px"
+      sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
       <ProgressStepper
         // activeStep={activeStep}
         // setActiveStep={setActiveStep}
@@ -247,7 +257,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
         setStucks={setStucks}
         handleUpload={handleUpload}
       />
-
+</Box>
       {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography

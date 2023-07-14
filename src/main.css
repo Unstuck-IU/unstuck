@@ -40,10 +40,10 @@ body,
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #025464;
+  background: #d8d1d1;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #025464;
+  background: #d8d1d1;
 }

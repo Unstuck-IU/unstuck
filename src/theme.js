@@ -73,6 +73,7 @@ export const tokens = (mode) => ({
           700: "#007a8d",
           800: "#025464", //Colour from palette
           900: "#012930",
+          950: "#004353",
 
           // 100: "#e1e2fe",
           // 200: "#c3c6fd",
@@ -193,6 +194,7 @@ export const tokens = (mode) => ({
           900: "#f8dcdb",
         },
         blueAccent: {
+          50: "#004353",
           100: "#012930",
           200: "#025464", //Colour from palette
           300: "#007a8d",
@@ -284,7 +286,7 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.blueAccent[900],
+              default: colors.black[800],
             },
           }
         : {
