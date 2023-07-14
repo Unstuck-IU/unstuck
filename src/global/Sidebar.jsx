@@ -34,7 +34,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
     <MenuItem
       active={selected === title}
       style={{
-        color: `${colors.primary[100]}`,
+        color: `${colors.primary[100]}`, //Changes the menu items text colours
       }}
       onClick={() => setSelected(title)}
       icon={icon}>
