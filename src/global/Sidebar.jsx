@@ -121,14 +121,13 @@ const Sidebar = () => {
                   variant="h2"
                   // color={colors.black[950]}
                   fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}>
+                  sx={({ m: "10px 0 0 0" }, { color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] })}>
                   {userDetails ? userDetails.first_name : ""}
                   {/* {data[0].first_name} */}
                 </Typography>
                 <Typography
                   variant="h5"
-                  // color={colors.black[950]}
-                >
+                  sx={({ m: "10px 0 0 0" }, { color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] })}>
                   {/* {data[0].user_type} */}
                   {userDetails ? userDetails.display_name : ""}
                 </Typography>
