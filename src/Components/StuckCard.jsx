@@ -29,7 +29,7 @@ export default function StuckCard({ stuck, activeStep }) {
       }}
       key={stuck.id}
 
-    // onClick={handleRouteStuckDetailPage}
+      // onClick={handleRouteStuckDetailPage}
     >
       <div>
         <Typography

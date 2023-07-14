@@ -208,7 +208,7 @@ export function StatementForm(props) {
                 {/* ILLUSTRATE FORM SECTION */}
                 <FormGroup sx={{ display: props.activeStep === 5 ? "" : "none" }}>
                   <Typography variant="h4">Create an Illustration of Your Problem:</Typography>
-                  {/* <Typography variant="p"> Illustration usually implies creating a drawing, but here it means to create a mental image or demonstrate with an analogy. If you prefer pictures, feel free to add a picture! </Typography> */}
+                  {/* <Typography variant="p"> Illustration usually implies creating a drawing, but here it means to create a mental image or demonstrate with an analogy.\n If you prefer pictures, feel free to add a picture! </Typography> */}
                   <Grid
                     container
                     spacing={1}>
