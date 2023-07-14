@@ -20,6 +20,7 @@ import { tokens } from "../theme";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
+import Paper from "@mui/material/Paper";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -76,11 +77,12 @@ export default function SignIn() {
 
   return (
     <Box m="20px">
+      <Paper>
       <Container
         component="main"
         maxWidth="xs">
         <CssBaseline />
-        <Box
+        <Box 
           sx={{
             marginTop: 8,
             display: "flex",
@@ -187,6 +189,7 @@ export default function SignIn() {
           </Box>
         )}
       </Container>
+      </Paper>
     </Box>
   );
 }

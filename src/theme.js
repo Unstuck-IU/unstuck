@@ -18,19 +18,28 @@ export const tokens = (mode) => ({
         },
         primary: {
           // 100: "#d0d1d5",
-          100: "#f2e3db",
-          200: "#a1a4ab",
-          300: "#727681",
-          400: "#1F2A40",
-          500: "#141b2d",
-          600: "#101624",
-          700: "#0c101b",
-          800: "#080b12",
-          900: "#040509",
-          150: "#f2e3db", //greens palette
-          250: "#41644a",
-          350: "#263a29",
-          450: "#e86a33",
+          100: "#f8f1f1", //Colour from palette
+          200: "#f2e3db", //background light colour
+          300: "#f5ebeb",
+          400: "#e1c0c0",
+          500: "#bb7878",
+          600: "#a45e5e",
+          700: "#894c4c",
+          800: "#331c1c",
+          900: "#012930",
+          // 100: "#f2e3db",
+          // 200: "#a1a4ab",
+          // 300: "#727681",
+          // 400: "#1F2A40",
+          // 500: "#141b2d",
+          // 600: "#101624",
+          // 700: "#0c101b",
+          // 800: "#080b12",
+          // 900: "#040509",
+          // 150: "#f2e3db", //greens palette
+          // 250: "#41644a",
+          // 350: "#263a29",
+          // 450: "#e86a33",
         },
         greenAccent: {
           100: "#dbf5ee",
@@ -55,27 +64,74 @@ export const tokens = (mode) => ({
           900: "#2c100f",
         },
         blueAccent: {
-          100: "#e1e2fe",
-          200: "#c3c6fd",
-          300: "#a4a9fc",
-          400: "#868dfb",
-          500: "#6870fa",
-          600: "#535ac8",
-          700: "#3e4396",
-          800: "#2a2d64",
-          900: "#151632",
+          50: "#e7fffc",
+          100: "#c3fff8",
+          200: "#8ffff3",
+          300: "#42ffea",
+          400: "#00ffe9",
+          500: "#00f7ff",
+          600: "#00c4dd",
+          700: "#009ab1",
+          800: "#025464", //Colour from palette
+          900: "#012930",
+         
+          // 100: "#e1e2fe",
+          // 200: "#c3c6fd",
+          // 300: "#a4a9fc",
+          // 400: "#868dfb",
+          // 500: "#6870fa",
+          // 600: "#535ac8",
+          // 700: "#3e4396",
+          // 800: "#2a2d64",
+          // 900: "#151632",
         },
         yellowAccent: {
-          100: "#f5f2c1",
-          200: "#f5f3ab",
-          300: "#f5f093",
-          400: "#f5f17a",
-          500: "#f5f062",
-          600: "#f5ef49",
-          700: "#f5f031",
-          800: "#f5f118",
-          900: "#f5f100",
+          100: "#f9eccc",
+          200: "#f2d795",
+          300: "#ecbc5d",
+          400: "#e8aa42", //Colour from palette
+          500: "#df8621",
+          600: "#c5661a",
+          700: "#a44819",
+          800: "#86391a",
+          900: "#6e3019",
+          // 100: "#f5f2c1",
+          // 200: "#f5f3ab",
+          // 300: "#f5f093",
+          // 400: "#f5f17a",
+          // 500: "#f5f062",
+          // 600: "#f5ef49",
+          // 700: "#f5f031",
+          // 800: "#f5f118",
+          // 900: "#f5f100",
         },
+        zest: {
+          50: "#fef7ec",
+          100: "#fae9cb",
+          200: "#f5d092",
+          300: "#efb35a",
+          400: "#ec9933",
+          500: "#e57c23", //Colour from palette
+          600: "#ca5715",
+          700: "#a83c15",
+          800: "#882f18",
+          900: "#702817",
+          950: "#401208",
+        },
+        black: {
+          100: "#ffffff",
+          200: "#c8c8c8",
+          300: "#a4a4a4",
+          400: "#818181",
+          500: "#666666",
+          600: "#515151",
+          700: "#434343",
+          800: "#383838",
+          900: "#000000",
+        },
+        whiteOnly: {
+          100: "#000000",
+        }
       }
     : {
         grey: {
@@ -90,20 +146,30 @@ export const tokens = (mode) => ({
           900: "#e0e0e0",
         },
         primary: {
-          100: "#040509",
-          200: "#080b12",
-          300: "#0c101b",
-          400: "#f2f0f0", // manually changed
-          500: "#141b2d",
-          600: "#1F2A40",
-          700: "#727681",
-          800: "#a1a4ab",
-          900: "#d0d1d5",
-          950: "#f2e3db",
-          150: "#f2e3db", //greens palette
-          250: "#41644A",
-          350: "#263A29",
-          450: "#E86A33",
+          100: "#170c0c",
+          200: "#331c1c",
+          300: "#894c4c",
+          400: "#a45e5e",
+          500: "#bb7878",
+          600: "#e1c0c0",
+          700: "#f5ebeb",
+          800: "#f2e3db", //background light colour
+          900: "#f8f1f1", //Colour from palette
+
+          // 100: "#040509",
+          // 200: "#080b12",
+          // 300: "#0c101b",
+          // 400: "#f2f0f0", // manually changed
+          // 500: "#141b2d",
+          // 600: "#1F2A40",
+          // 700: "#727681",
+          // 800: "#a1a4ab",
+          // 900: "#d0d1d5",
+          // 950: "#f2e3db",
+          // 150: "#f2e3db", //greens palette
+          // 250: "#41644A",
+          // 350: "#263A29",
+          // 450: "#E86A33",
         },
         greenAccent: {
           100: "#0f2922",
@@ -128,27 +194,71 @@ export const tokens = (mode) => ({
           900: "#f8dcdb",
         },
         blueAccent: {
-          100: "#151632",
-          200: "#2a2d64",
-          300: "#3e4396",
-          400: "#535ac8",
-          500: "#6870fa",
-          600: "#868dfb",
-          700: "#a4a9fc",
-          800: "#c3c6fd",
-          900: "#e1e2fe",
+          100: "#025464", //Colour from palette
+          200: "#007a8d",
+          300: "#009ab1",
+          400: "#00c4dd",
+          500: "#00f7ff",
+          600: "#00ffe9",
+          700: "#42ffea",
+          800: "#8ffff3",
+          900: "#c3fff8",
+          // 100: "#151632",
+          // 200: "#2a2d64",
+          // 300: "#3e4396",
+          // 400: "#535ac8",
+          // 500: "#6870fa",
+          // 600: "#868dfb",
+          // 700: "#a4a9fc",
+          // 800: "#c3c6fd",
+          // 900: "#e1e2fe",
         },
         yellowAccent: {
-          100: "#f5f2c1",
-          200: "#f5f3ab",
-          300: "#f5f093",
-          400: "#f5f17a",
-          500: "#f5f062",
-          600: "#f5ef49",
-          700: "#f5f031",
-          800: "#f5f118",
-          900: "#f5f100",
+          100: "#6e3019",
+          200: "#86391a",
+          300: "#a44819",
+          400: "#c5661a",
+          500: "#df8621",
+          600: "#e8aa42",
+          700: "#ecbc5d",
+          800: "#f2d795",
+          900: "#f9eccc",
+          // 100: "#f5f2c1",
+          // 200: "#f5f3ab",
+          // 300: "#f5f093",
+          // 400: "#f5f17a",
+          // 500: "#f5f062",
+          // 600: "#f5ef49",
+          // 700: "#f5f031",
+          // 800: "#f5f118",
+          // 900: "#f5f100",
         },
+        zest: {
+          100: "#702817",
+          200: "#882f18",
+          300: "#a83c15",
+          400: "#ca5715",
+          500: "#e57c23", //Colour from palette
+          600: "#ec9933",
+          700: "#efb35a",
+          800: "#f5d092",
+          900: "#fae9cb",
+        },
+
+        black: {
+          100: "#000000",
+          200: "#383838",
+          300: "#434343",
+          400: "#515151",
+          500: "#666666",
+          600: "#818181",
+          700: "#a4a4a4",
+          800: "#c8c8c8",
+          900: "#ffffff",
+        },
+        whiteOnly: {
+          100: "#000000",
+        }
       }),
 });
 
@@ -162,11 +272,11 @@ export const themeSettings = (mode) => {
         ? {
             // palette values for dark mode
             primary: {
-              main: colors.primary[300],
+              main: colors.primary[100],
             },
             secondary: {
               // main: colors.greenAccent[600],
-              main: colors.greenAccent[600],
+              main: colors.zest[500],
             },
             // },
             neutral: {
@@ -175,17 +285,18 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[600],
+              default: colors.blueAccent[900],
             },
           }
         : {
             // palette values for light mode
             primary: {
-              main: colors.primary[100],
+              main: colors.primary[900],
+              // main: colors.grey[500],
             },
             secondary: {
               // main: colors.greenAccent[600],
-              main: colors.primary[450],
+              main: colors.zest[500],
             },
             neutral: {
               dark: colors.grey[700],
@@ -193,7 +304,7 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[900],
+              default: "#fcfcfc",
             },
           }),
     },
@@ -234,7 +345,7 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("dark");
 
   const colorMode = useMemo(
     () => ({

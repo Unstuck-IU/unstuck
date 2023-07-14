@@ -23,7 +23,7 @@ import styled from "@emotion/styled";
 import "../assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "left",
@@ -82,7 +82,8 @@ const Profile = ({ handlePageTitle }) => {
               display="flex"
               justifyContent="space-between"
               // backgroundColor="#E86A33"
-              p={1}>
+              p={1}
+              sx={{ background: theme.palette.mode === "dark" ? colors.grey[800] : colors.primary[900] }}>
               <Box
                 display="flex"
                 alignItems="center"
@@ -121,7 +122,7 @@ const Profile = ({ handlePageTitle }) => {
             </Box>
           </Paper>
         )}
-
+        <Paper></Paper>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -131,8 +132,7 @@ const Profile = ({ handlePageTitle }) => {
             container
             spacing={1}
             justifyContent="center"
-       
-           marginTop={2}>
+            marginTop={2}>
             <Grid
               item
               xs={12}
@@ -142,7 +142,12 @@ const Profile = ({ handlePageTitle }) => {
               justifyContent="space-evenly"
               alignContent="center">
               <Item>
-                <Typography variant="h4">My Stucks and Unstucks</Typography>
+                <Typography
+                  variant="h4"
+                  color="white"
+                  sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
+                  My Stucks and Unstucks
+                </Typography>
                 <ul>
                   Placeholder
                   <li>Placeholder 1</li>
@@ -150,16 +155,19 @@ const Profile = ({ handlePageTitle }) => {
                   <li>Placeholder 3</li>
                 </ul>
               </Item>
-              </Grid>
-            
-            
+            </Grid>
+
             <Grid
               item
               xs={12}
               sm={12}
               md={6}>
               <Item>
-                <Typography variant="h4">Badges</Typography>
+                <Typography
+                  variant="h4"
+                  sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
+                  Badges
+                </Typography>
                 <ul>
                   Placeholder
                   <li>Badge 1</li>
@@ -167,9 +175,9 @@ const Profile = ({ handlePageTitle }) => {
                   <li>Badge 3</li>
                 </ul>
               </Item>
-            </Grid> 
             </Grid>
-       </Box>
+          </Grid>
+        </Box>
       </Box>
     </div>
   );

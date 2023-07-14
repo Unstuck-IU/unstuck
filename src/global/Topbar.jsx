@@ -75,7 +75,7 @@ const Topbar = ({ title, subtitle }) => {
         {/* ICONS */}
         <Box display="flex">
           <IconButton
-            sx={{ color: colors.primary[150] }}
+            sx={{ color: colors.black[100] }}
             onClick={colorMode.toggleColorMode}>
             {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
           </IconButton>
@@ -88,7 +88,7 @@ const Topbar = ({ title, subtitle }) => {
           <IconButton
             component={Link}
             to="/profile">
-            <PersonOutlinedIcon sx={{ color: colors.primary[150] }} />
+            <PersonOutlinedIcon sx={{ color: colors.black[100] }} />
           </IconButton>
         </Box>
       </Box>
