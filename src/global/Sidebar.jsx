@@ -34,7 +34,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
     <MenuItem
       active={selected === title}
       style={{
-        color: colors.black[900],
+        color: `${colors.primary[100]}`,
       }}
       onClick={() => setSelected(title)}
       icon={icon}>
@@ -128,7 +128,7 @@ const Sidebar = () => {
                 <Typography
                   variant="h5"
                   // color={colors.black[950]}
-                  >
+                >
                   {/* {data[0].user_type} */}
                   {userDetails ? userDetails.display_name : ""}
                 </Typography>
