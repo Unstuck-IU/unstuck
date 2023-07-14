@@ -24,11 +24,12 @@ export default function ProgressStepper(props) {
     const [activeStep, setActiveStep] = useState(0);
     const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
     const totalSteps = () => {
-        // return 4; // just returning manually 4 while I'm working on the first two steps
+
         return steps.length;
     };
+    const handleUpload = props.handleUpload
 
-    const handleLoad = () => {
+    const handleLoadFromLocal = () => {
         const statement = getitem("formvalues");
         console.log(formValues);
         localStorage.getItem("statementText");
@@ -43,6 +44,7 @@ export default function ProgressStepper(props) {
     };
 
     const allStepsCompleted = () => {
+        handleUpload(formValues)
         return completedSteps() === totalSteps();
     };
 
@@ -62,8 +64,8 @@ export default function ProgressStepper(props) {
 
     const handleStep = (step) => {
         setActiveStep(step);
-        console.log("current active step", activeStep)
-        console.log("Current stepper step:", step)
+        // console.log("current active step", activeStep)
+        // console.log("Current stepper step:", step)
     };
 
 
@@ -95,13 +97,17 @@ export default function ProgressStepper(props) {
         handleNext();
     };
 
-    const handleUpload = async () => {
-        const { data, error } = await supabase
-            .from('stuck')
-            .upsert({ statement_text: formValues.statement }, { expand_text: formValues.statement }, { example_text: formValues.example }, { illustrate_text: formValues.illustrate },)
-            .select()
-        console.log(data)
+    const handleChosenStuck = (event, key1, key2, key3, key4) => {
+        console.log("Click object key:", event, key1, key2, key3, key4)
     }
+
+    // const handleUpload = async () => {
+    //     const { data, error } = await supabase
+    //         .from('stuck')
+    //         .upsert({ statement_text: formValues.statement }, { expand_text: formValues.statement }, { example_text: formValues.example }, { illustrate_text: formValues.illustrate },)
+    //         .select()
+    //     console.log(data)
+    // }
 
     // const [formData, setFormData] = useState({});
 
@@ -154,6 +160,7 @@ export default function ProgressStepper(props) {
                             activeStep={activeStep} // setting as -2 because the first 2 steps don't have components attached yet
                             formValues={formValues}
                             handleTextFieldChange={handleTextFieldChange}
+                            handleChosenStuck={handleChosenStuck}
                             // joinCode={props.joinCode}
                             {...props}
                         />
