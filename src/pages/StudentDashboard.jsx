@@ -8,8 +8,8 @@ import { mockTransactions } from "../data/mockData";
 import { tokens } from "../theme";
 import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions } from "@mui/material";
 //components
-import ProgressStepper from "../components/ProgressStepper";
-import TopicHeader from "../components/TopicHeader";
+import ProgressStepper from "../Components/ProgressStepper";
+
 import Header from "../components/Header";
 import StepHeader from "../components/StepHeader";
 import LineChart from "../components/LineChart";
@@ -25,9 +25,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import LoadingSpinner from "../components/LoadingSpinner";
-import JoinTopicDialog from "../components/JoinTopicDialog";
-import StuckCard from "../components/stuckCard";
-import AddStuckDialog from "../components/AddStuckDialog";
+
+// import StuckCard from "../components/stuckCard";
+
 
 const StudentDashboard = () => {
   const theme = useTheme();
@@ -36,10 +36,11 @@ const StudentDashboard = () => {
   const [topic, setTopic] = useState("");
   const [joinCode, setJoinCode] = useState(null);
   const [stucks, setStucks] = useState([]);
-  const [activeStep, setActiveStep] = useState(0);
+  // const [activeStep, setActiveStep] = useState(0);
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
+
   const [firstTime, setFirstTime] = useState(false);
 
   useEffect(() => {
@@ -174,6 +175,29 @@ const StudentDashboard = () => {
     }
   };
 
+
+  // Update all instances to handleSexiFormUpload or some variant for clarity? 
+  const handleUpload = async (formValues) => {
+    const { data, error } = await supabase
+      .from('stuck')
+      .update({
+        statement_text: formValues.statement,
+        expand_text: formValues.expand,
+        example_text: formValues.example,
+        illustration_text: formValues.illustrate
+      })
+      .eq("user_topic_id", 36) // Todo: ? Add join with user_topic on topic id and return? 
+      .eq("id", 27); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
+    if (error) {
+
+      console.log("Error received while updating Stuck table entries. \n", error)
+
+
+    }
+
+    console.log("handleUpload Student Dashboard Data", data)
+  }
+
   if (loading)
     return (
       <Box
@@ -209,61 +233,20 @@ const StudentDashboard = () => {
           topic={topic}
         />
 
-        <Box
-          display="flex"
-          justifyContent="end"
-          alignItems="center">
-          {isAlertShowing && (
-            <Alert
-              sx={{ mr: "10px" }}
-              severity={alertSeverity}
-              onClose={() => {
-                setIsAlertShowing(false);
-              }}>
-              {message}
-            </Alert>
-          )}
-          <JoinTopicDialog
-            handleJoinTopic={handleJoinTopic}
-            firstTime={firstTime}
-          />
-        </Box>
       </Box>
       <ProgressStepper
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
+        // activeStep={activeStep}
+        // setActiveStep={setActiveStep}
+        handleJoinTopic={handleJoinTopic}
+        joinCode={joinCode}
+        topic={topic}
+        isAlertShowing={isAlertShowing}
+        setIsAlertShowing={setIsAlertShowing}
+        stucks={stucks}
+        setStucks={setStucks}
+        handleUpload={handleUpload}
       />
-      <StepHeader activeStep={activeStep} />
-      {/* {fetchError && <p>{fetchError}</p>} */}
-      {activeStep <= 1 && (
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="end"
-          alignItems="end">
-          <AddStuckDialog topic={topic} />
-        </Box>
-      )}
-      {/* Form for odding new Unstuck to the Topic */}
-      {activeStep <= 1 && (
-        // <StepOne/>
-        <Box
-          display="flex"
-          flexWrap="wrap"
-          alignItems="center"
-          mt="2rem">
-          {/* display all submitted stucks here */}
-          {stucks?.map((stuck, index) => (
-            <StuckCard
-              key={stuck.id}
-              stuck={stuck}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-              index={index}
-            />
-          ))}
-        </Box>
-      )}
+
       {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography

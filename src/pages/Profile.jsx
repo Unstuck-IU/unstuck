@@ -30,7 +30,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Profile = () => {
-  // auth.userLocal needs to give us more details than just user_id, so we can update page details like name, avatar, etc.
+
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
