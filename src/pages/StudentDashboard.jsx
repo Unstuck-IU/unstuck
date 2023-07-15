@@ -44,6 +44,10 @@ const StudentDashboard = ({ handlePageTitle }) => {
   const [firstTime, setFirstTime] = useState(false);
 
   useEffect(() => {
+    handlePageTitle(userDetails?.display_name + "'s Dashboard", "Welcome to your dashboard");
+  }, []);
+
+  useEffect(() => {
     if (!loading && userDetails != null) {
       const fetchLastTopicId = async () => {
         let { data: lastTopicId, error: lastTopicIdError } = await supabase
@@ -225,10 +229,10 @@ const StudentDashboard = ({ handlePageTitle }) => {
         alignItems="center"
         alignContent="center"
         sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
-        <Header
+        {/* <Header
           title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
           subtitle="Welcome to your Unstuck Dashboard!"
-        />
+        /> */}
         
         <TopicHeader
           joinCode={joinCode}
