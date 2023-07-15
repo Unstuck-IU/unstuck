@@ -21,6 +21,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   return (
+    
     <div>
       <Box sx={{ flexGrow: 1, m: 2 }}>
         <div>
@@ -32,7 +33,7 @@ export default function Home() {
             <Grid
               item
               xs={12}>
-              <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[800] : colors.primary[900] }}>
+              <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[900] : colors.primary[900] }}>
                 <h1>Unstuck</h1>
                 <h2>Start your expedition with critical thinking: where learning becomes an adventure.</h2>
                 <h3>Learn how to use critical thinking to easily break down problems.</h3>
@@ -53,7 +54,7 @@ export default function Home() {
             <Grid
               item
               xs={12}>
-              <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[800] : colors.primary[900] }}>
+              <Item sx={{ background: theme.palette.mode === "dark" ? colors.primary[900] : colors.primary[900] }}>
                 {/* </div> */}
                 {/* <div
         className="container"
