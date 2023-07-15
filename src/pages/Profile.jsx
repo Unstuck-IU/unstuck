@@ -123,6 +123,52 @@ const Profile = ({ handlePageTitle }) => {
         )}
 
         <Box
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          mt="25px"
+          gridAutoRows="140px"
+          gap="20px">
+          <Box
+            gridColumn="span 6"
+            backgroundColor={colors.primary[900]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center">
+            {/* sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[950] : colors.primary[900] }} */}
+            <Typography
+              variant="h4"
+              sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
+              My Stucks and Unstucks
+            </Typography>
+            <Typography>
+              <ul>
+                Placeholder
+                <li>Placeholder 1</li>
+                <li>Placeholder 2</li>
+                <li>Placeholder 3</li>
+              </ul>
+            </Typography>
+          </Box>
+          <Box
+            gridColumn="span 6"
+            backgroundColor={colors.primary[900]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center">
+            <Typography
+              variant="h4"
+              sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
+              Badges
+            </Typography>
+            <ul>
+              Placeholder
+              <li>Badge 1</li>
+              <li>Badge 2</li>
+              <li>Badge 3</li>
+            </ul>
+          </Box>
+        </Box>
+        {/* <Box
           display="flex"
           justifyContent="space-between"
           p={0}>
@@ -178,7 +224,9 @@ const Profile = ({ handlePageTitle }) => {
               </Item>
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
+
+        {/* This box and div are for the update profile section. */}
       </Box>
     </div>
   );
