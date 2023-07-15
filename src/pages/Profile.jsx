@@ -81,7 +81,6 @@ const Profile = ({ handlePageTitle }) => {
             <Box
               display="flex"
               justifyContent="space-between"
-              // backgroundColor="#E86A33"
               p={1}
               sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
               <Box
@@ -123,12 +122,9 @@ const Profile = ({ handlePageTitle }) => {
           </Paper>
         )}
 
-        {/* sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }} */}
-
         <Box
           display="flex"
           justifyContent="space-between"
-          // backgroundColor="#41644A"
           p={0}>
           <Grid
             container
@@ -147,11 +143,9 @@ const Profile = ({ handlePageTitle }) => {
               //   color: `${colors.primary[200]}`, //Changes the menu items text colours
               // }}
             >
-              <Item
-              sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[950] : colors.primary[900] }}>
+              <Item sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[950] : colors.primary[900] }}>
                 <Typography
                   variant="h4"
-                  color="white"
                   sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
                   My Stucks and Unstucks
                 </Typography>
