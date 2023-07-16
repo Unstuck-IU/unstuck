@@ -168,65 +168,6 @@ const Profile = ({ handlePageTitle }) => {
             </ul>
           </Box>
         </Box>
-        {/* <Box
-          display="flex"
-          justifyContent="space-between"
-          p={0}>
-          <Grid
-            container
-            spacing={1}
-            justifyContent="center"
-            marginTop={2}>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={6}
-              maxWidth="400"
-              justifyContent="space-evenly"
-              alignContent="center"
-              // style={{
-              //   color: `${colors.primary[200]}`, //Changes the menu items text colours
-              // }}
-            >
-              <Item sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[950] : colors.primary[900] }}>
-                <Typography
-                  variant="h4"
-                  sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
-                  My Stucks and Unstucks
-                </Typography>
-                <ul>
-                  Placeholder
-                  <li>Placeholder 1</li>
-                  <li>Placeholder 2</li>
-                  <li>Placeholder 3</li>
-                </ul>
-              </Item>
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={6}>
-              <Item>
-                <Typography
-                  variant="h4"
-                  sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
-                  Badges
-                </Typography>
-                <ul>
-                  Placeholder
-                  <li>Badge 1</li>
-                  <li>Badge 2</li>
-                  <li>Badge 3</li>
-                </ul>
-              </Item>
-            </Grid>
-          </Grid>
-        </Box> */}
-
-        {/* This box and div are for the update profile section. */}
       </Box>
     </div>
   );
