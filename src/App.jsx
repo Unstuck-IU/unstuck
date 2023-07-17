@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
 import Sherpa_dashboard from "./pages/sherpa_dashboard";
+// import Sherpa_landing from "./pages/sherpa_landing";
 //components
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";

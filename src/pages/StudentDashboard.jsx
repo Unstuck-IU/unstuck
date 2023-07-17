@@ -45,7 +45,7 @@ const StudentDashboard = () => {
       const fetchLastTopicId = async () => {
         let { data: lastTopicId, error: lastTopicIdError } = await supabase
           .from("topic")
-          .select("*, user_details!inner(last_topic_id_viewed, id, first_name, last_name)")
+          .select("*, user_details!user_topic!inner(last_topic_id_viewed, id, first_name, last_name)")
           .eq("id", userDetails.last_topic_id_viewed)
           .single();
         console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
@@ -111,6 +111,7 @@ const StudentDashboard = () => {
         // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
         .select("*, user_topic!inner(*, user_details!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
         .eq("user_topic.topic_id", topic.id);
+        console.log(stuck);
       if (error) {
         setFetchError("Could not fetch the list of stucks");
         setStucks(null);
