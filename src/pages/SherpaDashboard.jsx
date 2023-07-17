@@ -32,7 +32,6 @@ import { Grid } from "@mui/material";
 
 function MyFormHelperText() {
   const { focused } = useFormControl() || {};
-
   const helperText = React.useMemo(() => {
     if (focused) {
       return "This field is being focused";
@@ -43,7 +42,7 @@ function MyFormHelperText() {
 
   return <FormHelperText>{helperText}</FormHelperText>;
 }
-const Sherpa_dashboard = () => {
+const SherpaDashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
@@ -57,22 +56,22 @@ const Sherpa_dashboard = () => {
 
   const [User_id, setUser_id] = useState("");
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUser(user.id);
-      } else {
-        // handle error
-      }
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const {
+  //       data: { user },
+  //       error,
+  //     } = await supabase.auth.getUser();
+  //     if (user) {
+  //       setUser(user.id);
+  //     } else {
+  //       // handle error
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
-  console.log(user);
+  // console.log(user);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -281,8 +280,7 @@ const Sherpa_dashboard = () => {
         noValidate
         autoComplete="off"
         name="topic_string"
-        onSubmit={createTopic}
-      >
+        onSubmit={createTopic}>
         <FormControl sx={{ width: "25ch" }}>
           <OutlinedInput
             name="topic_string"
@@ -291,7 +289,9 @@ const Sherpa_dashboard = () => {
           />
           <MyFormHelperText />
         </FormControl>
-        <Button variant="outlined" type="submit">
+        <Button
+          variant="outlined"
+          type="submit">
           Submit
         </Button>
       </Box>
@@ -324,4 +324,4 @@ const Sherpa_dashboard = () => {
   );
 };
 
-export default Sherpa_dashboard;
+export default SherpaDashboard;

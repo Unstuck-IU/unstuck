@@ -31,19 +31,36 @@ export default function JoinTopicDialog({ ...props }) {
 
   return (
     <div>
-      <Button
-        sx={{
-          // backgroundColor: colors.blueAccent[700],
-          color: colors.grey[100],
-          fontSize: "14px",
-          fontWeight: "bold",
-          padding: "10px 20px",
-        }}
-        variant="outlined"
-        onClick={handleClickOpen}>
-        <AddCircleOutlineIcon sx={{ mr: "10px" }} />
-        Join / Switch Topic
-      </Button>
+      {props.firstTime ? (
+        <Button
+          sx={{
+            backgroundColor: colors.blueAccent[700],
+            color: colors.black[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+          }}
+          variant="outlined"
+          borderStyle="solid"
+          onClick={handleClickOpen}>
+          <AddCircleOutlineIcon sx={{ mr: "10px" }} />
+          Join Topic
+        </Button>
+      ) : (
+        <Button
+          sx={{
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+          }}
+          variant="outlined"
+          onClick={handleClickOpen}>
+          <AddCircleOutlineIcon sx={{ mr: "10px" }} />
+          Join / Switch Topic
+        </Button>
+      )}
       <Dialog
         open={open}
         onClose={handleClose}>

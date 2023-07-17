@@ -3,7 +3,7 @@ export const customTheme = {
     colors: {
       brand: "hsl(153 60.0% 53.0%)",
       brandAccent: "hsl(154 54.8% 45.1%)",
-      brandButtonText: "white",
+      brandButtonText: "black",
       // ..
     },
   },

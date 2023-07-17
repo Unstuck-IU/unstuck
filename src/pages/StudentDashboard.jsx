@@ -8,9 +8,10 @@ import { mockTransactions } from "../data/mockData";
 import { tokens } from "../theme";
 import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions } from "@mui/material";
 //components
-import ProgressStepper from "../components/ProgressStepper";
-import TopicHeader from "../components/TopicHeader";
+import ProgressStepper from "../Components/ProgressStepper";
+
 import Header from "../components/Header";
+import StepHeader from "../components/StepHeader";
 import LineChart from "../components/LineChart";
 // import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../components/BarChart";
@@ -24,41 +25,47 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import LoadingSpinner from "../components/LoadingSpinner";
-import JoinTopicDialog from "../components/JoinTopicDialog";
-import StuckCard from "../components/stuckCard";
-import AddStuckDialog from "../components/AddStuckDialog";
+import TopicHeader from "../components/TopicHeader";
 
-const StudentDashboard = () => {
+// import StuckCard from "../components/stuckCard";
+
+const StudentDashboard = ({ handlePageTitle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
   const [topic, setTopic] = useState("");
   const [joinCode, setJoinCode] = useState(null);
   const [stucks, setStucks] = useState([]);
-  const [activeStep, setActiveStep] = useState(1);
+  // const [activeStep, setActiveStep] = useState(0);
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
 
+  const [firstTime, setFirstTime] = useState(false);
+
   useEffect(() => {
-    if (userDetails) {
+    handlePageTitle(userDetails?.display_name + "'s Dashboard", "Welcome to your dashboard");
+  }, []);
+
+  useEffect(() => {
+    if (!loading && userDetails != null) {
       const fetchLastTopicId = async () => {
         let { data: lastTopicId, error: lastTopicIdError } = await supabase
           .from("topic")
           .select("*, user_details!user_topic!inner(last_topic_id_viewed, id, first_name, last_name)")
           .eq("id", userDetails.last_topic_id_viewed)
           .single();
-        console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
-        console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
         if (lastTopicId) {
+          console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
           setTopic(lastTopicId);
+        } else {
+          setFirstTime(true);
+          console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
         }
       };
-      if (!loading) {
-        fetchLastTopicId();
-      }
+      fetchLastTopicId();
     }
-  }, [userDetails]);
+  }, [loading]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -173,6 +180,25 @@ const StudentDashboard = () => {
     }
   };
 
+  // Update all instances to handleSexiFormUpload or some variant for clarity?
+  const handleUpload = async (formValues) => {
+    const { data, error } = await supabase
+      .from("stuck")
+      .update({
+        statement_text: formValues.statement,
+        expand_text: formValues.expand,
+        example_text: formValues.example,
+        illustration_text: formValues.illustrate,
+      })
+      .eq("user_topic_id", 36) // Todo: ? Add join with user_topic on topic id and return?
+      .eq("id", 27); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
+    if (error) {
+      console.log("Error received while updating Stuck table entries. \n", error);
+    }
+
+    console.log("handleUpload Student Dashboard Data", data);
+  };
+
   if (loading)
     return (
       <Box
@@ -191,73 +217,52 @@ const StudentDashboard = () => {
       m="20px"
       display="flex"
       flexDirection="column"
-      justifyContent="end">
+      justifyContent="end"
+      gridColumn="span 12"
+        // marginLeft="20px"
+        // marginRight="20px"
+        alignItems="center"
+        >
       {/* HEADER */}
       <Box
         display="flex"
         justifyContent="space-between"
-        alignItems="center">
-        <Header
+        alignItems="center"
+        alignContent="center"
+        sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
+        {/* <Header
           title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
-          subtitle="Welcome to your Unstuck Profile!"
+          subtitle="Welcome to your Unstuck Dashboard!"
+        /> */}
+        
+        <TopicHeader
+          joinCode={joinCode}
+          userDetails={userDetails}
+          topic={topic}
         />
-
-        <Box
-          display="flex"
-          justifyContent="end"
-          alignItems="center">
-          {isAlertShowing && (
-            <Alert
-              sx={{ mr: "10px" }}
-              severity={alertSeverity}
-              onClose={() => {
-                setIsAlertShowing(false);
-              }}>
-              {message}
-            </Alert>
-          )}
-          <JoinTopicDialog handleJoinTopic={handleJoinTopic} />
-        </Box>
       </Box>
+      <Box
+      m="20px"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      p={2}
+      borderRadius="3px"
+      rowGap="10px"
+      sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
       <ProgressStepper
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
+        // activeStep={activeStep}
+        // setActiveStep={setActiveStep}
+        handleJoinTopic={handleJoinTopic}
+        joinCode={joinCode}
+        topic={topic}
+        isAlertShowing={isAlertShowing}
+        setIsAlertShowing={setIsAlertShowing}
+        stucks={stucks}
+        setStucks={setStucks}
+        handleUpload={handleUpload}
       />
-      {/* {fetchError && <p>{fetchError}</p>} */}
-      {activeStep <= 1 && (
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems="end">
-          <TopicHeader
-            joinCode={joinCode}
-            userDetails={userDetails}
-            topic={topic}
-          />
-          <AddStuckDialog topic={topic} />
-        </Box>
-      )}
-      {/* Form for odding new Unstuck to the Topic */}
-      {activeStep <= 1 && (
-        // <StepOne/>
-        <Box
-          display="flex"
-          flexWrap="wrap"
-          alignItems="center"
-          mt="2rem">
-          {/* display all submitted stucks here */}
-          {stucks?.map((stuck, index) => (
-            <StuckCard
-              key={stuck.id}
-              stuck={stuck}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-              index={index}
-            />
-          ))}
-        </Box>
-      )}
+</Box>
       {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography

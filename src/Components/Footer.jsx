@@ -4,9 +4,9 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
 function Footer() {
- const theme = useTheme();
-const colors = tokens(theme.palette.mode); 
-return (
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  return (
     <footer>
       <Copyright2 />
     </footer>

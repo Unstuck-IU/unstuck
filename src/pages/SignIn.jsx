@@ -20,6 +20,7 @@ import { tokens } from "../theme";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
+import Paper from "@mui/material/Paper";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -47,6 +48,7 @@ export default function SignIn() {
       setSubmitError(true);
     } else {
       setSubmitError(false);
+
       redirectOnLogin();
     }
     setLoading(false);
@@ -54,16 +56,20 @@ export default function SignIn() {
 
   const redirectOnLogin = async () => {
     if (userSession != null) {
-      console.log("is this being called AT ALL? ", userDetails);
-
       if (userDetails.completed_signup === true && userDetails.user_type === "student") {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         navigate("/student-dashboard");
       } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         navigate("/sherpa-dashboard");
       } else if (userSession) {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         navigate("/profile");
       }
     }
@@ -71,9 +77,12 @@ export default function SignIn() {
 
   return (
     <Box m="20px">
+      {/* <Paper sx={{ background: theme.palette.mode === "dark" ? colors.primary[900] : colors.primary[900] }}>  */}
       <Container
         component="main"
-        maxWidth="xs">
+        maxWidth="xs"
+        // sx={{ background: theme.palette.mode === "dark" ? colors.primary[900] : colors.primary[900] }}
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -141,7 +150,7 @@ export default function SignIn() {
                 item
                 xs>
                 <Link
-                  sx={{ m: 1, color: colors.greenAccent[300] }}
+                  sx={{ m: 1, color: colors.zest[300] }}
                   href="/resetpassword"
                   variant="body2">
                   Forgot password?
@@ -150,7 +159,7 @@ export default function SignIn() {
               <Grid item>
                 Don't have an account?
                 <Link
-                  sx={{ m: 1, color: colors.greenAccent[300] }}
+                  sx={{ m: 1, color: colors.zest[300] }}
                   href="/signup"
                   variant="body">
                   Sign Up
@@ -182,6 +191,7 @@ export default function SignIn() {
           </Box>
         )}
       </Container>
+      {/* </Paper> */}
     </Box>
   );
 }

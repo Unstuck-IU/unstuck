@@ -26,6 +26,7 @@ export default function StuckCard({ stuck, activeStep }) {
         width: "300px",
         height: "190px",
         justifyContent: "space-between",
+        background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
       }}
       key={stuck.id}
 
