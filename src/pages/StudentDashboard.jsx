@@ -218,50 +218,31 @@ const StudentDashboard = ({ handlePageTitle }) => {
       flexDirection="column"
       justifyContent="end"
       gridColumn="span 12"
-        // marginLeft="20px"
-        // marginRight="20px"
-        alignItems="center"
-        >
-      {/* HEADER */}
+      // marginLeft="20px"
+      // marginRight="20px"
+      alignItems="center">
       <Box
+        m="20px"
         display="flex"
-        justifyContent="space-between"
+        flexDirection="column"
         alignItems="center"
-        alignContent="center"
+        p={2}
+        borderRadius="3px"
+        rowGap="10px"
         sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
-        {/* <Header
-          title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
-          subtitle="Welcome to your Unstuck Dashboard!"
-        /> */}
-        
-        <TopicHeader
+        <ProgressStepper
+          // activeStep={activeStep}
+          // setActiveStep={setActiveStep}
+          handleJoinTopic={handleJoinTopic}
           joinCode={joinCode}
-          userDetails={userDetails}
           topic={topic}
+          isAlertShowing={isAlertShowing}
+          setIsAlertShowing={setIsAlertShowing}
+          stucks={stucks}
+          setStucks={setStucks}
+          handleUpload={handleUpload}
         />
       </Box>
-      <Box
-      m="20px"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      p={2}
-      borderRadius="3px"
-      rowGap="10px"
-      sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
-      <ProgressStepper
-        // activeStep={activeStep}
-        // setActiveStep={setActiveStep}
-        handleJoinTopic={handleJoinTopic}
-        joinCode={joinCode}
-        topic={topic}
-        isAlertShowing={isAlertShowing}
-        setIsAlertShowing={setIsAlertShowing}
-        stucks={stucks}
-        setStucks={setStucks}
-        handleUpload={handleUpload}
-      />
-</Box>
       {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography
