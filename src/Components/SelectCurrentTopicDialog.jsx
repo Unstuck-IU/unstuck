@@ -1,5 +1,5 @@
 import { tokens } from "../theme";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -9,12 +9,26 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTheme } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import TopicSelectionDropdown from "./TopicSelectionDropdown";
+import { useAuth, supabase } from "../Providers/AuthProvider";
 
-export default function JoinTopicDialog({ ...props }) {
+export default function SelectCurrentTopicDialog({ ...props }) {
+  const { userDetails, user, loading } = useAuth();
   const [open, setOpen] = React.useState(false);
-  const [joinCodeInput, setJoinCodeInput] = useState("");
+  const [sherpaTopics, setSherpaTopics] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState(null);
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  useEffect(() => {
+    const retrieveTopics = async () => {
+      const { data: sherpaTopics, error } = await supabase.from("topic").select("*").eq("sherpa_owner_id", userDetails.user_id);
+      console.log("sherpaTopics", sherpaTopics);
+      setSherpaTopics(sherpaTopics);
+    };
+    retrieveTopics();
+  }, [user]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,8 +38,14 @@ export default function JoinTopicDialog({ ...props }) {
     setOpen(false);
   };
 
-  const handleSubmit = () => {
-    props.handleJoinTopic(joinCodeInput);
+  const handleSelectTopicId = async (topicId) => {
+    console.log("handleSelectTopicId from SelectCurrentTopicDialog.jsx: ", topicId);
+    setSelectedTopic(topicId);
+  };
+
+  const handleSubmit = async () => {
+    console.log("handleSubmit from SelectCurrentTopicDialog.jsx. selectedTopic: ", selectedTopic);
+    await props.handleSetActiveTopic(selectedTopic);
     setOpen(false);
   };
 
@@ -34,15 +54,15 @@ export default function JoinTopicDialog({ ...props }) {
       {props.firstTime ? (
         <Button
           sx={{
-            backgroundColor: colors.blueAccent[700],
-            color: colors.black[100],
+            // backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            backgroundColor: colors.greenAccent[700],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
             margin: 2,
           }}
           variant="outlined"
-          borderStyle="solid"
           onClick={handleClickOpen}>
           <AddCircleOutlineIcon sx={{ mr: "10px" }} />
           Join Topic
@@ -50,38 +70,27 @@ export default function JoinTopicDialog({ ...props }) {
       ) : (
         <Button
           sx={{
-            backgroundColor: colors.blueAccent[700],
+            // backgroundColor: colors.blueAccent[700],
             color: colors.grey[100],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
-            margin: "1rem",
           }}
           variant="outlined"
           onClick={handleClickOpen}>
           <AddCircleOutlineIcon sx={{ mr: "10px" }} />
-          Join / Switch Topic
+          Select Active Topic
         </Button>
       )}
       <Dialog
         open={open}
         onClose={handleClose}>
-        <DialogTitle>Join / Switch Topic</DialogTitle>
+        <DialogTitle>Select Active Topic</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To join a new topic, or switch to one you're already joined to, please enter the 6-digit join code provided by your
-            Sherpa.
-          </DialogContentText>
-          <TextField
-            sx={{ mt: "15px" }}
-            autoFocus
-            margin="dense"
-            id="join-code"
-            label="Join Code"
-            type="text"
-            value={joinCodeInput}
-            onChange={(e) => setJoinCodeInput(e.target.value)}
-            //need to ad an "onSubmit", which will THEN call the setJoinCode when it's full
+          <DialogContentText>Please select the topic you want to filter your dashboard view by.</DialogContentText>
+          <TopicSelectionDropdown
+            handleSelectTopicId={handleSelectTopicId}
+            sherpaTopics={sherpaTopics}
           />
         </DialogContent>
         <DialogActions>

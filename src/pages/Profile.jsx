@@ -24,7 +24,7 @@ import styled from "@emotion/styled";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
   ...theme.typography.body2,
-  padding: theme.spacing(1),
+  padding: theme.spacing(3),
   textAlign: "left",
   color: theme.palette.text.secondary,
 }));
@@ -75,7 +75,39 @@ const Profile = ({ handlePageTitle }) => {
         marginLeft="20px"
         marginRight="20px"
         alignItems="center">
-        {userDetails && (
+        {userDetails?.completed_signup === false && (
+          <Box sx={{ flexGrow: 1, m: 4, textAlign: "left" }}>
+            <Grid>
+              <Grid
+                item
+                xs={6}
+                md={8}>
+                <Item>
+                  <Typography
+                    variant="h4"
+                    mb="10px">
+                    <div className="user-details">It looks like your first time signing in!</div>
+                  </Typography>
+                  <Typography variant="h5">
+                    <div className="user-details">
+                      Thanks for joining Unstuck, you're going to have a great time. First thing you need to do is to update your
+                      profile so people know who you are around here!
+                    </div>
+                  </Typography>
+                </Item>
+              </Grid>
+            </Grid>
+            <UpdateProfileForm
+              firstName={firstName}
+              setFirstName={setFirstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              displayName={displayName}
+              setDisplayName={setDisplayName}
+            />
+          </Box>
+        )}
+        {userDetails?.completed_signup === true && (
           <Paper>
             <Box
               display="flex"

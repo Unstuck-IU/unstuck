@@ -23,11 +23,8 @@ import { useAuth } from "../Providers/AuthProvider";
 import Paper from "@mui/material/Paper";
 
 export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { userSession, userDetails, submitError, setSubmitError, alertMessage, signInPassword } = useAuth();
+  const { userSession, userDetails, submitError, setSubmitError, alertMessage, signInPassword, loading, setLoading } = useAuth();
   console.log("alertMessage: ", alertMessage);
   console.log("submitError: ", submitError);
   const theme = useTheme();
@@ -49,30 +46,9 @@ export default function SignIn() {
     } else {
       setSubmitError(false);
 
-      redirectOnLogin();
+      // redirectOnLogin();
     }
     setLoading(false);
-  };
-
-  const redirectOnLogin = async () => {
-    if (userSession != null) {
-      if (userDetails.completed_signup === true && userDetails.user_type === "student") {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-        navigate("/student-dashboard");
-      } else if (userDetails.completed_signup === true && userDetails.user_type === "sherpa") {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-        navigate("/sherpa-dashboard");
-      } else if (userSession) {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-        navigate("/profile");
-      }
-    }
   };
 
   return (

@@ -26,6 +26,9 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import LoadingSpinner from "../components/LoadingSpinner";
 import TopicHeader from "../components/TopicHeader";
+import JoinTopicDialog from "../components/JoinTopicDialog";
+import AddStuckDialog from "../components/AddStuckDialog";
+import StuckCard from "../components/stuckCard";
 
 // import StuckCard from "../components/stuckCard";
 
@@ -33,10 +36,10 @@ const StudentDashboard = ({ handlePageTitle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
-  const [topic, setTopic] = useState("");
+  const [activeTopic, setActiveTopic] = useState("");
   const [joinCode, setJoinCode] = useState(null);
   const [stucks, setStucks] = useState([]);
-  // const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
@@ -48,40 +51,39 @@ const StudentDashboard = ({ handlePageTitle }) => {
   }, []);
 
   useEffect(() => {
-    if (!loading && userDetails != null) {
+    if (!loading && userDetails.user_id != null) {
       const fetchLastTopicId = async () => {
-        let { data: lastTopicId, error: lastTopicIdError } = await supabase
-          .from("topic")
-          .select("*, user_details!user_topic!inner(last_topic_id_viewed, id, first_name, last_name)")
-          .eq("id", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
+        let { data: lastUserTopic, error: lastUserTopicError } = await supabase
+          .from("user_topic")
+          .select("*, topic_id!inner(*), user_id!inner(*)")
+          .eq("user_id.user_id", userDetails?.user_id ? userDetails?.user_id : null)
+          .eq("topic_id.id", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
           .single();
-        if (lastTopicId) {
-          console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
-          setTopic(lastTopicId);
+        if (lastUserTopic) {
+          console.log("lastUserTopic record using last_topic_id_viewed from user_details table ", lastUserTopic);
+          setActiveTopic(lastUserTopic.topic_id);
         } else {
           setFirstTime(true);
-          console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
+          console.log(`lastTopicIdError: ${JSON.stringify(lastUserTopicError, null, 2)}`);
         }
       };
       fetchLastTopicId();
     }
-  }, [loading]);
+  }, [userDetails]);
 
   useEffect(() => {
     setTimeout(() => {
       setIsAlertShowing(false);
-    }, 5000);
+    }, 4500);
   });
 
   useEffect(() => {
     if (!loading && joinCode) {
-      console.log("2nd useEffect, this is the current topic useState: ", topic);
       const fetchMatchingTopic = async () => {
         console.log("joinCode: ", joinCode);
-        console.log("from authProvider, userDetails: ", userDetails);
         const { data: fetchedTopic, error: fetchedTopicError } = await supabase
           .from("topic")
-          .select("*, user_details!inner(id,first_name, last_name)") // going
+          .select("*") // going
           // .select("topic_string, student_topic(*)")
           .eq("join_code", joinCode)
           .single();
@@ -93,13 +95,12 @@ const StudentDashboard = ({ handlePageTitle }) => {
         // .eq('cars.brand', 'Ford')
 
         if (fetchedTopic) {
-          setTopic(fetchedTopic);
-        }
-
-        if (fetchedTopicError) {
-          setFetchError("Could not fetch the topic");
-          setTopic(null);
-          console.log(error);
+          setActiveTopic(fetchedTopic);
+        } else if (fetchedTopicError.message) {
+          setMessage("Could not fetch the topic");
+          setAlertSeverity("error");
+          setIsAlertShowing(true);
+          console.log(fetchedTopicError);
         }
       };
 
@@ -107,31 +108,37 @@ const StudentDashboard = ({ handlePageTitle }) => {
         fetchMatchingTopic();
       }
     }
-  }, [loading, joinCode]);
+  }, [joinCode]);
 
-  useEffect(() => {
-    const fetchStucks = async () => {
-      console.log("trying to get stucks from the database");
-      let { data: stuck, error } = await supabase
-        .from("stuck") // from this table
-        // getting details from two other tables using foreign keys (stuck is the original,
-        // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
-        .select("*, user_topic!inner(*, user_details!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
-        .eq("user_topic.topic_id", topic.id);
-      if (error) {
-        setFetchError("Could not fetch the list of stucks");
-        setStucks(null);
-        console.log("there was an error ", error);
-      }
-      if (stuck) {
-        setStucks(stuck);
-        console.log("fetched stucks: ", stuck);
-      }
-    };
-    if (userDetails && topic) {
-      fetchStucks();
+  // this function will fetch the latest list of stucks from the database - passing this function to the AddStuckDialog component
+  // so that we can have this list update immediately after a new stuck is added
+  const handleFetchStucks = async () => {
+    console.log("trying to get stucks from the database");
+    let { data: stuck, error: fetchStucksError } = await supabase
+      .from("stuck") // from this table
+      // getting details from two other tables using foreign keys (stuck is the original,
+      // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
+      .select("*, user_topic!inner(*, user_details!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
+      .eq("user_topic.topic_id", activeTopic?.id);
+    if (fetchStucksError) {
+      setMessage("Could not fetch the list of stucks");
+      setAlertSeverity("error");
+      setIsAlertShowing(true);
+      setStucks(null);
+      console.log("there was an error ", fetchStucksError);
     }
-  }, [topic]);
+    if (stuck) {
+      setStucks(stuck);
+      console.log("fetched stucks: ", stuck);
+    }
+  };
+
+  //this will update the stucks list when the active topic changes
+  useEffect(() => {
+    if (userDetails && activeTopic) {
+      handleFetchStucks();
+    }
+  }, [activeTopic]);
 
   const handleJoinTopic = async (newJoinCode) => {
     // fetching the topic_id that matches the join_code entered.
@@ -158,6 +165,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
           setAlertSeverity("info");
           setIsAlertShowing(true);
           setJoinCode(newJoinCode);
+          setFirstTime(false);
         } else if (userDetails && fetchedTopic.id) {
           const { data: user_topic, error } = await supabase
             .from("user_topic")
@@ -167,14 +175,22 @@ const StudentDashboard = ({ handlePageTitle }) => {
           setAlertSeverity("success");
           setIsAlertShowing(true);
           setJoinCode(newJoinCode);
+          setFirstTime(false);
         }
         // updating the database with the last topic id viewed, to help load the correct one next time
-        const { data: updatedUser, error } = await supabase
+        console.log("userDetails prior to trying to set the last_topic_id_viewed: ", userDetails);
+        const { data: updatedUser, error: updateUserDetailsError } = await supabase
           .from("user_details")
           .update({ last_topic_id_viewed: fetchedTopic.id })
           .eq("user_id", userDetails.user_id)
-          .select();
-        console.log(`last_topic_viewed: ${updatedUser.last_topic_id_viewed}`);
+          .single();
+        if (updateUserDetailsError) {
+          console.log(updateUserDetailsError);
+        }
+        if (updatedUser) {
+          console.log("updatedUser from StudentDashboard: ", updatedUser);
+          console.log(`last_topic_viewed: ${updatedUser.last_topic_id_viewed}`);
+        }
       }
     }
   };
@@ -212,38 +228,129 @@ const StudentDashboard = ({ handlePageTitle }) => {
       </Box>
     );
   return (
-    <Box
-      m="20px"
-      display="flex"
-      flexDirection="column"
-      justifyContent="end"
-      gridColumn="span 12"
-      // marginLeft="20px"
-      // marginRight="20px"
-      alignItems="center">
-      <Box
-        m="20px"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        p={2}
-        borderRadius="3px"
-        rowGap="10px"
-        sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
-        <ProgressStepper
-          // activeStep={activeStep}
-          // setActiveStep={setActiveStep}
-          handleJoinTopic={handleJoinTopic}
-          joinCode={joinCode}
-          topic={topic}
-          isAlertShowing={isAlertShowing}
-          setIsAlertShowing={setIsAlertShowing}
-          stucks={stucks}
-          setStucks={setStucks}
-          handleUpload={handleUpload}
-        />
-      </Box>
-      {/* {activeStep === 2 && (
+    <>
+      {isAlertShowing && (
+        <Alert
+          sx={{ position: "fixed", mt: "-10px", alignSelf: "end" }}
+          severity={alertSeverity}
+          onClose={() => {
+            setIsAlertShowing(false);
+          }}>
+          {message}
+        </Alert>
+      )}
+      <Box m="20px">
+        {/* HEADER */}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          alignContent="center"
+          sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
+          {/* <Header
+          title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
+          subtitle="Welcome to your Unstuck Dashboard!"
+        /> */}
+
+          <TopicHeader
+            joinCode={joinCode}
+            userDetails={userDetails}
+            activeTopic={activeTopic}
+          />
+        </Box>
+        <Box
+          m="20px"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          p={2}
+          borderRadius="3px"
+          rowGap="10px"
+          sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
+          <ProgressStepper
+            // activeStep={activeStep}
+            // setActiveStep={setActiveStep}
+            handleJoinTopic={handleJoinTopic}
+            joinCode={joinCode}
+            activeTopic={activeTopic}
+            isAlertShowing={isAlertShowing}
+            setIsAlertShowing={setIsAlertShowing}
+            stucks={stucks}
+            setStucks={setStucks}
+            handleUpload={handleUpload}
+          />
+          <Box
+            display="flex"
+            flexDirection="row"
+            flexWrap="wrap"
+            justifyContent="space-between"
+            alignItems="baseline"
+            alignContent="flex-start">
+            <Box sx={{ mb: "10px" }}>
+              <TopicHeader activeTopic={activeTopic} />
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="end"
+              alignItems="center">
+              <JoinTopicDialog
+                handleJoinTopic={handleJoinTopic}
+                firstTime={firstTime}
+              />
+            </Box>
+          </Box>
+        </Box>
+        <Box m="20px">
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center">
+            <StepHeader activeStep={activeStep} />
+
+            {/* {fetchError && <p>{fetchError}</p>} */}
+            {activeStep < 1 && (
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="end"
+                alignItems="end">
+                <AddStuckDialog
+                  activeTopic={activeTopic}
+                  handleFetchStucks={handleFetchStucks}
+                />
+              </Box>
+            )}
+            {activeStep === 1 && (
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="end"
+                alignItems="end">
+                <Button>Select Stuck</Button>
+              </Box>
+            )}
+          </Box>
+          {/* Form for odding new Unstuck to the Topic */}
+          {activeStep <= 1 && (
+            // <StepOne/>
+            <Box
+              display="flex"
+              flexWrap="wrap"
+              alignItems="center"
+              m="2rem">
+              {/* display all submitted stucks here */}
+              {stucks?.map((stuck, index) => (
+                <StuckCard
+                  key={stuck.id}
+                  stuck={stuck}
+                  activeStep={activeStep}
+                  setActiveStep={setActiveStep}
+                  index={index}
+                />
+              ))}
+            </Box>
+          )}
+          {/* {activeStep === 2 && (
         // <StepTwo/>
         <Typography
           gutterBottom
@@ -261,7 +368,9 @@ const StudentDashboard = ({ handlePageTitle }) => {
           Test Step 3
         </Typography>
       )} */}
-    </Box>
+        </Box>
+      </Box>
+    </>
   );
 };
 
