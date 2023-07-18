@@ -36,33 +36,30 @@ function MyFormHelperText() {
 }
 
 const SherpaDashboard = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const { userDetails, user, loading } = useAuth();
   const [topicFormInput, setTopicFormInput] = useState({
     topic_string: "",
   });
-  const [joinCode, setJoinCode] = useState("");
   const [activeTopic, setActiveTopic] = useState(null);
+  const [stucks, setStucks] = useState([]);
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
   const [firstTime, setFirstTime] = useState(false);
-  const [stucks, setStucks] = useState([]);
 
   // retrieve most recently viewed topic from the database to load by default
   useEffect(() => {
     if (!loading && userDetails.last_topic_id_viewed != null && userDetails.user_id != null) {
       const fetchUserTopicOfLastTopicViewed = async () => {
+        console.log("userDetails on useEffect: ", userDetails);
         let { data: lastUserTopic, error: lastUserTopicError } = await supabase
-          .from("user_topic")
-          .select("*, topic_id!inner(*), user_id!inner(*)")
-          .eq("user_id.user_id", userDetails?.user_id ? userDetails?.user_id : null)
-          .eq("user_id.last_topic_id_viewed", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
-          .eq("topic_id.sherpa_owner_id", userDetails?.user_id ? userDetails?.user_id : null)
+          .from("topic")
+          .select("*, sherpa_owner_id!inner(*)")
+          .eq("id", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
           .single();
         if (lastUserTopic) {
-          setActiveTopic(lastUserTopic.topic_id);
+          console.log("lastUserTopic: ", lastUserTopic);
+          setActiveTopic(lastUserTopic);
         } else {
           console.log(`lastTopicError: ${JSON.stringify(lastUserTopicError, null, 2)}`);
         }
@@ -124,6 +121,7 @@ const SherpaDashboard = () => {
         .update({ last_topic_id_viewed: fetchedTopic.id })
         .eq("user_id", userDetails?.user_id)
         .select();
+      console.log("updatedUser after updating the last topic viewed: ", updatedUser);
     }
   };
 
@@ -142,61 +140,61 @@ const SherpaDashboard = () => {
       .select();
   }
 
-  useEffect(() => {
-    if (userDetails) {
-      const fetchLastTopicId = async () => {
-        let { data: lastTopicId, error: lastTopicIdError } = await supabase
-          .from("topic")
-          .select("*, user_details!user_topic!inner(last_topic_id_viewed, id, first_name, last_name)")
-          .eq("id", userDetails.last_topic_id_viewed)
-          .single();
-        console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
-        console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
-        if (lastTopicId) {
-          setActiveTopic(lastTopicId);
-        }
-      };
-      if (!loading) {
-        fetchLastTopicId();
-      }
-    }
-  }, [userDetails]);
+  // useEffect(() => {
+  //   if (userDetails) {
+  //     const fetchLastTopicId = async () => {
+  //       let { data: lastTopicId, error: lastTopicIdError } = await supabase
+  //         .from("topic")
+  //         .select("*, user_details!user_topic!inner(last_topic_id_viewed, id, first_name, last_name)")
+  //         .eq("id", userDetails.last_topic_id_viewed)
+  //         .single();
+  //       console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
+  //       console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
+  //       if (lastTopicId) {
+  //         setActiveTopic(lastTopicId);
+  //       }
+  //     };
+  //     if (!loading) {
+  //       fetchLastTopicId();
+  //     }
+  //   }
+  // }, [userDetails]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsAlertShowing(false);
-    }, 5000);
-  });
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsAlertShowing(false);
+  //   }, 5000);
+  // });
 
-  useEffect(() => {
-    if (!loading && joinCode) {
-      console.log("2nd useEffect, this is the current topic useState: ", topic);
-      const fetchMatchingTopic = async () => {
-        console.log("joinCode: ", joinCode);
-        console.log("from authProvider, userDetails: ", userDetails);
-        const { data: fetchedTopic, error: fetchedTopicError } = await supabase
-          .from("topic")
-          .select("*, user_details!inner(id,first_name, last_name)") // going
+  // useEffect(() => {
+  //   if (!loading && joinCode) {
+  //     console.log("2nd useEffect, this is the current topic useState: ", topic);
+  //     const fetchMatchingTopic = async () => {
+  //       console.log("joinCode: ", joinCode);
+  //       console.log("from authProvider, userDetails: ", userDetails);
+  //       const { data: fetchedTopic, error: fetchedTopicError } = await supabase
+  //         .from("topic")
+  //         .select("*, user_details!inner(id,first_name, last_name)") // going
 
-          .eq("join_code", joinCode)
-          .single();
+  //         .eq("join_code", joinCode)
+  //         .single();
 
-        if (fetchedTopic) {
-          setTopic(fetchedTopic);
-        }
+  //       if (fetchedTopic) {
+  //         setTopic(fetchedTopic);
+  //       }
 
-        if (fetchedTopicError) {
-          setFetchError("Could not fetch the topic");
-          setTopic(null);
-          console.log(error);
-        }
-      };
+  //       if (fetchedTopicError) {
+  //         setFetchError("Could not fetch the topic");
+  //         setTopic(null);
+  //         console.log(error);
+  //       }
+  //     };
 
-      if (!loading) {
-        fetchMatchingTopic();
-      }
-    }
-  }, [joinCode]);
+  //     if (!loading) {
+  //       fetchMatchingTopic();
+  //     }
+  //   }
+  // }, [joinCode]);
 
   useEffect(() => {
     const fetchStucks = async () => {
@@ -221,51 +219,51 @@ const SherpaDashboard = () => {
     }
   }, [activeTopic]);
 
-  const handleJoinTopic = async (newJoinCode) => {
-    // fetching the topic_id that matches the join_code entered.
-    let { data: fetchedTopic, error: topicIdError } = await supabase
-      .from("topic")
-      .select("id, topic_string")
-      .eq("join_code", newJoinCode)
-      .single();
-    if (fetchedTopic === null) {
-      setMessage(`There is no join code that matches that value. Please try again with a different code.`);
-      setAlertSeverity("error");
-      setIsAlertShowing(true);
-    } else if (fetchedTopic.id) {
-      // filtering out all records on user_topic table for ones that match the current entered topic_id and current user
-      // there should be one and only one there if the student has joined already, and it should return an empty array if they haven't
-      let { data: topicExistsCheck, error: joinedTopicError } = await supabase
-        .from("user_topic")
-        .select("*")
-        .eq("user_id", userDetails.user_id)
-        .eq("topic_id", fetchedTopic.id);
-      if (topicExistsCheck) {
-        if (topicExistsCheck.length != 0) {
-          setMessage(`You are already joined to this Topic! Current topic is now changed.`);
-          setAlertSeverity("info");
-          setIsAlertShowing(true);
-          setJoinCode(newJoinCode);
-        } else if (userDetails && fetchedTopic.id) {
-          const { data: user_topic, error } = await supabase
-            .from("user_topic")
-            .insert([{ user_id: userDetails.user_id, topic_id: fetchedTopic.id }])
-            .select();
-          setMessage(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`);
-          setAlertSeverity("success");
-          setIsAlertShowing(true);
-          setJoinCode(newJoinCode);
-        }
-        // updating the database with the last topic id viewed, to help load the correct one next time
-        const { data: updatedUser, error } = await supabase
-          .from("user_details")
-          .update({ last_topic_id_viewed: fetchedTopic.id })
-          .eq("user_id", userDetails.user_id)
-          .select();
-        console.log(`last_topic_viewed: ${updatedUser.last_topic_id_viewed}`);
-      }
-    }
-  };
+  // const handleJoinTopic = async (newJoinCode) => {
+  //   // fetching the topic_id that matches the join_code entered.
+  //   let { data: fetchedTopic, error: topicIdError } = await supabase
+  //     .from("topic")
+  //     .select("id, topic_string")
+  //     .eq("join_code", newJoinCode)
+  //     .single();
+  //   if (fetchedTopic === null) {
+  //     setMessage(`There is no join code that matches that value. Please try again with a different code.`);
+  //     setAlertSeverity("error");
+  //     setIsAlertShowing(true);
+  //   } else if (fetchedTopic.id) {
+  //     // filtering out all records on user_topic table for ones that match the current entered topic_id and current user
+  //     // there should be one and only one there if the student has joined already, and it should return an empty array if they haven't
+  //     let { data: topicExistsCheck, error: joinedTopicError } = await supabase
+  //       .from("user_topic")
+  //       .select("*")
+  //       .eq("user_id", userDetails.user_id)
+  //       .eq("topic_id", fetchedTopic.id);
+  //     if (topicExistsCheck) {
+  //       if (topicExistsCheck.length != 0) {
+  //         setMessage(`You are already joined to this Topic! Current topic is now changed.`);
+  //         setAlertSeverity("info");
+  //         setIsAlertShowing(true);
+  //         setJoinCode(newJoinCode);
+  //       } else if (userDetails && fetchedTopic.id) {
+  //         const { data: user_topic, error } = await supabase
+  //           .from("user_topic")
+  //           .insert([{ user_id: userDetails.user_id, topic_id: fetchedTopic.id }])
+  //           .select();
+  //         setMessage(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`);
+  //         setAlertSeverity("success");
+  //         setIsAlertShowing(true);
+  //         setJoinCode(newJoinCode);
+  //       }
+  //       // updating the database with the last topic id viewed, to help load the correct one next time
+  //       const { data: updatedUser, error } = await supabase
+  //         .from("user_details")
+  //         .update({ last_topic_id_viewed: fetchedTopic.id })
+  //         .eq("user_id", userDetails.user_id)
+  //         .select();
+  //       console.log(`last_topic_viewed: ${updatedUser.last_topic_id_viewed}`);
+  //     }
+  //   }
+  // };
 
   if (loading)
     return (
