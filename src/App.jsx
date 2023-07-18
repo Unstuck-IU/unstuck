@@ -23,7 +23,14 @@ import { useAuth } from "./Providers/AuthProvider";
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-  const { userSession, loading, userDetails} = useAuth();
+  const { userSession, loading, userDetails } = useAuth();
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+
+  const handlePageTitle = (title, subtitle) => {
+    setTitle(title);
+    setSubtitle(subtitle);
+  }
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -32,7 +39,9 @@ function App() {
           <Sidebar className="sidebar" isSidebar={isSidebar} />
           <main className="content">
             <div className="header">
-              <Topbar setIsSidebar={setIsSidebar} />
+              <Topbar setIsSidebar={setIsSidebar}
+            title={title}
+            subtitle={subtitle}/>
             </div>
             <div className="page-content">
               {userSession && !loading ? (
@@ -41,12 +50,12 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/about" element={<About />} />
-                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile" element={<Profile handlePageTitle={handlePageTitle}/>} />
                   {userDetails?.user_type === "sherpa" && (
-                    <Route path="/sherpa-dashboard" element={<SherpaDashboard />} />
+                    <Route path="/sherpa-dashboard" element={<SherpaDashboard handlePageTitle={handlePageTitle}/>} />
                     )}
                   {userDetails?.user_type === "student" && (
-                    <Route path="/student-dashboard" element={<StudentDashboard />} />
+                    <Route path="/student-dashboard" element={<StudentDashboard handlePageTitle={handlePageTitle}/>} />
                     )}
                   <Route path="/*" element={<ErrorPage />} />
                 </Routes>

@@ -20,6 +20,7 @@ import { tokens } from "../theme";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Providers/AuthProvider";
+import Paper from "@mui/material/Paper";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -52,9 +53,12 @@ export default function SignIn() {
 
   return (
     <Box m="20px">
+      {/* <Paper sx={{ background: theme.palette.mode === "dark" ? colors.primary[900] : colors.primary[900] }}>  */}
       <Container
         component="main"
-        maxWidth="xs">
+        maxWidth="xs"
+        // sx={{ background: theme.palette.mode === "dark" ? colors.primary[900] : colors.primary[900] }}
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -122,7 +126,7 @@ export default function SignIn() {
                 item
                 xs>
                 <Link
-                  sx={{ m: 1, color: colors.greenAccent[300] }}
+                  sx={{ m: 1, color: colors.zest[300] }}
                   href="/resetpassword"
                   variant="body2">
                   Forgot password?
@@ -131,7 +135,7 @@ export default function SignIn() {
               <Grid item>
                 Don't have an account?
                 <Link
-                  sx={{ m: 1, color: colors.greenAccent[300] }}
+                  sx={{ m: 1, color: colors.zest[300] }}
                   href="/signup"
                   variant="body">
                   Sign Up
@@ -163,6 +167,7 @@ export default function SignIn() {
           </Box>
         )}
       </Container>
+      {/* </Paper> */}
     </Box>
   );
 }

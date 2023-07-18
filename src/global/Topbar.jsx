@@ -1,5 +1,5 @@
-import { Box, IconButton, useTheme } from "@mui/material";
-import { useContext } from "react";
+import { Box, IconButton, useTheme, Typography } from "@mui/material";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ColorModeContext, tokens } from "../theme";
 import InputBase from "@mui/material/InputBase";
@@ -9,8 +9,9 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import Header from "../components/Header";
 
-const Topbar = () => {
+const Topbar = ({ title, subtitle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -20,8 +21,24 @@ const Topbar = () => {
       display="flex"
       justifyContent="space-between"
       p={2}>
-      {/* SEARCH BAR */}
       <Box
+        display="flex"
+        gridColumn="span 12"
+        justifyContent="space-between"
+        marginLeft="5px"
+        marginRight="5px"
+        alignItems="center"
+        height="200px"
+        sx={{
+          backgroundImage: `url("../src/assets/images/3706.jpg")`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          height: "100%",
+          width: "100%",
+        }}>
+        {/* SEARCH BAR */}
+        {/* <Box
         display="flex"
         backgroundColor={colors.primary[400]}
         borderRadius="3px">
@@ -34,24 +51,46 @@ const Topbar = () => {
           sx={{ p: 1 }}>
           <SearchIcon />
         </IconButton>
-      </Box>
+      </Box> */}
+        <Header
+          title={title}
+          subtitle={subtitle}
+        />
+        {/* <Box display="flex" mb="30px"
+    height="100px">
+      <Typography
+        variant="h2"
+        color={colors.grey[100]}
+        fontWeight="bold"
+        sx={{ m: "0 0 5px 0" }}>
+        {title}
+      </Typography>
+      <Typography
+        variant="h5"
+        color={colors.greenAccent[400]}>
+        {subtitle}
+      </Typography>
+    </Box> */}
 
-      {/* ICONS */}
-      <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
-        </IconButton>
-        {/* <IconButton>
+        {/* ICONS */}
+        <Box display="flex">
+          <IconButton
+            sx={{ color: colors.black[100] }}
+            onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+          </IconButton>
+          {/* <IconButton>
           <NotificationsOutlinedIcon />
         </IconButton> */}
-        {/* <IconButton>
+          {/* <IconButton>
           <SettingsOutlinedIcon />
         </IconButton> */}
-        <IconButton
-          component={Link}
-          to="/profile">
-          <PersonOutlinedIcon />
-        </IconButton>
+          <IconButton
+            component={Link}
+            to="/profile">
+            <PersonOutlinedIcon sx={{ color: colors.black[100] }} />
+          </IconButton>
+        </Box>
       </Box>
     </Box>
   );

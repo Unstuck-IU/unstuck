@@ -33,7 +33,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
     <MenuItem
       active={selected === title}
       style={{
-        color: colors.grey[100],
+        color: `${colors.primary[100]}`, //Changes the menu items text colours
       }}
       onClick={() => setSelected(title)}
       icon={icon}>
@@ -54,7 +54,7 @@ const Sidebar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background: `${colors.primary[900]} !important`, //sidebar main colour background
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -63,10 +63,10 @@ const Sidebar = () => {
           padding: "5px 35px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
+          color: "#ec9933 !important",
         },
         "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+          color: "#ec9933 !important",
         },
       }}>
       <ProSidebar collapsed={isCollapsed}>
@@ -77,7 +77,7 @@ const Sidebar = () => {
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
-              color: colors.grey[100],
+              color: colors.black[100],
             }}>
             {!isCollapsed && (
               <Box
@@ -92,7 +92,7 @@ const Sidebar = () => {
                     <TerrainIcon sx={{ mb: "-2px", fontSize: 30, mr: "5px" }} />
                     <Typography
                       variant="h3"
-                      color={colors.grey[100]}>
+                      color={colors.black[100]}>
                       Unstuck
                     </Typography>
                   </Box>
@@ -121,15 +121,15 @@ const Sidebar = () => {
               <Box textAlign="center">
                 <Typography
                   variant="h2"
-                  color={colors.grey[100]}
+                  // color={colors.black[950]}
                   fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}>
+                  sx={({ m: "10px 0 0 0" }, { color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] })}>
                   {userDetails ? userDetails.first_name : ""}
                   {/* {data[0].first_name} */}
                 </Typography>
                 <Typography
                   variant="h5"
-                  color={colors.greenAccent[500]}>
+                  sx={({ m: "10px 0 0 0" }, { color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] })}>
                   {/* {data[0].user_type} */}
                   {userDetails ? userDetails.display_name : ""}
                 </Typography>
@@ -150,7 +150,7 @@ const Sidebar = () => {
               <>
                 <Typography
                   variant="h6"
-                  color={colors.grey[300]}
+                  color={colors.black[100]}
                   sx={{ m: "15px 0 5px 20px" }}>
                   Account
                 </Typography>
@@ -187,7 +187,7 @@ const Sidebar = () => {
                 />
                 <Typography
                   variant="h6"
-                  color={colors.grey[300]}
+                  color={colors.black[100]}
                   sx={{ m: "15px 0 5px 20px" }}>
                   Pages
                 </Typography>
@@ -256,7 +256,7 @@ const Sidebar = () => {
             /> */}
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              color={colors.black[100]}
               sx={{ m: "15px 0 5px 20px" }}>
               Learn More
             </Typography>

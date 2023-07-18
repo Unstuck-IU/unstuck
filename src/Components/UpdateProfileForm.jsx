@@ -114,22 +114,28 @@ const UpdateProfileForm = (props) => {
         {userDetails?.completed_signup === true && (
           <Button
             variant="outlined"
-            onClick={handleClickOpen}>
+            onClick={handleClickOpen}
+            borderStyle="solid"
+            sx={{
+              color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+              borderColor: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+            }}>
             Update Profile
           </Button>
         )}
         {userDetails?.completed_signup === false && (
           <Button
             sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
+              color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+              borderColor: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
               backgroundColor: colors.greenAccent[700],
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
             }}
             variant="contained"
-            onClick={handleClickOpen}>
+            onClick={handleClickOpen}
+            borderStyle="solid">
             <NewReleasesIcon sx={{ mr: "10px" }} />
             Update Profile
           </Button>
