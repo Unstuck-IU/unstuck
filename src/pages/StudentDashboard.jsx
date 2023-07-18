@@ -240,24 +240,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
         </Alert>
       )}
       <Box m="20px">
-        {/* HEADER */}
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          alignContent="center"
-          sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
-          {/* <Header
-          title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
-          subtitle="Welcome to your Unstuck Dashboard!"
-        /> */}
-
-          <TopicHeader
-            joinCode={joinCode}
-            userDetails={userDetails}
-            activeTopic={activeTopic}
-          />
-        </Box>
+       
         <Box
           m="20px"
           display="flex"
