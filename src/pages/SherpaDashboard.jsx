@@ -48,6 +48,7 @@ const SherpaDashboard = () => {
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
   const [firstTime, setFirstTime] = useState(false);
+  const [stucks, setStucks] = useState([]);
 
   // retrieve most recently viewed topic from the database to load by default
   useEffect(() => {
@@ -152,7 +153,7 @@ const SherpaDashboard = () => {
         console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
         console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
         if (lastTopicId) {
-          setTopic(lastTopicId);
+          setActiveTopic(lastTopicId);
         }
       };
       if (!loading) {
@@ -203,7 +204,7 @@ const SherpaDashboard = () => {
       let { data: stuck, error } = await supabase
         .from("stuck")
         .select("*, user_topic!inner(*, user_details!inner(*))")
-        .eq("user_topic.topic_id", topic.id);
+        .eq("user_topic.topic_id", activeTopic.id);
       console.log(stuck);
       if (error) {
         setFetchError("Could not fetch the list of stucks");
@@ -215,10 +216,10 @@ const SherpaDashboard = () => {
         console.log("fetched stucks: ", stuck);
       }
     };
-    if (userDetails && topic) {
+    if (userDetails && activeTopic) {
       fetchStucks();
     }
-  }, [topic]);
+  }, [activeTopic]);
 
   const handleJoinTopic = async (newJoinCode) => {
     // fetching the topic_id that matches the join_code entered.
