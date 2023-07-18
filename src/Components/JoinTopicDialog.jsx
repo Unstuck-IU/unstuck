@@ -54,6 +54,7 @@ export default function JoinTopicDialog({ ...props }) {
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
+            margin: "1rem",
           }}
           variant="outlined"
           onClick={handleClickOpen}>
