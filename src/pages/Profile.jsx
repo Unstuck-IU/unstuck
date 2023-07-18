@@ -19,8 +19,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAuth, supabase } from "../Providers/AuthProvider";
 import UpdateProfileForm from "../Components/UpdateProfileForm";
 import { useState, useEffect } from "react";
-import styled from "@emotion/styled";
-import "../assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg";
+import styled from "@emotion/styled"; 
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
