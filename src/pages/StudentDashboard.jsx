@@ -33,7 +33,7 @@ const StudentDashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
-  const [topic, setTopic] = useState("");
+  const [activeTopic, setActiveTopic] = useState("");
   const [joinCode, setJoinCode] = useState(null);
   const [stucks, setStucks] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
@@ -43,40 +43,39 @@ const StudentDashboard = () => {
   const [firstTime, setFirstTime] = useState(false);
 
   useEffect(() => {
-    if (!loading && userDetails != null) {
+    if (!loading && userDetails.user_id != null) {
       const fetchLastTopicId = async () => {
-        let { data: lastTopicId, error: lastTopicIdError } = await supabase
-          .from("topic")
-          .select("*, user_details!inner(last_topic_id_viewed, id, first_name, last_name)")
-          .eq("id", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
+        let { data: lastUserTopic, error: lastUserTopicError } = await supabase
+          .from("user_topic")
+          .select("*, topic_id!inner(*), user_id!inner(*)")
+          .eq("user_id.user_id", userDetails?.user_id ? userDetails?.user_id : null)
+          .eq("topic_id.id", userDetails?.last_topic_id_viewed ? userDetails?.last_topic_id_viewed : null)
           .single();
-        if (lastTopicId) {
-          console.log(`lastTopicId: ${JSON.stringify(lastTopicId, null, 2)}`);
-          setTopic(lastTopicId);
+        if (lastUserTopic) {
+          console.log("lastUserTopic record using last_topic_id_viewed from user_details table ", lastUserTopic);
+          setActiveTopic(lastUserTopic.topic_id);
         } else {
           setFirstTime(true);
-          console.log(`lastTopicIdError: ${JSON.stringify(lastTopicIdError, null, 2)}`);
+          console.log(`lastTopicIdError: ${JSON.stringify(lastUserTopicError, null, 2)}`);
         }
       };
       fetchLastTopicId();
     }
-  }, [loading]);
+  }, [userDetails]);
 
   useEffect(() => {
     setTimeout(() => {
       setIsAlertShowing(false);
-    }, 5000);
+    }, 4500);
   });
 
   useEffect(() => {
     if (!loading && joinCode) {
-      console.log("2nd useEffect, this is the current topic useState: ", topic);
       const fetchMatchingTopic = async () => {
         console.log("joinCode: ", joinCode);
-        console.log("from authProvider, userDetails: ", userDetails);
         const { data: fetchedTopic, error: fetchedTopicError } = await supabase
           .from("topic")
-          .select("*, user_details!inner(id,first_name, last_name)") // going
+          .select("*") // going
           // .select("topic_string, student_topic(*)")
           .eq("join_code", joinCode)
           .single();
@@ -88,13 +87,12 @@ const StudentDashboard = () => {
         // .eq('cars.brand', 'Ford')
 
         if (fetchedTopic) {
-          setTopic(fetchedTopic);
-        }
-
-        if (fetchedTopicError) {
-          setFetchError("Could not fetch the topic");
-          setTopic(null);
-          console.log(error);
+          setActiveTopic(fetchedTopic);
+        } else if (fetchedTopicError.message) {
+          setMessage("Could not fetch the topic");
+          setAlertSeverity("error");
+          setIsAlertShowing(true);
+          console.log(fetchedTopicError);
         }
       };
 
@@ -102,31 +100,37 @@ const StudentDashboard = () => {
         fetchMatchingTopic();
       }
     }
-  }, [loading, joinCode]);
+  }, [joinCode]);
 
-  useEffect(() => {
-    const fetchStucks = async () => {
-      console.log("trying to get stucks from the database");
-      let { data: stuck, error } = await supabase
-        .from("stuck") // from this table
-        // getting details from two other tables using foreign keys (stuck is the original,
-        // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
-        .select("*, user_topic!inner(*, user_details!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
-        .eq("user_topic.topic_id", topic.id);
-      if (error) {
-        setFetchError("Could not fetch the list of stucks");
-        setStucks(null);
-        console.log("there was an error ", error);
-      }
-      if (stuck) {
-        setStucks(stuck);
-        console.log("fetched stucks: ", stuck);
-      }
-    };
-    if (userDetails && topic) {
-      fetchStucks();
+  // this function will fetch the latest list of stucks from the database - passing this function to the AddStuckDialog component
+  // so that we can have this list update immediately after a new stuck is added
+  const handleFetchStucks = async () => {
+    console.log("trying to get stucks from the database");
+    let { data: stuck, error: fetchStucksError } = await supabase
+      .from("stuck") // from this table
+      // getting details from two other tables using foreign keys (stuck is the original,
+      // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
+      .select("*, user_topic!inner(*, user_details!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
+      .eq("user_topic.topic_id", activeTopic?.id);
+    if (fetchStucksError) {
+      setMessage("Could not fetch the list of stucks");
+      setAlertSeverity("error");
+      setIsAlertShowing(true);
+      setStucks(null);
+      console.log("there was an error ", fetchStucksError);
     }
-  }, [topic]);
+    if (stuck) {
+      setStucks(stuck);
+      console.log("fetched stucks: ", stuck);
+    }
+  };
+
+  //this will update the stucks list when the active topic changes
+  useEffect(() => {
+    if (userDetails && activeTopic) {
+      handleFetchStucks();
+    }
+  }, [activeTopic]);
 
   const handleJoinTopic = async (newJoinCode) => {
     // fetching the topic_id that matches the join_code entered.
@@ -166,12 +170,19 @@ const StudentDashboard = () => {
           setFirstTime(false);
         }
         // updating the database with the last topic id viewed, to help load the correct one next time
-        const { data: updatedUser, error } = await supabase
+        console.log("userDetails prior to trying to set the last_topic_id_viewed: ", userDetails);
+        const { data: updatedUser, error: updateUserDetailsError } = await supabase
           .from("user_details")
           .update({ last_topic_id_viewed: fetchedTopic.id })
           .eq("user_id", userDetails.user_id)
-          .select();
-        console.log(`last_topic_viewed: ${updatedUser.last_topic_id_viewed}`);
+          .single();
+        if (updateUserDetailsError) {
+          console.log(updateUserDetailsError);
+        }
+        if (updatedUser) {
+          console.log("updatedUser from StudentDashboard: ", updatedUser);
+          console.log(`last_topic_viewed: ${updatedUser.last_topic_id_viewed}`);
+        }
       }
     }
   };
@@ -228,11 +239,7 @@ const StudentDashboard = () => {
           alignItems="baseline"
           alignContent="flex-start">
           <Box sx={{ mb: "10px" }}>
-            <TopicHeader
-              joinCode={joinCode}
-              userDetails={userDetails}
-              topic={topic}
-            />
+            <TopicHeader activeTopic={activeTopic} />
           </Box>
           <Box
             display="flex"
@@ -259,7 +266,10 @@ const StudentDashboard = () => {
               flexDirection="row"
               justifyContent="end"
               alignItems="end">
-              <AddStuckDialog topic={topic} />
+              <AddStuckDialog
+                activeTopic={activeTopic}
+                handleFetchStucks={handleFetchStucks}
+              />
             </Box>
           )}
           {activeStep === 1 && (

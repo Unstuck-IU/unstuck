@@ -32,14 +32,14 @@ export default function AddStuckDialog({ ...props }) {
     // add database call to insert new row in stucks table - using current topic.id
     console.log("AddStuckDialog handleSubmit was called successfully");
     // get the user_topic.id from the user_topic table
-    if (userDetails && props.topic.id) {
+    if (userDetails && props.activeTopic.id) {
       // filtering out all records on user_topic table for ones that match the current entered topic_id and current user
       // there should be one and only one there if the student has joined already, and it should return an empty array if they haven't
       let { data: userTopicData, error: joinedTopicError } = await supabase
         .from("user_topic")
         .select("*")
         .eq("user_id", userDetails.user_id)
-        .eq("topic_id", props.topic.id)
+        .eq("topic_id", props.activeTopic.id)
         .single();
       console.log("userTopicData", userTopicData);
       if (userTopicData) {
@@ -48,6 +48,7 @@ export default function AddStuckDialog({ ...props }) {
           .insert([{ user_topic_id: userTopicData.id, driving_question: drivingQuestion }])
           .select();
         console.log("stuckData: ", stuckData);
+        props.handleFetchStucks();
       }
       setOpen(false);
     }

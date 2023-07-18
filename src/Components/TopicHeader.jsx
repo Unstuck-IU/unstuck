@@ -3,7 +3,7 @@ import { tokens } from "../theme";
 import { useState, useEffect } from "react";
 import { supabase, useAuth } from "../Providers/AuthProvider";
 
-const TopicHeader = ({ topic }) => {
+const TopicHeader = ({ activeTopic }) => {
   const [sherpa, setSherpa] = useState("");
   const [fetchError, setFetchError] = useState("");
   const theme = useTheme();
@@ -12,7 +12,7 @@ const TopicHeader = ({ topic }) => {
 
   return (
     <>
-      {topic && (
+      {activeTopic && (
         <Box
           sx={{
             display: "flex",
@@ -33,7 +33,7 @@ const TopicHeader = ({ topic }) => {
             <Typography
               variant="h3"
               ml="10px">
-              {topic.topic_string}
+              {activeTopic.topic_string}
             </Typography>
           </Typography>
         </Box>
