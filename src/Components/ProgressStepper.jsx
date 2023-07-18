@@ -15,7 +15,7 @@ const steps = [
     "Problem: Expand",
     "Problem: Example",
     "Problem: Illustration",
-    // "Submit Problem",
+    "Submit Problem",
     // "Review Peers Stucks",
 ];
 
@@ -27,7 +27,6 @@ export default function ProgressStepper(props) {
 
         return steps.length;
     };
-    const handleUpload = props.handleUpload
 
     const handleLoadFromLocal = () => {
         const statement = getitem("formvalues");
@@ -44,7 +43,7 @@ export default function ProgressStepper(props) {
     };
 
     const allStepsCompleted = () => {
-        handleUpload(formValues)
+        props.handleUpload(formValues)
         return completedSteps() === totalSteps();
     };
 
@@ -97,9 +96,25 @@ export default function ProgressStepper(props) {
         handleNext();
     };
 
-    const handleChosenStuck = (event, key1, key2, key3, key4) => {
-        console.log("Click object key:", event, key1, key2, key3, key4)
+    // const handleChosenStuck = function (e) {
+    //     let a = e.target.parentNode.getAttribute("cardId");
+    //     console.log(a);
+    //     console.log("STUCK CARD CLICKED")
+    //     console.log("Click object key:")
+    //     console.log("Get attribute from card:", button.id, button)
+    // }
+
+    const handleChosenStuck = () => {
+        console.log("STUCK CARD CLICKED")
+        console.log("Click object key:")
+        console.log("Get attribute from card:")
     }
+
+
+
+
+    // .target.parentNode.key
+
 
     // const handleUpload = async () => {
     //     const { data, error } = await supabase

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Alert, useTheme } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { tokens } from "../theme";
 import { useAuth, supabase } from "../Providers/AuthProvider";
 // ui elements
@@ -7,44 +8,87 @@ import {
   Avatar,
   Box,
   Button,
+  Card,
   Container,
   CssBaseline,
+  Divider,
   FormControl,
   FormGroup,
   FormHelperText,
   FormLabel,
   Grid,
-
+  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
 import JoinTopicDialog from "../components/JoinTopicDialog";
 import TopicHeader from "../components/TopicHeader";
 import AddStuckDialog from "../components/AddStuckDialog";
-import StuckCard from "../components/stuckCard";
+import StuckCard from "./stuckCard";
+
+
+
+
+
 export function StatementForm(props) {
   const [statementText, setStatementText] = useState('')
-
-
+  const [message, setMessage] = useState("");
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
 
 
+  const SexiCard = styled(Card)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.primary,
+    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "wrap",
+    fontSize: "14px",
+    fontWeight: "bold",
+    margin: "10px",
+    width: "600px",
+    height: "300px",
+    borderRadius: "12px 12px 12px 12px",
+    justifyContent: "space-between"
+  }));
+
+  const SexiTextarea = styled(TextareaAutosize)(
+    ({ theme }) => `
+    width: 500px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 12px 12px 0 12px;
+    color: ${theme.palette.mode === 'dark' ? colors.grey[300] : colors.grey[900]};
+    background: ${theme.palette.mode === 'dark' ? colors.blueAccent[700] : colors.primary[800]};
+    border: 1px solid ${theme.palette.mode === 'dark' ? colors.grey[700] : colors.grey[200]};
+    box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? colors.grey[900] : colors.grey[50]};
+    margin: 10px;
+    &:hover {
+      border-color: ${colors.blueAccent[400]};
+    }
+  
+    &:focus {
+      border-color: ${colors.blueAccent[400]};
+      box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? colors.blueAccent[500] : colors.blueAccent[200]};
+    }
+  
+    // firefox
+    &:focus-visible {
+      outline: 0;
+    }
+  `,
+  );
+
   return (
     <>
-      {/* <Box
-        sx={{
-          height: 10,
-          mt: "40px",
-          display: "flex",
-          flexDirection: "column",
-        }}>
-        <Container>
 
-          <Typography variant="h5">
-            <div className="sexi-form"></div>
-          </Typography>
-        </Container>
-      </Box> */}
 
       {/* HANDLETOPIC DIALOG   */}
       <Box
@@ -63,6 +107,7 @@ export function StatementForm(props) {
         )}
         <JoinTopicDialog handleJoinTopic={props.handleJoinTopic} />
       </Box>
+
       {/* JOIN TOPIC   */}
       {/* {fetchError && <p>{fetchError}</p>} */}
       {/* {activeStep <= 1 && ( */}
@@ -80,177 +125,169 @@ export function StatementForm(props) {
       </Box>
       {/* )} */}
 
-      
-      <Box m={"20px"}>
+
+      <Box m={"5px"}>
         <Container
           component="main"
           maxWidth="xs">
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 3,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}>
 
             <Box
-              component="form"
+              // component="form"
               noValidate
 
-              sx={{ mt: 3 }}>
+              sx={{ mt: 1 }}>
+
               <form>
                 {/* STATEMENT FORM SECTION */}
-                <FormGroup sx={{ display: props.activeStep === 2 ? "" : "none" }}>
-                  <Typography variant="h4">State the Problem in Your Own Words:</Typography>
-                  {/* <Typography variant="p">This is [explaination text]</Typography> */}
-                  <Grid
-                    container
-                    spacing={2}>
+                <SexiCard sx={{ display: (props.activeStep === 2 || props.activeStep === 6) ? "" : "none" }}>
+                  <FormGroup sx={{ objectFit: "contain" }}>
+                    <Typography variant="h5">State the Problem in Your Own Words:</Typography>
+                    {props.activeStep === 2 ? <Typography variant="subtitle1">This is [explaination text]</Typography> : ""}
                     <Grid
-                      item
-                      xs={12}>
-                      <TextField
-                        name="statement"
-                        fullWidth
-                        multiline
-                        minRows={5}
-                        sx={{ mt: 10 }}
-                        id="statement"
-                        label="Statement"
-                        value={props.formValues.statement}
-                        onChange={props.handleTextFieldChange}
-                        autoFocus
-                      />
-                    </Grid>
+                      container
+                      spacing={1}>
+                      <Grid
+                        item
+                        xs={12}
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <SexiTextarea
+                          name="statement"
+                          fullWidth
+                          multiline
+                          minRows={5}
+                          sx={{ mt: 1 }}
+                          id="statement"
+                          label="Statement"
+                          value={props.formValues.statement}
+                          onChange={props.handleTextFieldChange}
+                          autoFocus
+                        />
+                      </Grid>
 
-                  </Grid>
-                  <Grid
-                    container
-                    justifyContent="flex-end"></Grid>
-                </FormGroup>
+                    </Grid>
+                    <Grid
+                      container
+                      justifyContent="flex-end"></Grid>
+                  </FormGroup>
+                </SexiCard>
+
 
                 {/* EXPAND FORM SECTION */}
-                <FormGroup sx={{ display: props.activeStep === 3 ? "" : "none" }}>
-                  <Typography variant="h4">Expand On Your View of the Problem:</Typography>
-                  {/* <Typography variant="p">Try to add extra details that you may have thought were relevent, but maybe did not feel important enough to include in your original statement</Typography> */}
-                  <Grid
-                    container
-                    spacing={1}>
+                <SexiCard sx={{ display: (props.activeStep === 3 || props.activeStep === 6) ? "" : "none" }}>
+                  <FormGroup sx={{ objectFit: "contain" }}>
+                    <Typography variant="h5">Expand On Your View of the Problem:</Typography>
+                    <Typography variant="subtitle1">Try to add extra details that you may have thought were relevent, but maybe did not feel important enough to include in your original statement</Typography>
                     <Grid
-                      item
-                      xs={12}>
-                      <TextField
-                        name="expand"
-                        fullWidth
-                        multiline
-                        minRows={5}
-                        sx={{ mt: 10 }}
-                        id="expand"
-                        label="Expand"
-                        value={props.formValues.expand}
-                        onChange={props.handleTextFieldChange}
-                        autoFocus
-                      />
+                      container
+                      spacing={1}>
+                      <Grid
+                        item
+                        xs={12}>
+                        <SexiTextarea
+                          name="expand"
+                          fullWidth
+                          multiline
+                          minRows={5}
+                          sx={{ mt: 1 }}
+                          id="expand"
+                          label="Expand"
+                          value={props.formValues.expand}
+                          onChange={props.handleTextFieldChange}
+                          autoFocus
+                        />
+                      </Grid>
+
                     </Grid>
 
-                  </Grid>
+                    <Grid
+                      container
+                      justifyContent="flex-end"></Grid>
+                  </FormGroup>
+                </SexiCard>
 
-                  <Grid
-                    container
-                    justifyContent="flex-end"></Grid>
-                </FormGroup>
+
                 {/* EXAMPLE FORM SECTION */}
-                <FormGroup sx={{ display: props.activeStep === 4 ? "" : "none" }}>
-                  <Typography variant="h4">Write About a Specific Example of The Problem:</Typography>
-                  {/* <Typography variant="p">A real-world example of this type of problem may help you and others to make a connection with the problem, but don't limit yourself if you can imagine a secenario. </Typography> */}
-                  <Grid
-                    container
-                    spacing={1}>
+
+
+                <SexiCard sx={{ display: (props.activeStep === 4 || props.activeStep === 6) ? "" : "none" }}>
+                  <FormGroup >
+                    <Typography variant="h5">Write About a Specific Example of The Problem:</Typography>
+                    <Typography variant="subtitle1">A real-world example of this type of problem may help you and others to make a connection with the problem, but don't limit yourself if you can imagine a secenario. </Typography>
                     <Grid
-                      item
-                      xs={12}>
-                      <TextField
-                        name="example"
-                        fullWidth
-                        multiline
-                        minRows={5}
-                        sx={{ mt: 10 }}
-                        id="example"
-                        label="Example"
-                        value={props.formValues.example}
-                        onChange={props.handleTextFieldChange}
-                        autoFocus
-                      />
+                      container
+                      spacing={1}>
+                      <Grid
+                        item
+                        xs={12}>
+                        <SexiTextarea
+                          name="example"
+                          fullWidth
+                          multiline
+                          minRows={5}
+                          sx={{ mt: 1 }}
+                          id="example"
+                          label="Example"
+                          value={props.formValues.example}
+                          onChange={props.handleTextFieldChange}
+                          autoFocus
+                        />
+                      </Grid>
+
                     </Grid>
 
-                  </Grid>
-                  {/* <Button
+                    <Grid
+                      container
+                      justifyContent="flex-end"></Grid>
+                  </FormGroup>
+                </SexiCard>
 
-                                fullWidth
-                                variant="contained"
-                                onClick={handleSave}
-                                sx={{ mt: 3, mb: 2 }}>
-                                Save
-                            </Button>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                onClick={handleLoad}
-                                sx={{ mt: 3, mb: 2 }}>
-                                Load
-                            </Button> */}
-                  <Grid
-                    container
-                    justifyContent="flex-end"></Grid>
-                </FormGroup>
+
 
                 {/* ILLUSTRATE FORM SECTION */}
-                <FormGroup sx={{ display: props.activeStep === 5 ? "" : "none" }}>
-                  <Typography variant="h4">Create an Illustration of Your Problem:</Typography>
-                  {/* <Typography variant="p"> Illustration usually implies creating a drawing, but here it means to create a mental image or demonstrate with an analogy.\n If you prefer pictures, feel free to add a picture! </Typography> */}
-                  <Grid
-                    container
-                    spacing={1}>
+
+                <SexiCard sx={{ display: (props.activeStep === 5 || props.activeStep === 6) ? "" : "none" }}>
+                  <FormGroup >
+                    <Typography variant="h5">Create an Illustration of Your Problem:</Typography>
+                    <Typography variant="subtitle1"> Illustration usually implies creating a drawing, but here it means to create a mental image or demonstrate with an analogy.\n If you prefer pictures, feel free to add a picture! </Typography>
                     <Grid
-                      item
-                      xs={12}>
-                      <TextField
-                        name="illustrate"
-                        fullWidth
-                        multiline
-                        minRows={5}
-                        sx={{ mt: 10 }}
-                        id="illustrate"
-                        label="Illustrate"
-                        value={props.formValues.illustrate}
-                        onChange={props.handleTextFieldChange}
-                        autoFocus
-                      />
+                      container
+                      spacing={1}>
+                      <Grid
+                        item
+                        xs={12}>
+                        <SexiTextarea
+                          name="illustrate"
+                          fullWidth
+                          multiline
+                          minRows={5}
+                          sx={{ mt: 1 }}
+                          id="illustrate"
+                          label="Illustrate"
+                          value={props.formValues.illustrate}
+                          onChange={props.handleTextFieldChange}
+                          autoFocus
+                        />
+
+                      </Grid>
 
                     </Grid>
 
-                  </Grid>
-                  {/* <Button
+                    <Grid
+                      container
+                      justifyContent="flex-end"></Grid>
+                  </FormGroup>
+                </SexiCard>
 
-                    fullWidth
-                    variant="contained"
-                    onClick={printFormValues}
-                    sx={{ mt: 3, mb: 2 }}>
-                    Save
-                  </Button>
-                  
-          <Button
-              fullWidth
-              variant="contained"
-              onClick={handleLoad}
-              sx={{ mt: 3, mb: 2 }}>
-              Load
-          </Button> */}
-                  <Grid
-                    container
-                    justifyContent="flex-end"></Grid>
-                </FormGroup>
               </form>
             </Box>
           </Box>
@@ -275,10 +312,13 @@ export function StatementForm(props) {
           {props.stucks?.map((stuck, index) => (
             <StuckCard
               key={stuck.id}
+              cardid={stuck.id}
               stuck={stuck}
               activeStep={props.activeStep}
               // setActiveStep={props.activeStep}
               index={index}
+              // props={props}
+              onClick={props.handleChosenStuck}
             />
           ))}
         </Box>
