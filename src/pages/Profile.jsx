@@ -172,12 +172,7 @@ const Profile = ({ handlePageTitle }) => {
               My Stucks and Unstucks
             </Typography>
             <Typography>
-              <ul>
-                Placeholder
-                <li>Placeholder 1</li>
-                <li>Placeholder 2</li>
-                <li>Placeholder 3</li>
-              </ul>
+       
             </Typography>
           </Box>
           <Box
@@ -191,12 +186,6 @@ const Profile = ({ handlePageTitle }) => {
               sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
               Badges
             </Typography>
-            <ul>
-              Placeholder
-              <li>Badge 1</li>
-              <li>Badge 2</li>
-              <li>Badge 3</li>
-            </ul>
           </Box>
         </Box>
       </Box>
