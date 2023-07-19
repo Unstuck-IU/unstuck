@@ -124,7 +124,8 @@ export default function ProgressStepper(props) {
       <div>
         {allStepsCompleted() ? (
           <>
-            <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
+            <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished.</Typography>
+            <Typography sx={{ mt: 2, mb: 1 }}>Please wait for your Sherpa to activate the next step!</Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button onClick={handleReset}>Reset</Button>
@@ -137,6 +138,8 @@ export default function ProgressStepper(props) {
               formValues={formValues}
               handleTextFieldChange={handleTextFieldChange}
               handleChosenStuck={handleChosenStuck}
+              activeTopic={props.activeTopic}
+              handleFetchStucks={props.handleFetchStucks}
               // joinCode={props.joinCode}
               {...props}
             />
@@ -157,17 +160,6 @@ export default function ProgressStepper(props) {
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button
-                onClick={handleNext}
-                sx={{
-                  mr: 1,
-                  color: colors.black[100],
-                  border: 1,
-                  borderColor: colors.black[100],
-                  fontSize: "14px",
-                }}>
-                Next
-              </Button>
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (
                   <Typography
