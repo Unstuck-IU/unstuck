@@ -44,7 +44,7 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
           gutterBottom
           variant="h6"
           component="div">
-          Submitted By: {stuck.user_topic_id.user_id.display_name}
+          Submitted By: {stuck.user_topic.user_details.display_name}
         </Typography>
       </div>
       {activeStep === 1 && (
