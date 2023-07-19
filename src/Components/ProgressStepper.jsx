@@ -17,11 +17,7 @@ const steps = [
   "Problem: Expand",
   "Problem: Example",
   "Problem: Illustration",
-<<<<<<< HEAD
-  // "Submit Problem",
-=======
   "Submit Problem",
->>>>>>> develop
   // "Review Peers Stucks",
 ];
 
@@ -29,18 +25,11 @@ export default function ProgressStepper(props) {
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
-<<<<<<< HEAD
-  const totalSteps = () => {
-    return steps.length;
-  };
-  const handleUpload = props.handleUpload;
-=======
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const totalSteps = () => {
     return steps.length;
   };
->>>>>>> develop
 
   const handleLoadFromLocal = () => {
     const statement = getitem("formvalues");
@@ -57,11 +46,7 @@ export default function ProgressStepper(props) {
   };
 
   const allStepsCompleted = () => {
-<<<<<<< HEAD
-    handleUpload(formValues);
-=======
     props.handleUpload(formValues);
->>>>>>> develop
     return completedSteps() === totalSteps();
   };
 
