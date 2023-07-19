@@ -28,7 +28,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import TopicHeader from "../components/TopicHeader";
 import JoinTopicDialog from "../components/JoinTopicDialog";
 import AddStuckDialog from "../components/AddStuckDialog";
-import StuckCard from "../components/stuckCard";
+import StuckCard from "../Components/stuckCard";
 
 // import StuckCard from "../components/stuckCard";
 

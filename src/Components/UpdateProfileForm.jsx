@@ -115,7 +115,6 @@ const UpdateProfileForm = (props) => {
           <Button
             variant="outlined"
             onClick={handleClickOpen}
-            borderStyle="solid"
             sx={{
               color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
               borderColor: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],

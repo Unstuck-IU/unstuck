@@ -7,6 +7,8 @@ import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { StatementForm } from "./StatementForm";
+import { useTheme } from "@mui/material";
+import { tokens } from "../theme";
 
 const steps = [
   "Post a Stuck",
@@ -15,7 +17,11 @@ const steps = [
   "Problem: Expand",
   "Problem: Example",
   "Problem: Illustration",
+<<<<<<< HEAD
   // "Submit Problem",
+=======
+  "Submit Problem",
+>>>>>>> develop
   // "Review Peers Stucks",
 ];
 
@@ -23,10 +29,18 @@ export default function ProgressStepper(props) {
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
+<<<<<<< HEAD
   const totalSteps = () => {
     return steps.length;
   };
   const handleUpload = props.handleUpload;
+=======
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const totalSteps = () => {
+    return steps.length;
+  };
+>>>>>>> develop
 
   const handleLoadFromLocal = () => {
     const statement = getitem("formvalues");
@@ -43,7 +57,11 @@ export default function ProgressStepper(props) {
   };
 
   const allStepsCompleted = () => {
+<<<<<<< HEAD
     handleUpload(formValues);
+=======
+    props.handleUpload(formValues);
+>>>>>>> develop
     return completedSteps() === totalSteps();
   };
 
@@ -94,35 +112,11 @@ export default function ProgressStepper(props) {
     handleNext();
   };
 
-  const handleChosenStuck = (event, key1, key2, key3, key4) => {
-    console.log("Click object key:", event, key1, key2, key3, key4);
+  const handleChosenStuck = () => {
+    console.log("STUCK CARD CLICKED");
+    console.log("Click object key:");
+    console.log("Get attribute from card:");
   };
-
-  // const handleUpload = async () => {
-  //     const { data, error } = await supabase
-  //         .from('stuck')
-  //         .upsert({ statement_text: formValues.statement }, { expand_text: formValues.statement }, { example_text: formValues.example }, { illustrate_text: formValues.illustrate },)
-  //         .select()
-  //     console.log(data)
-  // }
-
-  // const [formData, setFormData] = useState({});
-
-  // const children = [
-
-  //   <StatementForm onChange={changeText} text1={newText} />,
-  //   // <ExpandForm />,
-  //   // <ExampleForm />,
-  //   // <IllustrateForm />,
-  // ]
-
-  // [<CreateStuck />,
-  // <ChooseStuck />,
-  // <ExpandForm />,
-  // <ExampleForm />,
-  // <IllustrationForm />,
-  // <SubmitProblem />,
-  // <PeerStucks />]
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -154,7 +148,7 @@ export default function ProgressStepper(props) {
         ) : (
           <React.Fragment>
             <StatementForm
-              activeStep={activeStep} // setting as -2 because the first 2 steps don't have components attached yet
+              activeStep={activeStep}
               formValues={formValues}
               handleTextFieldChange={handleTextFieldChange}
               handleChosenStuck={handleChosenStuck}
@@ -165,16 +159,28 @@ export default function ProgressStepper(props) {
 
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
-                color="inherit"
+                // color="inherit"
                 disabled={activeStep === 0}
                 onClick={handleBack}
-                sx={{ mr: 1 }}>
+                sx={{
+                  mr: 1,
+                  color: colors.black[100],
+                  border: 1,
+                  borderColor: colors.black[100],
+                  fontSize: "14px",
+                }}>
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button
                 onClick={handleNext}
-                sx={{ mr: 1 }}>
+                sx={{
+                  mr: 1,
+                  color: colors.black[100],
+                  border: 1,
+                  borderColor: colors.black[100],
+                  fontSize: "14px",
+                }}>
                 Next
               </Button>
               {activeStep !== steps.length &&
@@ -185,7 +191,17 @@ export default function ProgressStepper(props) {
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
-                  <Button onClick={handleComplete}>{completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}</Button>
+                  <Button
+                    onClick={handleComplete}
+                    sx={{
+                      mr: 1,
+                      color: colors.black[100],
+                      border: 1,
+                      borderColor: colors.black[100],
+                      fontSize: "14px",
+                    }}>
+                    {completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}
+                  </Button>
                 ))}
             </Box>
           </React.Fragment>
