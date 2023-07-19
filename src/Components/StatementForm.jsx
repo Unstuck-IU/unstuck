@@ -25,13 +25,13 @@ import JoinTopicDialog from "../components/JoinTopicDialog";
 import TopicHeader from "../components/TopicHeader";
 import AddStuckDialog from "../components/AddStuckDialog";
 import StuckCard from "./stuckCard";
+import StepHeader from "./StepHeader";
 
 export function StatementForm(props) {
   const [statementText, setStatementText] = useState("");
   const [message, setMessage] = useState("");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
 
   const SexiCard = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -68,12 +68,12 @@ export function StatementForm(props) {
     &:hover {
       border-color: ${colors.blueAccent[400]};
     }
-  
+
     &:focus {
       border-color: ${colors.blueAccent[400]};
       box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
     }
-  
+
     // firefox
     &:focus-visible {
       outline: 0;
@@ -86,35 +86,36 @@ export function StatementForm(props) {
       {/* HANDLETOPIC DIALOG   */}
       <Box
         display="flex"
-        justifyContent="end"
+        justifyContent="center"
         alignItems="center">
-        {props.isAlertShowing && (
-          <Alert
-            sx={{ mr: "10px" }}
-            severity={alertSeverity}
-            onClose={() => {
-              setIsAlertShowing(false);
-            }}>
-            {message}
-          </Alert>
-        )}
-        <JoinTopicDialog handleJoinTopic={props.handleJoinTopic} />
-      </Box>
+        {/* {activeStep <= 1 && ( */}
 
-      {/* JOIN TOPIC   */}
-      {/* {fetchError && <p>{fetchError}</p>} */}
-      {/* {activeStep <= 1 && ( */}
+        {/* JOIN TOPIC   */}
+        {/* {fetchError && <p>{fetchError}</p>} */}
+        <StepHeader activeStep={props.activeStep} />
+      </Box>
       <Box
         display="flex"
         flexDirection="row"
-        justifyContent="space-between"
+        justifyContent="end"
+        mt="2rem"
         alignItems="end">
-        <TopicHeader
-          joinCode={props.joinCode}
-          userDetails={props.userDetails}
-          topic={props.topic}
-        />
-        <AddStuckDialog topic={props.topic} />
+        {props.isAlertShowing && (
+          <Alert
+            sx={{ mr: "10px" }}
+            severity={props.alertSeverity}
+            onClose={() => {
+              setIsAlertShowing(false);
+            }}>
+            {props.message}
+          </Alert>
+        )}
+        {props.activeStep === 0 && (
+          <AddStuckDialog
+            activeTopic={props.activeTopic}
+            handleFetchStucks={props.handleFetchStucks}
+          />
+        )}
       </Box>
       {/* )} */}
 
