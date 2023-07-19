@@ -28,6 +28,7 @@ import StuckCard from "./stuckCard";
 import StepHeader from "./StepHeader";
 
 export function StatementForm(props) {
+  const { userDetails } = useAuth();
   const [statementText, setStatementText] = useState("");
   const [message, setMessage] = useState("");
   const theme = useTheme();

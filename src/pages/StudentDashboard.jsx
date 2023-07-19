@@ -118,8 +118,8 @@ const StudentDashboard = ({ handlePageTitle }) => {
       .from("stuck") // from this table
       // getting details from two other tables using foreign keys (stuck is the original,
       // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
-      .select("*, user_topic!inner(*, user_details!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
-      .eq("user_topic.topic_id", activeTopic?.id);
+      .select("*, user_topic_id!inner(*, user_id!inner(*), topic_id!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
+      .eq("user_topic_id.topic_id.id", activeTopic?.id);
     if (fetchStucksError) {
       setMessage("Could not fetch the list of stucks");
       setAlertSeverity("error");
@@ -255,6 +255,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
             firstTime={firstTime}
           />
         </Box>
+        {/* student dashboard content + stepper */}
         <Box
           m="20px"
           display="flex"
