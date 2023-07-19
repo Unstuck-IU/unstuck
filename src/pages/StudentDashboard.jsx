@@ -2,33 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 //auth context
 import { useAuth, supabase } from "../Providers/AuthProvider";
-//mock data
-import { mockTransactions } from "../data/mockData";
 //theme
 import { tokens } from "../theme";
 import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions } from "@mui/material";
 //components
 import ProgressStepper from "../Components/ProgressStepper";
-
-import Header from "../components/Header";
-import StepHeader from "../components/StepHeader";
-import LineChart from "../components/LineChart";
-// import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../components/BarChart";
-import StatBox from "../components/StatBox";
-import ProgressCircle from "../components/ProgressCircle";
-//ui elements
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import LoadingSpinner from "../components/LoadingSpinner";
 import TopicHeader from "../components/TopicHeader";
 import JoinTopicDialog from "../components/JoinTopicDialog";
-import AddStuckDialog from "../components/AddStuckDialog";
-import StuckCard from "../Components/stuckCard";
 
 // import StuckCard from "../components/stuckCard";
 
@@ -239,7 +220,19 @@ const StudentDashboard = ({ handlePageTitle }) => {
           {message}
         </Alert>
       )} */}
-      <Box m="20px">
+      <Box
+        m="20px"
+        // component="div"
+        // sx={{
+        //   position: 'absolute',
+        //   width: '100%',
+        //   height: '100%',
+        //   backgroundImage: `url("../src/assets/destination-1285851.svg")`,
+        //   backgroundPosition: 'center',
+        //   backgroundSize: 'cover',
+        //   backgroundRepeat: 'no-repeat'
+        // }}
+      >
         {/* HEADER */}
 
         <Box
@@ -265,8 +258,8 @@ const StudentDashboard = ({ handlePageTitle }) => {
           rowGap="10px"
           sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
           <ProgressStepper
-            // activeStep={activeStep}
-            // setActiveStep={setActiveStep}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
             handleJoinTopic={handleJoinTopic}
             handleFetchStucks={handleFetchStucks}
             joinCode={joinCode}

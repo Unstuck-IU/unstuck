@@ -135,13 +135,35 @@ export function StatementForm(props) {
               // component="form"
               noValidate
               sx={{ mt: 1 }}>
-              <form>
+              <div>
                 {/* STATEMENT FORM SECTION */}
                 <SexiCard sx={{ display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none" }}>
                   <FormGroup sx={{ objectFit: "contain" }}>
                     <Typography variant="h5">State the Problem in Your Own Words:</Typography>
                     {props.activeStep === 2 ? <Typography variant="subtitle1">This is [explanation text]</Typography> : ""}
-                    <Grid
+
+                    <Box
+                      component="form"
+                      sx={{
+                        "& .MuiTextField-root": { m: 1, width: "50ch" },
+                      }}
+                      noValidate
+                      autoComplete="off">
+                      <div>
+                        {" "}
+                        <TextField
+                          id="outlined-multiline-static"
+                          label="Statement"
+                          multiline
+                          rows={8}
+                          placeholder="Enter your text here"
+                          value={props.formValues.statement}
+                          onChange={props.handleTextFieldChange}
+                        />
+                      </div>
+                    </Box>
+
+                    {/* <Grid
                       container
                       spacing={1}>
                       <Grid
@@ -151,7 +173,7 @@ export function StatementForm(props) {
                         alignItems="center">
                         <SexiTextarea
                           name="statement"
-                          fullWidth
+                        
                           multiline
                           minRows={5}
                           sx={{ mt: 2 }}
@@ -162,7 +184,7 @@ export function StatementForm(props) {
                           autoFocus
                         />
                       </Grid>
-                    </Grid>
+                    </Grid> */}
                     <Grid
                       container
                       justifyContent="flex-end"></Grid>
@@ -177,7 +199,7 @@ export function StatementForm(props) {
                       Try to add extra details that you may have thought were relevent, but maybe did not feel important enough to
                       include in your original statement
                     </Typography>
-                    <Grid
+                    {/* <Grid
                       container
                       spacing={1}>
                       <Grid
@@ -185,7 +207,6 @@ export function StatementForm(props) {
                         xs={12}>
                         <SexiTextarea
                           name="expand"
-                          fullWidth
                           multiline
                           minRows={5}
                           sx={{ mt: 2 }}
@@ -196,7 +217,7 @@ export function StatementForm(props) {
                           autoFocus
                         />
                       </Grid>
-                    </Grid>
+                    </Grid> */}
 
                     <Grid
                       container
@@ -213,7 +234,7 @@ export function StatementForm(props) {
                       A real-world example of this type of problem may help you and others to make a connection with the problem,
                       but don't limit yourself if you can imagine a scenario.{" "}
                     </Typography>
-                    <Grid
+                    {/* <Grid
                       container
                       spacing={1}>
                       <Grid
@@ -221,7 +242,6 @@ export function StatementForm(props) {
                         xs={12}>
                         <SexiTextarea
                           name="example"
-                          fullWidth
                           multiline
                           minRows={5}
                           sx={{ mt: 2 }}
@@ -232,7 +252,7 @@ export function StatementForm(props) {
                           autoFocus
                         />
                       </Grid>
-                    </Grid>
+                    </Grid> */}
 
                     <Grid
                       container
@@ -250,7 +270,7 @@ export function StatementForm(props) {
                       Illustration usually implies creating a drawing, but here it means to create a mental image or demonstrate
                       with an analogy.\n If you prefer pictures, feel free to add a picture!{" "}
                     </Typography>
-                    <Grid
+                    {/* <Grid
                       container
                       spacing={1}>
                       <Grid
@@ -258,7 +278,6 @@ export function StatementForm(props) {
                         xs={12}>
                         <SexiTextarea
                           name="illustrate"
-                          fullWidth
                           multiline
                           minRows={5}
                           sx={{ mt: 2 }}
@@ -269,14 +288,14 @@ export function StatementForm(props) {
                           autoFocus
                         />
                       </Grid>
-                    </Grid>
+                    </Grid> */}
 
                     <Grid
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
                 </SexiCard>
-              </form>
+              </div>
             </Box>
           </Box>
         </Container>

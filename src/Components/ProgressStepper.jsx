@@ -23,7 +23,7 @@ const steps = [
 
 export default function ProgressStepper(props) {
   const [completed, setCompleted] = useState({});
-  const [activeStep, setActiveStep] = useState(0);
+  // const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -57,21 +57,21 @@ export default function ProgressStepper(props) {
           // find the first step that has been completed
           steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
-    setActiveStep(newActiveStep);
+    props.setActiveStep(newActiveStep);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+   props.setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleStep = (step) => {
-    setActiveStep(step);
+    props.setActiveStep(step);
     // console.log("current active step", activeStep)
     // console.log("Current stepper step:", step)
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    props.setActiveStep(0);
     setCompleted({});
   };
 
@@ -108,7 +108,7 @@ export default function ProgressStepper(props) {
       <Stepper
         nonLinear
         alternativeLabel
-        activeStep={activeStep}>
+        activeStep={props.activeStep}>
         {steps.map((label, index) => (
           <Step
             key={label}
@@ -134,7 +134,7 @@ export default function ProgressStepper(props) {
         ) : (
           <React.Fragment>
             <StatementForm
-              activeStep={activeStep}
+              activeStep={props.activeStep}
               formValues={formValues}
               handleTextFieldChange={handleTextFieldChange}
               handleChosenStuck={handleChosenStuck}
@@ -148,7 +148,7 @@ export default function ProgressStepper(props) {
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 // color="inherit"
-                disabled={activeStep === 0}
+                disabled={props.activeStep === 0}
                 onClick={handleBack}
                 sx={{
                   mr: 1,
@@ -160,12 +160,12 @@ export default function ProgressStepper(props) {
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              {activeStep !== steps.length &&
-                (completed[activeStep] ? (
+              {props.activeStep !== steps.length &&
+                (completed[props.activeStep] ? (
                   <Typography
                     variant="caption"
                     sx={{ display: "inline-block" }}>
-                    Step {activeStep + 1} already completed
+                    Step {props.activeStep + 1} already completed
                   </Typography>
                 ) : (
                   <Button
