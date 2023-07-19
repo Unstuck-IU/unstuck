@@ -229,7 +229,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
     );
   return (
     <>
-      {isAlertShowing && (
+      {/* {isAlertShowing && (
         <Alert
           sx={{ position: "fixed", mt: "-10px", alignSelf: "end" }}
           severity={alertSeverity}
@@ -238,7 +238,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
           }}>
           {message}
         </Alert>
-      )}
+      )} */}
       <Box m="20px">
         {/* HEADER */}
 
@@ -268,6 +268,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
             // activeStep={activeStep}
             // setActiveStep={setActiveStep}
             handleJoinTopic={handleJoinTopic}
+            handleFetchStucks={handleFetchStucks}
             joinCode={joinCode}
             activeTopic={activeTopic}
             isAlertShowing={isAlertShowing}
@@ -275,76 +276,9 @@ const StudentDashboard = ({ handlePageTitle }) => {
             stucks={stucks}
             setStucks={setStucks}
             handleUpload={handleUpload}
+            message={message}
+            alertSeverity={alertSeverity}
           />
-        </Box>
-        <Box m="20px">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center">
-            <StepHeader activeStep={activeStep} />
-
-            {/* {fetchError && <p>{fetchError}</p>} */}
-            {activeStep < 1 && (
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="end"
-                alignItems="end">
-                <AddStuckDialog
-                  activeTopic={activeTopic}
-                  handleFetchStucks={handleFetchStucks}
-                />
-              </Box>
-            )}
-            {activeStep === 1 && (
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="end"
-                alignItems="end">
-                <Button>Select Stuck</Button>
-              </Box>
-            )}
-          </Box>
-          {/* Form for odding new Unstuck to the Topic */}
-          {activeStep <= 1 && (
-            // <StepOne/>
-            <Box
-              display="flex"
-              flexWrap="wrap"
-              alignItems="center"
-              m="2rem">
-              {/* display all submitted stucks here */}
-              {stucks?.map((stuck, index) => (
-                <StuckCard
-                  key={stuck.id}
-                  stuck={stuck}
-                  activeStep={activeStep}
-                  setActiveStep={setActiveStep}
-                  index={index}
-                />
-              ))}
-            </Box>
-          )}
-          {/* {activeStep === 2 && (
-        // <StepTwo/>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div">
-          Test Step 2
-        </Typography>
-      )}
-      {activeStep === 3 && (
-        // <StepThree/>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div">
-          Test Step 3
-        </Typography>
-      )} */}
         </Box>
       </Box>
     </>
