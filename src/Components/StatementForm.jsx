@@ -28,8 +28,7 @@ import StuckCard from "./stuckCard";
 import StepHeader from "./StepHeader";
 
 export function StatementForm(props) {
-  const [statementText, setStatementText] = useState("");
-  const [message, setMessage] = useState("");
+  const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -118,7 +117,28 @@ export function StatementForm(props) {
         )}
       </Box>
       {/* )} */}
-
+      {/* Form for adding new Unstuck to the Topic */}
+      {props.activeStep <= 1 && (
+        // <StepOne/>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          alignItems="center"
+          mt="2rem">
+          {/* display all submitted stucks here */}
+          {props.stucks?.map((stuck, index) => (
+            <StuckCard
+              key={stuck.id}
+              stuck={stuck}
+              activeStep={props.activeStep}
+              // setActiveStep={props.activeStep}
+              index={index}
+              // props={props}
+              handleChosenStuck={props.handleChosenStuck}
+            />
+          ))}
+        </Box>
+      )}
       <Box m={"5px"}>
         <Container
           component="main"
@@ -281,30 +301,6 @@ export function StatementForm(props) {
           </Box>
         </Container>
       </Box>
-
-      {/* Form for adding new Unstuck to the Topic */}
-      {props.activeStep <= 1 && (
-        // <StepOne/>
-        <Box
-          display="flex"
-          flexWrap="wrap"
-          alignItems="center"
-          mt="2rem">
-          {/* display all submitted stucks here */}
-          {props.stucks?.map((stuck, index) => (
-            <StuckCard
-              key={stuck.id}
-              cardid={stuck.id}
-              stuck={stuck}
-              activeStep={props.activeStep}
-              // setActiveStep={props.activeStep}
-              index={index}
-              // props={props}
-              onClick={props.handleChosenStuck}
-            />
-          ))}
-        </Box>
-      )}
     </>
   );
 }

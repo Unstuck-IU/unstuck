@@ -10,7 +10,7 @@ import { tokens } from "../theme";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
-export default function StuckCard({ stuck, activeStep }) {
+export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...rest }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -58,7 +58,7 @@ export default function StuckCard({ stuck, activeStep }) {
               padding: "10px 20px",
             }}
             onClick={() => {
-              // handleChosenStuck();
+              handleChosenStuck(stuck.id);
             }}>
             <CheckBoxOutlineBlankIcon sx={{ mr: "10px" }} />
             Select Stuck

@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { StatementForm } from "./StatementForm";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
+import { useAuth, supabase } from "../Providers/AuthProvider";
 
 const steps = [
   "Post a Stuck",
@@ -25,6 +26,7 @@ export default function ProgressStepper(props) {
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
+  const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const totalSteps = () => {
@@ -97,10 +99,16 @@ export default function ProgressStepper(props) {
     handleNext();
   };
 
-  const handleChosenStuck = () => {
+  const handleChosenStuck = async (stuckId) => {
     console.log("STUCK CARD CLICKED");
-    console.log("Click object key:");
-    console.log("Get attribute from card:");
+    console.log("Click object key:", stuckId);
+    const { data: updatedUserTopic, error } = await supabase
+      .from("user_topic")
+      .update({ selected_stuck_id: stuckId })
+      .eq("user_id", userDetails?.user_id)
+      .eq("topic_id", props.activeTopic.id)
+      .select();
+    console.log("updatedUserTopic after updating the chosen stuck: ", updatedUserTopic);
   };
 
   return (
