@@ -5,7 +5,7 @@ import { useAuth, supabase } from "../Providers/AuthProvider";
 
 //theme
 import { tokens } from "../theme";
-import { Box, Button, useTheme, Alert } from "@mui/material";
+import { Box, Button, useTheme, Alert, Typography } from "@mui/material";
 
 //components
 import TopicHeader from "../components/TopicHeader";
@@ -292,62 +292,75 @@ const SherpaDashboard = () => {
       )}
       <Box m="20px">
         {/* HEADER */}
+
         <Box
           display="flex"
-          flexDirection="column"
-          flexWrap="wrap"
-          alignItems="baseline"
-          alignContent="flex-start">
-          <Box sx={{ mr: "10px" }}>
-            <Header
-              title={"Sherpa Dashboard"}
-              subtitle={`Welcome to your Unstuck Profile, ${userDetails?.first_name} ${userDetails?.last_name}!`}
-            />
-          </Box>
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="end">
           <Box
             display="flex"
             flexDirection="column"
             flexWrap="wrap"
-            justifyContent="space-between"
             alignItems="baseline"
-            alignContent="flex-start"
-            width="full">
-            <Box sx={{ mb: "10px" }}>
-              <TopicHeader activeTopic={activeTopic} />
+            alignContent="flex-start">
+            <Box sx={{ mr: "10px" }}>
+              <Header
+                title={"Sherpa Dashboard"}
+                subtitle={`Welcome to your Unstuck Profile, ${userDetails?.first_name} ${userDetails?.last_name}!`}
+              />
             </Box>
             <Box
               display="flex"
-              justifyContent="end"
-              alignItems="center">
-              <SelectCurrentTopicDialog
-                handleSetActiveTopic={handleSetActiveTopic}
-                firstTime={firstTime}
-              />
+              flexDirection="column"
+              flexWrap="wrap"
+              justifyContent="space-between"
+              alignItems="baseline"
+              alignContent="flex-start"
+              width="full">
+              <Box sx={{ mb: "10px" }}>
+                <TopicHeader activeTopic={activeTopic} />
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="end"
+                alignItems="center">
+                <SelectCurrentTopicDialog
+                  handleSetActiveTopic={handleSetActiveTopic}
+                  firstTime={firstTime}
+                />
+              </Box>
             </Box>
           </Box>
-        </Box>
-        <Box
-          component="form"
-          noValidate
-          autoComplete="off"
-          name="topic_string"
-          onSubmit={handleCreateTopic}
-          m="20px">
-          <FormControl sx={{ width: "25ch" }}>
-            <OutlinedInput
-              name="topic_string"
-              placeholder="Please enter the topic title"
-              onChange={handleNewTopicFormChange}
-            />
-            <MyFormHelperText />
-          </FormControl>
-          <Button
-            variant="outlined"
-            type="submit">
-            Submit
-          </Button>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            name="topic_string"
+            onSubmit={handleCreateTopic}
+            m="20px">
+            <Typography
+              variant="h4"
+              mb="10px">
+              Create a new topic
+            </Typography>
+            <FormControl sx={{ width: "25ch" }}>
+              <OutlinedInput
+                name="topic_string"
+                placeholder="Please enter the topic title"
+                onChange={handleNewTopicFormChange}
+              />
+              <MyFormHelperText />
+            </FormControl>
+            <Button
+              variant="outlined"
+              type="submit">
+              Submit
+            </Button>
+          </Box>
         </Box>
         <Grid
+          mt="20px"
           container
           spacing={5}>
           {stucks &&

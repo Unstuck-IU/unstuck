@@ -241,21 +241,18 @@ const StudentDashboard = ({ handlePageTitle }) => {
       )}
       <Box m="20px">
         {/* HEADER */}
+
         <Box
           display="flex"
+          flexDirection="row"
           justifyContent="space-between"
-          alignItems="center"
-          alignContent="center"
-          sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900] }}>
-          {/* <Header
-          title={userDetails?.display_name ? userDetails?.display_name + "'s Dashboard" : "Student Dashboard"}
-          subtitle="Welcome to your Unstuck Dashboard!"
-        /> */}
+          alignItems="baseline"
+          alignContent="flex-start">
+          <TopicHeader activeTopic={activeTopic} />
 
-          <TopicHeader
-            joinCode={joinCode}
-            userDetails={userDetails}
-            activeTopic={activeTopic}
+          <JoinTopicDialog
+            handleJoinTopic={handleJoinTopic}
+            firstTime={firstTime}
           />
         </Box>
         <Box
@@ -279,26 +276,6 @@ const StudentDashboard = ({ handlePageTitle }) => {
             setStucks={setStucks}
             handleUpload={handleUpload}
           />
-          <Box
-            display="flex"
-            flexDirection="row"
-            flexWrap="wrap"
-            justifyContent="space-between"
-            alignItems="baseline"
-            alignContent="flex-start">
-            <Box sx={{ mb: "10px" }}>
-              <TopicHeader activeTopic={activeTopic} />
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="end"
-              alignItems="center">
-              <JoinTopicDialog
-                handleJoinTopic={handleJoinTopic}
-                firstTime={firstTime}
-              />
-            </Box>
-          </Box>
         </Box>
         <Box m="20px">
           <Box
