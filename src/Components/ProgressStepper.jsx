@@ -88,7 +88,7 @@ export default function ProgressStepper(props) {
 
   const handleSave = () => {
     localStorage.setItem("formValues", formValues);
-    console.log("Theses are the current form values \n", formValues, "This is formValues.statement\n", formValues.statement);
+    console.log("These are the current form values \n", formValues, "This is formValues.statement\n", formValues.statement);
   };
 
   const handleComplete = () => {
@@ -170,11 +170,25 @@ export default function ProgressStepper(props) {
               <Box sx={{ flex: "1 1 auto" }} />
               {activeStep !== steps.length &&
                 (completed[activeStep] ? (
+                  <Button
+                    onClick={handleNext}
+                    sx={{
+                      mr: 1,
+                      color: colors.black[100],
+                      border: 1,
+                      borderColor: colors.black[100],
+                      fontSize: "14px",
+                    }}>
+                    {completedSteps() === totalSteps() - 1 ? (
+                      "Finish"
+                    ) : (
                   <Typography
                     variant="caption"
                     sx={{ display: "inline-block" }}>
-                    Step {activeStep + 1} already completed
+                        Next Step
                   </Typography>
+                    )}
+                  </Button>
                 ) : (
                   <Button
                     onClick={handleComplete}
