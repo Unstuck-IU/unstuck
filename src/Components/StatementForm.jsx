@@ -129,7 +129,6 @@ export function StatementForm(props) {
           {props.stucks?.map((stuck, index) => (
             <StuckCard
               key={stuck.id}
-              cardid={stuck.id}
               stuck={stuck}
               activeStep={props.activeStep}
               // setActiveStep={props.activeStep}
