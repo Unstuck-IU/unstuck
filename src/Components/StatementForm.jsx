@@ -27,7 +27,7 @@ import AddStuckDialog from "../components/AddStuckDialog";
 import StuckCard from "./stuckCard";
 import StepHeader from "./StepHeader";
 
-export function StatementForm(props) {
+export function StatementForm(props,{handleTextFieldChange}) {
   const [statementText, setStatementText] = useState("");
   const [message, setMessage] = useState("");
   const theme = useTheme();
@@ -52,34 +52,34 @@ export function StatementForm(props) {
     justifyContent: "center",
   }));
 
-  const SexiTextarea = styled(TextareaAutosize)(
-    ({ theme }) => `
-    width: 500px;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === "dark" ? colors.black[100] : colors.black[100]};
-    background: ${theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800]};
-    border: 1px solid ${theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]};
-    margin: 10px;
-    &:hover {
-      border-color: ${colors.blueAccent[400]};
-    }
+  // const SexiTextarea = styled(TextareaAutosize)(
+  //   ({ theme }) => `
+  //   width: 500px;
+  //   font-size: 0.875rem;
+  //   font-weight: 400;
+  //   line-height: 1.5;
+  //   padding: 12px;
+  //   border-radius: 12px 12px 0 12px;
+  //   color: ${theme.palette.mode === "dark" ? colors.black[100] : colors.black[100]};
+  //   background: ${theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800]};
+  //   border: 1px solid ${theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]};
+  //   box-shadow: 0px 2px 2px ${theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]};
+  //   margin: 10px;
+  //   &:hover {
+  //     border-color: ${colors.blueAccent[400]};
+  //   }
 
-    &:focus {
-      border-color: ${colors.blueAccent[400]};
-      box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
-    }
+  //   &:focus {
+  //     border-color: ${colors.blueAccent[400]};
+  //     box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
+  //   }
 
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `
-  );
+  //   // firefox
+  //   &:focus-visible {
+  //     outline: 0;
+  //   }
+  // `
+  // );
 
   return (
     <>
@@ -142,13 +142,13 @@ export function StatementForm(props) {
                     <Typography variant="h5">State the Problem in Your Own Words:</Typography>
                     {props.activeStep === 2 ? <Typography variant="subtitle1">This is [explanation text]</Typography> : ""}
 
-                    <Box
-                      component="form"
+                    {/* <Box
+                      // component="form"
                       sx={{
                         "& .MuiTextField-root": { m: 1, width: "50ch" },
                       }}
                       noValidate
-                      autoComplete="off">
+                      autoComplete="off"> */}
                       <div>
                         {" "}
                         <TextField
@@ -157,11 +157,11 @@ export function StatementForm(props) {
                           multiline
                           rows={8}
                           placeholder="Enter your text here"
-                          value={props.formValues.statement}
+                     value={props.formValues.statement}
                           onChange={props.handleTextFieldChange}
                         />
                       </div>
-                    </Box>
+                   
 
                     {/* <Grid
                       container
@@ -196,7 +196,7 @@ export function StatementForm(props) {
                   <FormGroup sx={{ objectFit: "contain" }}>
                     <Typography variant="h5">Expand On Your View of the Problem:</Typography>
                     <Typography variant="subtitle1">
-                      Try to add extra details that you may have thought were relevent, but maybe did not feel important enough to
+                      Try to add extra details that you may have thought were relevant, but maybe did not feel important enough to
                       include in your original statement
                     </Typography>
                     {/* <Grid
