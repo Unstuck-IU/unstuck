@@ -78,12 +78,14 @@ const SherpaDashboard = () => {
     }));
   }
 
-  // hangleGetAllTopicsOwnedBySherpa
-  // let { data: topicExistsCheck, error: joinedTopicError } = await supabase
-  // .from("user_topic")
-  // .select("*")
-  // .eq("user_id", userDetails.user_id)
-  // .eq("topic_id", fetchedTopic.id);
+  const handleAlert = (
+    alertMessage,
+    severityLevel = { error: "error", warning: "warning", info: "info", success: "success" }
+  ) => {
+    setMessage(alertMessage);
+    setAlertSeverity(severityLevel);
+    setIsAlertShowing(true);
+  };
 
   // copied from StudentDashboard.jsx, need to edit still
   const handleSetActiveTopic = async (newActiveTopicId) => {
@@ -104,15 +106,14 @@ const SherpaDashboard = () => {
     // .single();
     console.log("################################# fetchedTopic after selecting from the dropdown ", fetchedTopic);
     if (fetchedTopicError?.message) {
-      setMessage(`An error occurred: ${fetchedTopicError.message}`);
-      setAlertSeverity("error");
-      setIsAlertShowing(true);
+      handleAlert(`An error occurred: ${fetchedTopicError.message}`, "error");
     } else if (fetchedTopic.id && userDetails) {
       console.log("###before changing the active topic :", newActiveTopicId);
       // saving the topic as the active topic
-      setMessage(`The topic '${fetchedTopic?.topic_string}' is now active. \n The Join Code is: ${fetchedTopic?.join_code}}`);
-      setAlertSeverity("success");
-      setIsAlertShowing(true);
+      handleAlert(
+        `The topic '${fetchedTopic?.topic_string}' is now active. \n The Join Code is: ${fetchedTopic?.join_code}}`,
+        "success"
+      );
       setActiveTopic(fetchedTopic);
       setFirstTime(false);
       // updating the database with the last topic id viewed, to help load the correct one next time

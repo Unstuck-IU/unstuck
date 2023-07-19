@@ -24,8 +24,8 @@ import {
 import JoinTopicDialog from "../components/JoinTopicDialog";
 import TopicHeader from "../components/TopicHeader";
 import AddStuckDialog from "../components/AddStuckDialog";
-import StuckCard from "./stuckCard";
-import StepHeader from "./StepHeader";
+import StuckCard from "../components/StuckCard";
+import StepHeader from "../components/StepHeader";
 
 export function StatementForm(props) {
   const { userDetails } = useAuth();
@@ -99,7 +99,7 @@ export function StatementForm(props) {
         justifyContent="end"
         mt="2rem"
         alignItems="end">
-        {props.isAlertShowing && (
+        {/* {props.isAlertShowing && (
           <Alert
             sx={{ mr: "10px" }}
             severity={props.alertSeverity}
@@ -108,7 +108,7 @@ export function StatementForm(props) {
             }}>
             {props.message}
           </Alert>
-        )}
+        )} */}
         {props.activeStep === 0 && (
           <AddStuckDialog
             activeTopic={props.activeTopic}

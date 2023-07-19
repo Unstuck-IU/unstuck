@@ -28,7 +28,6 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import TopicHeader from "../components/TopicHeader";
 import JoinTopicDialog from "../components/JoinTopicDialog";
 import AddStuckDialog from "../components/AddStuckDialog";
-import StuckCard from "../Components/stuckCard";
 
 // import StuckCard from "../components/stuckCard";
 
@@ -97,9 +96,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
         if (fetchedTopic) {
           setActiveTopic(fetchedTopic);
         } else if (fetchedTopicError.message) {
-          setMessage("Could not fetch the topic");
-          setAlertSeverity("error");
-          setIsAlertShowing(true);
+          handleAlert("Could not fetch the topic", "error");
           console.log(fetchedTopicError);
         }
       };
@@ -109,6 +106,15 @@ const StudentDashboard = ({ handlePageTitle }) => {
       }
     }
   }, [joinCode]);
+
+  const handleAlert = (
+    alertMessage,
+    severityLevel = { error: "error", warning: "warning", info: "info", success: "success" }
+  ) => {
+    setMessage(alertMessage);
+    setAlertSeverity(severityLevel);
+    setIsAlertShowing(true);
+  };
 
   // this function will fetch the latest list of stucks from the database - passing this function to the AddStuckDialog component
   // so that we can have this list update immediately after a new stuck is added
@@ -121,9 +127,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
       .select("*, user_topic_id!inner(*, user_id!inner(*), topic_id!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
       .eq("user_topic_id.topic_id.id", activeTopic?.id);
     if (fetchStucksError) {
-      setMessage("Could not fetch the list of stucks");
-      setAlertSeverity("error");
-      setIsAlertShowing(true);
+      handleAlert("Could not fetch the list of stucks", "error");
       setStucks(null);
       console.log("there was an error ", fetchStucksError);
     }
@@ -148,9 +152,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
       .eq("join_code", newJoinCode)
       .single();
     if (fetchedTopic === null) {
-      setMessage(`There is no join code that matches that value. Please try again with a different code.`);
-      setAlertSeverity("error");
-      setIsAlertShowing(true);
+      handleAlert(`There is no join code that matches that value. Please try again with a different code.`, "error");
     } else if (fetchedTopic.id) {
       // filtering out all records on user_topic table for ones that match the current entered topic_id and current user
       // there should be one and only one there if the student has joined already, and it should return an empty array if they haven't
@@ -161,19 +163,17 @@ const StudentDashboard = ({ handlePageTitle }) => {
         .eq("topic_id", fetchedTopic.id);
       if (topicExistsCheck) {
         if (topicExistsCheck.length != 0) {
-          setMessage(`You are already joined to this Topic! Current topic is now changed.`);
-          setAlertSeverity("info");
-          setIsAlertShowing(true);
+          handleAlert(`You are already joined to this Topic! Current topic is now changed.`, "info");
           setJoinCode(newJoinCode);
           setFirstTime(false);
         } else if (userDetails && fetchedTopic.id) {
-          const { data: user_topic, error } = await supabase
+          const { data: userTopicData, error } = await supabase
             .from("user_topic")
             .insert([{ user_id: userDetails.user_id, topic_id: fetchedTopic.id }])
             .select();
-          setMessage(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`);
-          setAlertSeverity("success");
-          setIsAlertShowing(true);
+          handleAlert(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`, "success");
+          console.log("student successfully joined user_topic: ", userTopicData);
+          handleAlert(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`, "success");
           setJoinCode(newJoinCode);
           setFirstTime(false);
         }
@@ -229,16 +229,6 @@ const StudentDashboard = ({ handlePageTitle }) => {
     );
   return (
     <>
-      {/* {isAlertShowing && (
-        <Alert
-          sx={{ position: "fixed", mt: "-10px", alignSelf: "end" }}
-          severity={alertSeverity}
-          onClose={() => {
-            setIsAlertShowing(false);
-          }}>
-          {message}
-        </Alert>
-      )} */}
       <Box m="20px">
         {/* HEADER */}
 
@@ -246,14 +236,31 @@ const StudentDashboard = ({ handlePageTitle }) => {
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
+          flexWrap="wrap"
           alignItems="baseline"
           alignContent="flex-start">
           <TopicHeader activeTopic={activeTopic} />
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="end"
+            alignItems="center">
+            {isAlertShowing && (
+              <Alert
+                sx={{ mr: "20px" }}
+                severity={alertSeverity}
+                onClose={() => {
+                  setIsAlertShowing(false);
+                }}>
+                {message}
+              </Alert>
+            )}
 
-          <JoinTopicDialog
-            handleJoinTopic={handleJoinTopic}
-            firstTime={firstTime}
-          />
+            <JoinTopicDialog
+              handleJoinTopic={handleJoinTopic}
+              firstTime={firstTime}
+            />
+          </Box>
         </Box>
         {/* student dashboard content + stepper */}
         <Box

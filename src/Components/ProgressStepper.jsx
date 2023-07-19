@@ -26,6 +26,7 @@ export default function ProgressStepper(props) {
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
+  const [chosenStuckId, setChosenStuckId] = useState(null);
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -59,8 +60,14 @@ export default function ProgressStepper(props) {
       // if it's the last step, but not all steps have been completed,
       // find the first step that has not been completed
       newActiveStep = steps.findIndex((step, i) => !(i in completed));
+      if (chosenStuckId !== null && newActiveStep === 1) {
+        submitChosenStuck();
+      }
     } else {
       newActiveStep = activeStep + 1;
+      if (chosenStuckId !== null && activeStep === 1) {
+        submitChosenStuck();
+      }
     }
 
     setActiveStep(newActiveStep);
@@ -105,10 +112,14 @@ export default function ProgressStepper(props) {
 
   const handleChosenStuck = async (stuckId) => {
     console.log("STUCK CARD CLICKED");
-    console.log("Click object key:", stuckId);
+    console.log("Stuck Id of selected card:", stuckId);
+    setChosenStuckId(stuckId);
+  };
+
+  const submitChosenStuck = async () => {
     const { data: updatedUserTopic, error } = await supabase
       .from("user_topic")
-      .update({ selected_stuck_id: stuckId })
+      .update({ selected_stuck_id: chosenStuckId })
       .eq("user_id", userDetails?.user_id)
       .eq("topic_id", props.activeTopic.id)
       .select();
@@ -186,11 +197,11 @@ export default function ProgressStepper(props) {
                     {completedSteps() === totalSteps() - 1 ? (
                       "Finish"
                     ) : (
-                  <Typography
-                    variant="caption"
-                    sx={{ display: "inline-block" }}>
+                      <Typography
+                        variant="caption"
+                        sx={{ display: "inline-block" }}>
                         Next Step
-                  </Typography>
+                      </Typography>
                     )}
                   </Button>
                 ) : (
