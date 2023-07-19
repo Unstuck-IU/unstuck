@@ -34,7 +34,7 @@ const StepHeader = ({ activeStep }) => {
             variant="h2"
             fontWeight="bold"
             mr="10px">
-            Step: {steps[activeStep + 1].primary}
+            Step {activeStep + 1}: {steps[activeStep + 1].primary}
           </Typography>
           <Typography
             variant="h4"
