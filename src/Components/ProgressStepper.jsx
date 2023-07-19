@@ -96,13 +96,6 @@ export default function ProgressStepper(props) {
         handleNext();
     };
 
-    // const handleChosenStuck = function (e) {
-    //     let a = e.target.parentNode.getAttribute("cardId");
-    //     console.log(a);
-    //     console.log("STUCK CARD CLICKED")
-    //     console.log("Click object key:")
-    //     console.log("Get attribute from card:", button.id, button)
-    // }
 
     const handleChosenStuck = () => {
         console.log("STUCK CARD CLICKED")
@@ -110,37 +103,6 @@ export default function ProgressStepper(props) {
         console.log("Get attribute from card:")
     }
 
-
-
-
-    // .target.parentNode.key
-
-
-    // const handleUpload = async () => {
-    //     const { data, error } = await supabase
-    //         .from('stuck')
-    //         .upsert({ statement_text: formValues.statement }, { expand_text: formValues.statement }, { example_text: formValues.example }, { illustrate_text: formValues.illustrate },)
-    //         .select()
-    //     console.log(data)
-    // }
-
-    // const [formData, setFormData] = useState({});
-
-    // const children = [
-
-    //   <StatementForm onChange={changeText} text1={newText} />,
-    //   // <ExpandForm />,
-    //   // <ExampleForm />,
-    //   // <IllustrateForm />,
-    // ]
-
-    // [<CreateStuck />,
-    // <ChooseStuck />,
-    // <ExpandForm />,
-    // <ExampleForm />,
-    // <IllustrationForm />,
-    // <SubmitProblem />,
-    // <PeerStucks />]
 
     return (
         <Box sx={{ width: "100%" }}>
@@ -172,7 +134,7 @@ export default function ProgressStepper(props) {
                 ) : (
                     <React.Fragment>
                         <StatementForm
-                            activeStep={activeStep} // setting as -2 because the first 2 steps don't have components attached yet
+                            activeStep={activeStep}
                             formValues={formValues}
                             handleTextFieldChange={handleTextFieldChange}
                             handleChosenStuck={handleChosenStuck}
