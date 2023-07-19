@@ -53,12 +53,16 @@ export default function ProgressStepper(props) {
   };
 
   const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
+    const newActiveStep = null;
+
+    if (isLastStep() && !allStepsCompleted()) {
+      // if it's the last step, but not all steps have been completed,
+      // find the first step that has not been completed
+      newActiveStep = steps.findIndex((step, i) => !(i in completed));
+    } else {
+      newActiveStep = activeStep + 1;
+    }
+
     setActiveStep(newActiveStep);
   };
 
