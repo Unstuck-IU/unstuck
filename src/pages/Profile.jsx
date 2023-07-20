@@ -2,18 +2,6 @@ import { Avatar, Box, Button, Container, IconButton, Typography, useTheme } from
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { tokens } from "../theme";
-import { mockTransactions } from "../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
-import Header from "../components/Header";
-import LineChart from "../components/LineChart";
-// import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../components/BarChart";
-import StatBox from "../components/StatBox";
-import ProgressCircle from "../components/ProgressCircle";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // auth
 import { useAuth, supabase } from "../Providers/AuthProvider";

@@ -18,8 +18,8 @@ import Topbar from "./global/Topbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
 import Footer from "./components/Footer";
-
 import { useAuth } from "./Providers/AuthProvider";
+
 // prettier-ignore
 function App() {
   const [theme, colorMode] = useMode();
