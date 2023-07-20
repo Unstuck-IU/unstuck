@@ -56,7 +56,7 @@ export default function ProgressStepper(props) {
     };
 
     const handleNext = () => {
-        const newActiveStep = null;
+        let newActiveStep = null;
 
         if (isLastStep() && !allStepsCompleted()) {
             // if it's the last step, but not all steps have been completed,
