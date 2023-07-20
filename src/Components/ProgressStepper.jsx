@@ -23,9 +23,9 @@ const steps = [
 ];
 
 export default function ProgressStepper(props) {
+  const [formValues, setFormValues] = useState({});
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = useState(0);
-  const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
   const [chosenStuckId, setChosenStuckId] = useState(null);
   const { userDetails } = useAuth();
   const theme = useTheme();
@@ -88,9 +88,9 @@ export default function ProgressStepper(props) {
     setCompleted({});
   };
 
-  const handleTextFieldChange = (event) => {
-    const { name, value } = event.target;
-
+  // const handleTextFieldChange = (event) => {
+  //   const { name, value } = event.target;
+  const handleTextFieldSubmit = (event) => {
     setFormValues({
       ...formValues,
       [name]: value,
@@ -163,6 +163,7 @@ export default function ProgressStepper(props) {
               handleChosenStuck={handleChosenStuck}
               activeTopic={props.activeTopic}
               handleFetchStucks={props.handleFetchStucks}
+              chosenStuckId={chosenStuckId}
               // joinCode={props.joinCode}
               {...props}
             />

@@ -28,6 +28,10 @@ import StuckCard from "../components/StuckCard";
 import StepHeader from "../components/StepHeader";
 
 export function StatementForm(props) {
+  const [statementInput, setStatementInput] = useState("");
+  const [expandInput, setExpandInput] = useState("");
+  const [exampleInput, setExampleInput] = useState("");
+  const [illustrateInput, setIllustrateInput] = useState("");
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -51,34 +55,49 @@ export function StatementForm(props) {
     justifyContent: "center",
   }));
 
-  const SexiTextarea = styled(TextareaAutosize)(
-    ({ theme }) => `
-    width: 500px;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === "dark" ? colors.black[100] : colors.black[100]};
-    background: ${theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800]};
-    border: 1px solid ${theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]};
-    margin: 10px;
-    &:hover {
-      border-color: ${colors.blueAccent[400]};
+  const handleStatementSubmit = async () => {
+    const { data: statement, error } = await supabase
+      .from("user_topic")
+      .update({
+        statement_text: statementInput,
+      })
+      .eq("topic_id", props.activeTopic.id) // Todo: ? Add join with user_topic on topic id and return?
+      .eq("user_id", userDetails.user_id); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
+    if (error) {
+      console.log("Error received while updating Stuck table entries. \n", error);
     }
 
-    &:focus {
-      border-color: ${colors.blueAccent[400]};
-      box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
-    }
+    console.log("handleUpload Student Dashboard Data", data);
+  };
 
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `
-  );
+  // const SexiTextarea = styled(TextField)(
+  //   ({ theme }) => `
+  //   width: 500px;
+  //   font-size: 0.875rem;
+  //   font-weight: 400;
+  //   line-height: 1.5;
+  //   padding: 12px;
+  //   border-radius: 12px 12px 0 12px;
+  //   color: ${theme.palette.mode === "dark" ? colors.black[100] : colors.black[100]};
+  //   background: ${theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800]};
+  //   border: 1px solid ${theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]};
+  //   box-shadow: 0px 2px 2px ${theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]};
+  //   margin: 10px;
+  //   &:hover {
+  //     border-color: ${colors.blueAccent[400]};
+  //   }
+
+  //   &:focus {
+  //     border-color: ${colors.blueAccent[400]};
+  //     box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
+  //   }
+
+  //   // firefox
+  //   &:focus-visible {
+  //     outline: 0;
+  //   }
+  // `
+  // );
 
   return (
     <>
@@ -159,8 +178,25 @@ export function StatementForm(props) {
                 {/* STATEMENT FORM SECTION */}
                 <SexiCard sx={{ display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none" }}>
                   <FormGroup sx={{ objectFit: "contain" }}>
-                    <Typography variant="h5">State the Problem in Your Own Words:</Typography>
-                    {props.activeStep === 2 ? <Typography variant="subtitle1">This is [explanation text]</Typography> : ""}
+                    <Typography variant="h5">
+                      To help you with understanding what a problem statement looks like, here's an example of one about the
+                      Topic:
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                      color={colors.yellowAccent[400]}>
+                      Making a good cup of coffee
+                    </Typography>
+
+                    {props.activeStep === 2 ? (
+                      <>
+                        <Typography variant="subtitle1">
+                          Problem Statement: "Coffee grounds are too difficult to grind consistently."
+                        </Typography>
+                      </>
+                    ) : (
+                      ""
+                    )}
                     <Grid
                       container
                       spacing={1}>
@@ -169,16 +205,15 @@ export function StatementForm(props) {
                         xs={12}
                         justifyContent="center"
                         alignItems="center">
-                        <SexiTextarea
+                        <TextField
                           name="statement"
-                          fullWidth
                           multiline
                           minRows={5}
                           sx={{ mt: 2 }}
                           id="statement"
                           label="Statement"
-                          value={props.formValues.statement}
-                          onChange={props.handleTextFieldChange}
+                          onChange={(e) => setStatementInput(e.target.value)}
+                          value={statementInput}
                           autoFocus
                         />
                       </Grid>
@@ -203,9 +238,8 @@ export function StatementForm(props) {
                       <Grid
                         item
                         xs={12}>
-                        <SexiTextarea
+                        <TextField
                           name="expand"
-                          fullWidth
                           multiline
                           minRows={5}
                           sx={{ mt: 2 }}
@@ -239,9 +273,8 @@ export function StatementForm(props) {
                       <Grid
                         item
                         xs={12}>
-                        <SexiTextarea
+                        <TextField
                           name="example"
-                          fullWidth
                           multiline
                           minRows={5}
                           sx={{ mt: 2 }}
@@ -276,7 +309,7 @@ export function StatementForm(props) {
                       <Grid
                         item
                         xs={12}>
-                        <SexiTextarea
+                        <TextField
                           name="illustrate"
                           fullWidth
                           multiline
