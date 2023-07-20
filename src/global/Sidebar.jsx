@@ -7,22 +7,14 @@ import { useAuth, supabase } from "../Providers/AuthProvider";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import InfoIcon from "@mui/icons-material/Info";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TerrainIcon from "@mui/icons-material/Terrain";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import FeedbackIcon from "@mui/icons-material/Feedback";
 
 // Adjust to get current user
 
@@ -195,7 +187,17 @@ const Sidebar = () => {
                   <Item
                     title="Student Dashboard"
                     to="/student-dashboard"
-                    icon={<HomeOutlinedIcon />}
+                    icon={<DashboardIcon />}
+                    selected={selected}
+                    setSelected={setSelected}
+                  />
+                )}
+
+                {userDetails?.user_type === "student" && (
+                  <Item
+                    title="Feedback"
+                    to="/feedback"
+                    icon={<FeedbackIcon />}
                     selected={selected}
                     setSelected={setSelected}
                   />
@@ -205,7 +207,7 @@ const Sidebar = () => {
                   <Item
                     title="Sherpa Dashboard"
                     to="/sherpa-dashboard"
-                    icon={<HomeOutlinedIcon />}
+                    icon={<DashboardIcon />}
                     selected={selected}
                     setSelected={setSelected}
                   />

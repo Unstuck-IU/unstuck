@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
 import SherpaDashboard from "./pages/SherpaDashboard";
+import Feedback from "./pages/Feedback"
 //components
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
@@ -59,6 +60,9 @@ function App() {
                   {userDetails?.user_type === "student" && (
                     <Route path="/student-dashboard" element={<StudentDashboard handlePageTitle={handlePageTitle}/>} />
                     )}
+                    {userDetails?.user_type === "student" && (
+                  <Route path="/feedback" element={<Feedback handlePageTitle={handlePageTitle}/>} />
+                    )}
                   <Route path="/*" element={<ErrorPage />} />
                 </Routes>
               ) : (!loading ? (
@@ -67,6 +71,7 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/about" element={<About />} />
+                  <Route path="/feedback" element={<Feedback />} />
                   <Route path="/*" element={<ErrorPage />} />
                 </Routes>
               ) : ( <LoadingSpinner />))}
