@@ -1,8 +1,21 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
+import { useEffect } from "react";
+import { tokens } from "../theme";
+import { Box, useTheme } from "@mui/material";
+import { useAuth } from "../Providers/AuthProvider";
 
-const About = () => {
+const About = ({ handlePageTitle }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const { userDetails } = useAuth();
+
+  useEffect(() => {
+    if (userDetails) {
+      handlePageTitle("", "");
+    }
+  }, [userDetails]);
+
   return (
     <div>
       <Box>

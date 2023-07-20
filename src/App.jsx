@@ -11,14 +11,15 @@ import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
 import SherpaDashboard from "./pages/SherpaDashboard";
+import Feedback from "./pages/Feedback";
 //components
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorPage from "./pages/ErrorPage";
 import Footer from "./components/Footer";
-
 import { useAuth } from "./Providers/AuthProvider";
+
 // prettier-ignore
 function App() {
   const [theme, colorMode] = useMode();
@@ -31,6 +32,8 @@ function App() {
     setTitle(title);
     setSubtitle(subtitle);
   }
+
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -46,16 +49,19 @@ function App() {
             <div className="page-content">
               {userSession && !loading ? (
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Home handlePageTitle={handlePageTitle}/>} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/signin" element={<SignIn />} />
-                  <Route path="/about" element={<About />} />
+                  <Route path="/about" element={<About handlePageTitle={handlePageTitle}/>} />
                   <Route path="/profile" element={<Profile handlePageTitle={handlePageTitle}/>} />
                   {userDetails?.user_type === "sherpa" && (
                     <Route path="/sherpa-dashboard" element={<SherpaDashboard handlePageTitle={handlePageTitle}/>} />
                     )}
                   {userDetails?.user_type === "student" && (
                     <Route path="/student-dashboard" element={<StudentDashboard handlePageTitle={handlePageTitle}/>} />
+                    )}
+                    {userDetails?.user_type === "student" && (
+                  <Route path="/feedback" element={<Feedback handlePageTitle={handlePageTitle}/>} />
                     )}
                   <Route path="/*" element={<ErrorPage />} />
                 </Routes>
@@ -65,6 +71,7 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/about" element={<About />} />
+                  <Route path="/feedback" element={<Feedback />} />
                   <Route path="/*" element={<ErrorPage />} />
                 </Routes>
               ) : ( <LoadingSpinner />))}
