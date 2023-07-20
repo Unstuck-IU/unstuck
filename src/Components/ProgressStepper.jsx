@@ -7,6 +7,9 @@ import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { StatementForm } from "./StatementForm";
+import { useTheme } from "@mui/material";
+import { tokens } from "../theme";
+import { useAuth, supabase } from "../Providers/AuthProvider";
 import FeedbackComment from "./FeedbackComment";
 const steps = [
     "Post a Stuck",
@@ -19,12 +22,17 @@ const steps = [
     "Review Peers Stucks",
 ];
 
+
+
 export default function ProgressStepper(props) {
     const [completed, setCompleted] = useState({});
     const [activeStep, setActiveStep] = useState(0);
     const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
+    const [chosenStuckId, setChosenStuckId] = useState(null);
+    const { userDetails } = useAuth();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     const totalSteps = () => {
-
         return steps.length;
     };
 
@@ -43,17 +51,27 @@ export default function ProgressStepper(props) {
     };
 
     const allStepsCompleted = () => {
-        props.handleUpload(formValues)
+        props.handleUpload(formValues);
         return completedSteps() === totalSteps();
     };
 
     const handleNext = () => {
-        const newActiveStep =
-            isLastStep() && !allStepsCompleted()
-                ? // It's the last step, but not all steps have been completed,
-                // find the first step that has been completed
-                steps.findIndex((step, i) => !(i in completed))
-                : activeStep + 1;
+        const newActiveStep = null;
+
+        if (isLastStep() && !allStepsCompleted()) {
+            // if it's the last step, but not all steps have been completed,
+            // find the first step that has not been completed
+            newActiveStep = steps.findIndex((step, i) => !(i in completed));
+            if (chosenStuckId !== null && newActiveStep === 1) {
+                submitChosenStuck();
+            }
+        } else {
+            newActiveStep = activeStep + 1;
+            if (chosenStuckId !== null && activeStep === 1) {
+                submitChosenStuck();
+            }
+        }
+
         setActiveStep(newActiveStep);
     };
 
@@ -66,8 +84,6 @@ export default function ProgressStepper(props) {
         // console.log("current active step", activeStep)
         // console.log("Current stepper step:", step)
     };
-
-
 
     const handleReset = () => {
         setActiveStep(0);
@@ -85,7 +101,7 @@ export default function ProgressStepper(props) {
 
     const handleSave = () => {
         localStorage.setItem("formValues", formValues);
-        console.log("Theses are the current form values \n", formValues, "This is formValues.statement\n", formValues.statement);
+        console.log("These are the current form values \n", formValues, "This is formValues.statement\n", formValues.statement);
     };
 
     const handleComplete = () => {
@@ -97,12 +113,15 @@ export default function ProgressStepper(props) {
     };
 
 
-    const handleChosenStuck = () => {
-        console.log("STUCK CARD CLICKED")
-        console.log("Click object key:")
-        console.log("Get attribute from card:")
-    }
-
+    const submitChosenStuck = async () => {
+        const { data: updatedUserTopic, error } = await supabase
+            .from("user_topic")
+            .update({ selected_stuck_id: chosenStuckId })
+            .eq("user_id", userDetails?.user_id)
+            .eq("topic_id", props.activeTopic.id)
+            .select();
+        console.log("updatedUserTopic after updating the chosen stuck: ", updatedUserTopic);
+    };
 
     return (
         <Box sx={{ width: "100%" }}>
@@ -125,7 +144,8 @@ export default function ProgressStepper(props) {
             <div>
                 {allStepsCompleted() ? (
                     <>
-                        <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
+                        <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished.</Typography>
+                        <Typography sx={{ mt: 2, mb: 1 }}>Please wait for your Sherpa to activate the next step!</Typography>
                         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                             <Box sx={{ flex: "1 1 auto" }} />
                             <Button onClick={handleReset}>Reset</Button>
@@ -138,6 +158,8 @@ export default function ProgressStepper(props) {
                             formValues={formValues}
                             handleTextFieldChange={handleTextFieldChange}
                             handleChosenStuck={handleChosenStuck}
+                            activeTopic={props.activeTopic}
+                            handleFetchStucks={props.handleFetchStucks}
                             // joinCode={props.joinCode}
                             {...props}
                         />
@@ -145,27 +167,52 @@ export default function ProgressStepper(props) {
 
                         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                             <Button
-                                color="inherit"
+                                // color="inherit"
                                 disabled={activeStep === 0}
                                 onClick={handleBack}
-                                sx={{ mr: 1 }}>
+                                sx={{
+                                    mr: 1,
+                                    color: colors.black[100],
+                                    border: 1,
+                                    borderColor: colors.black[100],
+                                    fontSize: "14px",
+                                }}>
                                 Back
                             </Button>
                             <Box sx={{ flex: "1 1 auto" }} />
-                            <Button
-                                onClick={handleNext}
-                                sx={{ mr: 1 }}>
-                                Next
-                            </Button>
                             {activeStep !== steps.length &&
                                 (completed[activeStep] ? (
-                                    <Typography
-                                        variant="caption"
-                                        sx={{ display: "inline-block" }}>
-                                        Step {activeStep + 1} already completed
-                                    </Typography>
+                                    <Button
+                                        onClick={handleNext}
+                                        sx={{
+                                            mr: 1,
+                                            color: colors.black[100],
+                                            border: 1,
+                                            borderColor: colors.black[100],
+                                            fontSize: "14px",
+                                        }}>
+                                        {completedSteps() === totalSteps() - 1 ? (
+                                            "Finish"
+                                        ) : (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ display: "inline-block" }}>
+                                                Next Step
+                                            </Typography>
+                                        )}
+                                    </Button>
                                 ) : (
-                                    <Button onClick={handleComplete}>{completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}</Button>
+                                    <Button
+                                        onClick={handleComplete}
+                                        sx={{
+                                            mr: 1,
+                                            color: colors.black[100],
+                                            border: 1,
+                                            borderColor: colors.black[100],
+                                            fontSize: "14px",
+                                        }}>
+                                        {completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}
+                                    </Button>
                                 ))}
                         </Box>
                     </React.Fragment>

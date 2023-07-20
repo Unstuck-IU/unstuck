@@ -30,7 +30,7 @@ export default function JoinTopicDialog({ ...props }) {
   };
 
   return (
-    <div>
+    <>
       {props.firstTime ? (
         <Button
           sx={{
@@ -39,7 +39,7 @@ export default function JoinTopicDialog({ ...props }) {
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
-            margin: 2,
+            mr: 2,
           }}
           variant="outlined"
           borderStyle="solid"
@@ -51,10 +51,11 @@ export default function JoinTopicDialog({ ...props }) {
         <Button
           sx={{
             backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
+            color: colors.black[100],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
+            mr: 2,
           }}
           variant="outlined"
           onClick={handleClickOpen}>
@@ -88,6 +89,6 @@ export default function JoinTopicDialog({ ...props }) {
           <Button onClick={handleSubmit}>Join Topic</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

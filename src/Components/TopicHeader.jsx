@@ -30,11 +30,11 @@ const TopicHeader = ({ activeTopic }) => {
             color={colors.grey[100]}
             fontWeight="bold">
             Topic:{"  "}
-            <Typography
-              variant="h3"
-              ml="10px">
-              {activeTopic.topic_string}
-            </Typography>
+          </Typography>
+          <Typography
+            variant="h3"
+            ml="10px">
+            {activeTopic.topic_string}
           </Typography>
         </Box>
       )}

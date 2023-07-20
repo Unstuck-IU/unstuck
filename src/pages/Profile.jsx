@@ -20,7 +20,6 @@ import { useAuth, supabase } from "../Providers/AuthProvider";
 import UpdateProfileForm from "../Components/UpdateProfileForm";
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import "../assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
@@ -172,9 +171,7 @@ const Profile = ({ handlePageTitle }) => {
               sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
               My Stucks and Unstucks
             </Typography>
-            <Typography>
-       
-            </Typography>
+            <Typography></Typography>
           </Box>
           <Box
             gridColumn="span 6"
