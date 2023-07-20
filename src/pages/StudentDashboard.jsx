@@ -284,8 +284,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
             stucks={stucks}
             setStucks={setStucks}
             handleUpload={handleUpload}
-            message={message}
-            alertSeverity={alertSeverity}
+            handleAlert={handleAlert}
           />
         </Box>
       </Box>

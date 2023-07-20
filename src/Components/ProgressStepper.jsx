@@ -5,7 +5,7 @@ import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatementForm } from "./StatementForm";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
@@ -27,9 +27,19 @@ export default function ProgressStepper(props) {
   const [activeStep, setActiveStep] = useState(0);
   const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
   const [chosenStuckId, setChosenStuckId] = useState(null);
+  const [isAllStepsComplete, setIsAllStepsComplete] = useState(false);
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  useEffect(() => {
+    //check if all of the steps in the stepper have been marked as complete, if so, send call to handleUpload function
+    if (completedSteps() === totalSteps()) {
+      setIsAllStepsComplete(true);
+      props.handleUpload(formValues);
+    }
+  }, [completed]);
+
   const totalSteps = () => {
     return steps.length;
   };
@@ -48,15 +58,10 @@ export default function ProgressStepper(props) {
     return activeStep === totalSteps() - 1;
   };
 
-  const allStepsCompleted = () => {
-    props.handleUpload(formValues);
-    return completedSteps() === totalSteps();
-  };
-
   const handleNext = () => {
     let newActiveStep = null;
 
-    if (isLastStep() && !allStepsCompleted()) {
+    if (isLastStep() && isAllStepsComplete === false) {
       // if it's the last step, but not all steps have been completed,
       // find the first step that has not been completed
       newActiveStep = steps.findIndex((step, i) => !(i in completed));
@@ -110,14 +115,23 @@ export default function ProgressStepper(props) {
     handleNext();
   };
 
+  const handleChosenStuck = (stuckId) => {
+    setChosenStuckId(stuckId);
+    console.log("chosen stuck id: ", stuckId);
+  };
+
   const submitChosenStuck = async () => {
-    const { data: updatedUserTopic, error } = await supabase
-      .from("user_topic")
-      .update({ selected_stuck_id: chosenStuckId })
-      .eq("user_id", userDetails?.user_id)
-      .eq("topic_id", props.activeTopic.id)
-      .select();
-    console.log("updatedUserTopic after updating the chosen stuck: ", updatedUserTopic);
+    if (chosenStuckId !== null) {
+      const { data: updatedUserTopic, error } = await supabase
+        .from("user_topic")
+        .update({ selected_stuck_id: chosenStuckId })
+        .eq("user_id", userDetails?.user_id)
+        .eq("topic_id", props.activeTopic.id)
+        .select();
+      console.log("updatedUserTopic after updating the chosen stuck: ", updatedUserTopic);
+    } else if (chosenStuckId === null) {
+      props.handleAlert("Please choose a stuck before continuing", "warning");
+    }
   };
 
   return (
@@ -139,7 +153,7 @@ export default function ProgressStepper(props) {
         ))}
       </Stepper>
       <div>
-        {allStepsCompleted() ? (
+        {isAllStepsComplete ? (
           <>
             <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished.</Typography>
             <Typography sx={{ mt: 2, mb: 1 }}>Please wait for your Sherpa to activate the next step!</Typography>
