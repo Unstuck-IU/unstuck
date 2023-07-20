@@ -25,7 +25,7 @@ import JoinTopicDialog from "../components/JoinTopicDialog";
 import TopicHeader from "../components/TopicHeader";
 import AddStuckDialog from "../components/AddStuckDialog";
 import StuckCard from "./stuckCard";
-
+import FeedbackComment from "./FeedbackComment";
 
 
 
@@ -323,6 +323,12 @@ export function StatementForm(props) {
           ))}
         </Box>
       )}
+
+      {props.activeStep === 7 && (
+        <Box>
+          <FeedbackComment />
+        </Box>)
+      }
     </>
   )
 }

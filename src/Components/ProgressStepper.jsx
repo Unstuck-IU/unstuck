@@ -7,7 +7,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { StatementForm } from "./StatementForm";
-
+import FeedbackComment from "./FeedbackComment";
 const steps = [
     "Post a Stuck",
     "Pick a Stuck",
@@ -16,7 +16,7 @@ const steps = [
     "Problem: Example",
     "Problem: Illustration",
     "Submit Problem",
-    // "Review Peers Stucks",
+    "Review Peers Stucks",
 ];
 
 export default function ProgressStepper(props) {
