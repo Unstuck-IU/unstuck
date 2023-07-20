@@ -1,8 +1,17 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
+import { useEffect } from "react";
+import { tokens } from "../theme";
+import { Box, useTheme } from "@mui/material";
 
-const About = () => {
+const About = ( {handlePageTitle} ) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  useEffect(() => {
+    handlePageTitle("About", "");
+  }, []);
+
   return (
     <div>
       <Box>

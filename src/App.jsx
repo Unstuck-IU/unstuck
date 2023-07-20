@@ -52,7 +52,7 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/signin" element={<SignIn />} />
-                  <Route path="/about" element={<About />} />
+                  <Route path="/about" element={<About handlePageTitle={handlePageTitle}/>} />
                   <Route path="/profile" element={<Profile handlePageTitle={handlePageTitle}/>} />
                   {userDetails?.user_type === "sherpa" && (
                     <Route path="/sherpa-dashboard" element={<SherpaDashboard handlePageTitle={handlePageTitle}/>} />
