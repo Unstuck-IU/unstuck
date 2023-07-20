@@ -11,7 +11,7 @@ import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import StudentDashboard from "./pages/StudentDashboard";
 import SherpaDashboard from "./pages/SherpaDashboard";
-import Feedback from "./pages/Feedback"
+import Feedback from "./pages/Feedback";
 //components
 import Sidebar from "./global/Sidebar";
 import Topbar from "./global/Topbar";
@@ -49,7 +49,7 @@ function App() {
             <div className="page-content">
               {userSession && !loading ? (
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Home handlePageTitle={handlePageTitle}/>} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/about" element={<About handlePageTitle={handlePageTitle}/>} />

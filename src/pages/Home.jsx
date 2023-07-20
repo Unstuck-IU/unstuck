@@ -15,13 +15,16 @@ const Item = styled(Card)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-export default function Home() {
+export default function Home({ handlePageTitle }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    handlePageTitle("", "");
+  }, []);
+
   return (
-    
     <div>
       <Box sx={{ flexGrow: 1, m: 2 }}>
         <div>

@@ -52,10 +52,15 @@ const Topbar = ({ title, subtitle }) => {
           <SearchIcon />
         </IconButton>
       </Box> */}
+      {/* <Box sx={{width: 200,
+        height: 100, background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900], justifyContent: "center" }}> */}
         <Header
+        justifyContent="center"
+      
           title={title}
           subtitle={subtitle}
         />
+        {/* </Box> */}
         {/* <Box display="flex" mb="30px"
     height="100px">
       <Typography
@@ -73,7 +78,8 @@ const Topbar = ({ title, subtitle }) => {
     </Box> */}
 
         {/* ICONS */}
-        <Box display="flex">
+        <Box display="flex"
+       sx={{ backgroundColor: colors.primary[900], borderRadius: 30 }}>
           <IconButton
             sx={{ color: colors.black[100] }}
             onClick={colorMode.toggleColorMode}>
