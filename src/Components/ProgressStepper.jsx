@@ -10,7 +10,8 @@ import { StatementForm } from "./StatementForm";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useAuth, supabase } from "../Providers/AuthProvider";
-import FeedbackComment from "./FeedbackComment";
+
+
 const steps = [
   "Post a Stuck",
   "Pick a Stuck",
@@ -84,8 +85,7 @@ export default function ProgressStepper(props) {
 
   const handleStep = (step) => {
     setActiveStep(step);
-    // console.log("current active step", activeStep)
-    // console.log("Current stepper step:", step)
+
   };
 
   const handleReset = () => {
@@ -100,6 +100,7 @@ export default function ProgressStepper(props) {
       ...formValues,
       [name]: value,
     });
+    console.log(formValues, formValues.statement)
   };
 
   const handleSave = () => {

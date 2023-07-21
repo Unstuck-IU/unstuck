@@ -28,7 +28,7 @@ const Topbar = ({ title, subtitle }) => {
         marginLeft="5px"
         marginRight="5px"
         alignItems="center"
-        height="200px"
+        minHeight="100px"
         sx={{
           backgroundImage: `url("../src/assets/images/3706.jpg")`,
           backgroundPosition: "center",
@@ -52,11 +52,10 @@ const Topbar = ({ title, subtitle }) => {
           <SearchIcon />
         </IconButton>
       </Box> */}
-      {/* <Box sx={{width: 200,
+        {/* <Box sx={{width: 200,
         height: 100, background: theme.palette.mode === "dark" ? colors.blueAccent[900] : colors.primary[900], justifyContent: "center" }}> */}
         <Header
-        justifyContent="center"
-      
+          justifyContent="center"
           title={title}
           subtitle={subtitle}
         />
@@ -78,8 +77,9 @@ const Topbar = ({ title, subtitle }) => {
     </Box> */}
 
         {/* ICONS */}
-        <Box display="flex"
-       sx={{ backgroundColor: colors.primary[900], borderRadius: 30 }}>
+        <Box
+          display="flex"
+          sx={{ backgroundColor: colors.primary[900], borderRadius: 30, mr: "20px" }}>
           <IconButton
             sx={{ color: colors.black[100] }}
             onClick={colorMode.toggleColorMode}>

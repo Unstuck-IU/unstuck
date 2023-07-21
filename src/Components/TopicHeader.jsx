@@ -17,6 +17,7 @@ const TopicHeader = ({ activeTopic }) => {
           sx={{
             display: "flex",
             flexDirection: "row",
+            mb: "10px",
           }}>
           <Typography
             sx={{

@@ -34,11 +34,12 @@ export default function JoinTopicDialog({ ...props }) {
       {props.firstTime ? (
         <Button
           sx={{
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: theme.palette.mode === "dark" ? colors.zest[600] : colors.zest[600],
             color: colors.black[100],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",
+            mt: 2,
             mr: 2,
           }}
           variant="outlined"
