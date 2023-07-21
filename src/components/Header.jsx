@@ -5,13 +5,15 @@ const Header = ({ title, subtitle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
+    <>
+      {title != "" ? (
     <Box
-      // mb="30px"
-      height="100px">
-      <Box
-        display="inline-flex"
-        borderRadius="10px"
-        sx={{ backgroundColor: colors.primary[900] }}>
+          display="flex"
+          alignItems="end"
+          borderRadius="15px"
+          m={2}
+          px={2}
+          py={1}
         <Typography
           variant="h2"
           fontWeight="bold"
@@ -26,7 +28,10 @@ const Header = ({ title, subtitle }) => {
         {subtitle}
       </Typography> */}
       </Box>
-    </Box>
+      ) : (
+        <div></div>
+      )}
+    </>
   );
 };
 
