@@ -12,7 +12,6 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { sizing } from "@mui/system";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
@@ -240,97 +239,6 @@ const Profile = ({ handlePageTitle }) => {
                 </Typography>
               </Card>
             </Box>
-
-            {/* <Grid container
-            display="flex"
-            rowGap="10px"
-            >
-              <Grid
-                item
-                xs={8}
-                md={6}
-                >              
-                  <Item>
-                  <Card 
-           sx={{ maxWidth: 100 }} style={{backgroundColor:colors.primary[900]}}>
-      <CardMedia
-        sx={{ height: 100 }}
-        image="../src/assets/images/award-6693707_640.png"
-        title="1st stuck achievement"
-      />
-      <Typography gutterBottom variant="body2" component="div">
-          1st Stuck Achievement
-        </Typography>
-      </Card>
-                  </Item>
-                </Grid>
-                <Grid xs={8 }md={6}>
-                  <Item>         <Card 
-           sx={{ maxWidth: 100 }} style={{backgroundColor:colors.primary[900]}}>
-      <CardMedia
-        sx={{ height: 100}}
-        image="../src/assets/images/cup-2533629_640.png"
-        title="feedback pro"
-      />
-      <Typography gutterBottom variant="body2" component="div">
-      Feedback Pro
-        </Typography>
-      </Card></Item>
-                </Grid>
-                <Grid xs={8}md={6}>
-                  <Item> 
-                    
-                    <Card 
-           sx={{ maxWidth: 100 }} style={{backgroundColor:colors.primary[900]}}>
-      <CardMedia
-        sx={{ height: 100 }}
-        image="../src/assets/images/stars-6699077_640.png"
-        title="Feedback Pro"
-      />
-      <Typography gutterBottom variant="body2" component="div">
-          1st Stuck Achievement
-        </Typography>
-      </Card></Item>
-                </Grid>
-                <Grid xs={8}md={6}>
-                  <Item>4</Item>
-                </Grid>
-              </Grid>
-              </Box> */}
-
-            {/* <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        sx={{ height: 40 }}
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="green iguana"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizard
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography>
-      </CardContent>
-    </Card> */}
-
-            {/* <Box
-              gridColumn="span 12"
-              justifyContent="space-between"
-              marginLeft="10px"
-              marginRight="10px"
-              alignItems="center"
-              height="50px"
-              width="100px"
-              sx={{
-                backgroundImage: `url("../src/assets/images/destination-1285851_640.png")`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "contain",
-                // height: "100%",
-                // width: "100%",
-              }}></Box> */}
           </Box>
         </Box>
       </Box>
