@@ -7,8 +7,6 @@ import { Button, CardActionArea, CardActions, Checkbox, FormControlLabel, FormGr
 //theme
 import { tokens } from "../theme";
 // ui icons
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { CheckBox } from "@mui/icons-material";
 
 export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...rest }) {
@@ -18,6 +16,7 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
 
   const handleCheckChange = (event) => {
     setChecked(event.target.checked);
+    handleChosenStuck(stuck.id);
   };
 
   return (
@@ -58,24 +57,14 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
         <CardActions sx={{ justifyContent: "end" }}>
           <FormGroup>
             <FormControlLabel
+              label="Select Stuck"
               control={
                 <Checkbox
-                  sx={{
-                    backgroundColor: colors.blueAccent[700],
-                    color: colors.grey[100],
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    padding: "10px 20px",
-                  }}
                   checked={checked}
-                  onChange={() => {
-                    handleCheckChange;
-                    handleChosenStuck(stuck.id);
-                  }}
+                  onChange={handleCheckChange}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               }
-              label="Select Stuck"
             />
           </FormGroup>
         </CardActions>
