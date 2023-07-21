@@ -34,7 +34,7 @@ export default function JoinTopicDialog({ ...props }) {
       {props.firstTime ? (
         <Button
           sx={{
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: theme.palette.mode === "dark" ? colors.zest[600] : colors.zest[600],
             color: colors.black[100],
             fontSize: "14px",
             fontWeight: "bold",
