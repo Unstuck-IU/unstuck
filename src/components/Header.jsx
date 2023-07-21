@@ -7,27 +7,21 @@ const Header = ({ title, subtitle }) => {
   return (
     <>
       {title != "" ? (
-    <Box
+        <Box
           display="flex"
           alignItems="end"
           borderRadius="15px"
           m={2}
           px={2}
-          py={1}
-        <Typography
-          variant="h2"
-          fontWeight="bold"
-          boxShadow="0 5px 25px rgb(0 0 0 / 0.2)"
-          sx={{ m: "0 0 5px 0", color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
-          {title}
-        </Typography>
-        {/* <Typography
-        variant="h5"
-        color="white"
-        fontWeight="bold">
-        {subtitle}
-      </Typography> */}
-      </Box>
+          py={1}>
+          <Typography
+            variant="h2"
+            fontWeight="bold"
+            boxShadow="0 5px 25px rgb(0 0 0 / 0.2)"
+            sx={{ m: "0 0 5px 0", color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
+            {title}
+          </Typography>
+        </Box>
       ) : (
         <div></div>
       )}
