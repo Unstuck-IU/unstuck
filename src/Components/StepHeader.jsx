@@ -19,7 +19,10 @@ const StepHeader = ({ activeStep }) => {
     },
     4: { primary: "Expand", secondary: "Expand on your problem statement, providing more detail and context" },
     5: { primary: "Example", secondary: "Provide an example of your problem statement that happens in the real world" },
-    6: { primary: "Illustration secondary: Provide an illustration of your problem statement, like a metaphor or analogy" },
+    6: { primary: "Illustration", secondary: "Provide an illustration of your problem statement, like a metaphor or analogy" },
+    7: { primary: "Submit Problem", secondary: "Review and change things to your liking. Remember: iterate, iterate, iterate!" },
+    8: { primary: "Review Peer Stucks", secondary: "Provide some helpful feedback for your colleagues. Hopefully they'll do the same for you." }
+
   };
   return (
     <>
