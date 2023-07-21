@@ -1,16 +1,7 @@
 import { Delete, Edit } from "@mui/icons-material";
-import {
-  Card,
-  CardContent,
-  IconButton,
-  Rating,
-  Stack,
-  styled,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, IconButton, Rating, Stack, styled, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-
 
 const StyledCard = styled(Card)({
   minWidth: 150,
@@ -23,32 +14,36 @@ const StyledCard = styled(Card)({
 });
 
 const StudentsTable = ({ stuck }) => {
-
- 
-  
+  console.log("stuck", stuck);
   return (
-    <StyledCard raised={true} elevation={1}>
+    <StyledCard
+      raised={true}
+      elevation={1}>
       <CardContent>
         <Stack spacing={2}>
-          <Typography variant="h5" component="div" color="#3cb371">
-            {stuck.user_topic.user_details.first_name}
+          <Typography
+            variant="h5"
+            component="div"
+            color="#3cb371">
+            {stuck.user_topic_id.user_id.first_name}
           </Typography>
           <Typography variant="body2">{stuck.driving_question}</Typography>
           <Stack
             spacing={2}
             direction="row"
             justifyContent="space-between"
-            alignItems="center"
-          >
+            alignItems="center">
             <Rating
               name="read-only"
-              value={stuck.user_topic_id}
+              value={stuck.user_topic_id.furthest_complete_step}
               readOnly
               sx={{ color: "#3cb371" }}
             />
             <Stack direction="row">
               <Link to={`/${stuck.id}`}>
-                <IconButton aria-label="edit" color="secondary">
+                <IconButton
+                  aria-label="edit"
+                  color="secondary">
                   <Edit />
                 </IconButton>
               </Link>
@@ -60,7 +55,7 @@ const StudentsTable = ({ stuck }) => {
   );
 };
 
-export default StudentsTable
+export default StudentsTable;
 
 // import React,{useEffect,useState} from 'react'
 
