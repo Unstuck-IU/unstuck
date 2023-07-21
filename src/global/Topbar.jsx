@@ -78,7 +78,7 @@ const Topbar = ({ title, subtitle }) => {
         {/* ICONS */}
         <Box
           display="flex"
-          m="20px"
+          m="20px">
           <IconButton
             sx={{ color: colors.black[100] }}
             onClick={colorMode.toggleColorMode}>

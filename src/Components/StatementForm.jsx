@@ -306,8 +306,8 @@ export function StatementForm(props) {
       {props.activeStep === 7 && (
         <Box>
           <FeedbackComment />
-        </Box>)
-      }
+        </Box>
+      )}
     </>
   );
 }
