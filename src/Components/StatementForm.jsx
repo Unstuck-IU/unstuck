@@ -199,10 +199,10 @@ export function StatementForm(props) {
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
                             border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
-                            boxShadow: `inset 1px 1px 2px 2px ${
-                              theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
-                            }`,
-                            width: "560px",
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
                             fontSize: "0.875rem",
                             fontWeight: "400",
                             // lineHeight: "1.5",
@@ -214,7 +214,7 @@ export function StatementForm(props) {
                           name="statement"
                           fullWidth
                           multiline
-                          minRows={11}
+                          minRows={9}
                           className="sexiform-textfield"
                           id="statement"
                           label="Statement"
@@ -264,15 +264,15 @@ export function StatementForm(props) {
                           name="expand"
                           fullWidth
                           multiline
-                          minRows={11}
+                          minRows={9}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
                             border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
-                            boxShadow: `inset 1px 1px 2px 2px ${
-                              theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
-                            }`,
-                            width: "560px",
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
                             fontSize: "0.875rem",
                             fontWeight: "400",
                             // lineHeight: "1.5",
@@ -331,19 +331,19 @@ export function StatementForm(props) {
                           name="example"
                           fullWidth
                           multiline
-                          minRows={11}
+                          minRows={9}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
                             border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
-                            boxShadow: `inset 1px 1px 2px 2px ${
-                              theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
-                            }`,
-                            width: "560px",
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
                             fontSize: "0.875rem",
                             fontWeight: "400",
                             // lineHeight: "1.5",
-                            height: "250px",
+                            height: "20px",
                             // padding: "12px",
                             borderRadius: "12px 12px 0 12px",
                             margin: "20px",
@@ -398,15 +398,15 @@ export function StatementForm(props) {
                           name="illustrate"
                           fullWidth
                           multiline
-                          minRows={11}
+                          minRows={9}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
                             border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
-                            boxShadow: `inset 1px 1px 2px 2px ${
-                              theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
-                            }`,
-                            width: "560px",
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
                             fontSize: "0.875rem",
                             fontWeight: "400",
                             // lineHeight: "1.5",
