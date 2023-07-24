@@ -71,11 +71,29 @@ export default function AddStuckDialog({ ...props }) {
       <Dialog
         open={open}
         onClose={handleClose}>
-        <DialogTitle>Add New Stuck To Current Topic</DialogTitle>
+        <DialogTitle fontSize="large">Add New Stuck To Current Topic</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            This is the text that will help a student understand what they need to be inputting into the text field. We need to
-            give them an explanation of what a "Stuck Driving Question" is, and what are some good examples of one.
+            A 'Stuck' is defined as: "A defined problem, or potential area inside the overall topic area that needs improvement."
+            Something we are 'Stuck' on.
+          </DialogContentText>
+          <DialogContentText
+            mt={"10px"}
+            fontSize={"medium"}
+            fontWeight="bold">
+            As an Example:
+          </DialogContentText>
+
+          <DialogContentText>
+            If the Topic area is 'World Peace', the Stuck might be: "What is driving the ongoing armed conflict in Ukraine?" - or
+            - "What are the potential routes to decreasing the number, intensity, and duration of conflicts?"
+          </DialogContentText>
+          <DialogContentText
+            mt={"30px"}
+            fontSize={"medium"}
+            fontWeight="bold">
+            So get creative and explore different areas of the topic, to come up with a stuck that interests you personally, and
+            that you find engaging. You'll be exploring this Stuck further in the next steps!
           </DialogContentText>
           <TextField
             sx={{ mt: "15px" }}
@@ -84,7 +102,7 @@ export default function AddStuckDialog({ ...props }) {
             multiline
             margin="dense"
             id="stuck"
-            label="Driving Question"
+            label="Write Your Stuck Here"
             type="text"
             value={drivingQuestion}
             onChange={(e) => setDrivingQuestion(e.target.value)}
