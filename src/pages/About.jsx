@@ -60,6 +60,22 @@ const About = ({ handlePageTitle }) => {
         <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6693707">
           Pixabay
         </a>
+        Image by{" "}
+        <a href="https://pixabay.com/users/clker-free-vector-images-3736/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=29903">
+          Clker-Free-Vector-Images
+        </a>{" "}
+        from{" "}
+        <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=29903">
+          Pixabay
+        </a>
+        Image by{" "}
+        <a href="https://pixabay.com/users/mohamed_hassan-5229782/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=5519220">
+          Mohamed Hassan
+        </a>{" "}
+        from{" "}
+        <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=5519220">
+          Pixabay
+        </a>
       </Box>
     </div>
   );
