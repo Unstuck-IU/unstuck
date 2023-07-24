@@ -47,7 +47,7 @@ function App() {
             subtitle={subtitle}/>
             </div>
             <div className="page-content">
-              {userSession && !loading ? (
+              {userSession && !loading && userDetails ? (
                 <Routes>
                   <Route path="/" element={<Home handlePageTitle={handlePageTitle}/>} />
                   <Route path="/signup" element={<Signup />} />
@@ -67,7 +67,7 @@ function App() {
                 </Routes>
               ) : (!loading ? (
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Home handlePageTitle={handlePageTitle}/>} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/about" element={<About />} />

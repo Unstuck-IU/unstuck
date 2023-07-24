@@ -3,6 +3,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
+import styled from "@emotion/styled";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import React, { useState, useEffect } from "react";
@@ -10,7 +11,15 @@ import { StatementForm } from "./StatementForm";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useAuth, supabase } from "../Providers/AuthProvider";
-import FeedbackComment from "./FeedbackComment";
+
+const Item = styled(Stepper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
+  ...theme.typography.body2,
+  padding: theme.spacing(3),
+  textAlign: "left",
+  color: theme.palette.text.zest,
+}));
+
 const steps = [
   "Post a Stuck",
   "Pick a Stuck",
@@ -23,9 +32,9 @@ const steps = [
 ];
 
 export default function ProgressStepper(props) {
+  const [formValues, setFormValues] = useState({});
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = useState(0);
-  const [formValues, setFormValues] = useState({ statement: "", expand: "", example: "", illustrate: "" });
   const [chosenStuckId, setChosenStuckId] = useState(null);
   const [isAllStepsComplete, setIsAllStepsComplete] = useState(false);
   const { userDetails } = useAuth();
@@ -84,8 +93,6 @@ export default function ProgressStepper(props) {
 
   const handleStep = (step) => {
     setActiveStep(step);
-    // console.log("current active step", activeStep)
-    // console.log("Current stepper step:", step)
   };
 
   const handleReset = () => {
@@ -95,11 +102,13 @@ export default function ProgressStepper(props) {
 
   const handleTextFieldChange = (event) => {
     const { name, value } = event.target;
-
+  };
+  const handleTextFieldSubmit = (event) => {
     setFormValues({
       ...formValues,
       [name]: value,
     });
+    console.log(formValues, formValues.statement);
   };
 
   const handleSave = () => {
@@ -134,9 +143,34 @@ export default function ProgressStepper(props) {
     }
   };
 
+  const stepStyle = {
+    boxShadow: 2,
+    backgroundColor: "rgba(0,0,0,0.1)",
+    padding: 2,
+    "& .Mui-active": {
+      "&.MuiStepIcon-root": {
+        color: colors.greenAccent[600],
+        fontSize: "1.5rem",
+      },
+      "& .MuiStepConnector-line": {
+        borderColor: colors.greenAccent[600],
+      },
+    },
+    "& .Mui-completed": {
+      "&.MuiStepIcon-root": {
+        color: colors.zest[500],
+        fontSize: "1.5rem",
+      },
+      "& .MuiStepConnector-line": {
+        borderColor: colors.zest[700],
+      },
+    },
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Stepper
+        sx={stepStyle}
         nonLinear
         alternativeLabel
         activeStep={activeStep}>
@@ -145,7 +179,7 @@ export default function ProgressStepper(props) {
             key={label}
             completed={completed[index]}>
             <StepButton
-              color="inherit"
+              color={colors.zest[600]}
               onClick={() => handleStep(index)}>
               {label}
             </StepButton>
@@ -171,6 +205,7 @@ export default function ProgressStepper(props) {
               handleChosenStuck={handleChosenStuck}
               activeTopic={props.activeTopic}
               handleFetchStucks={props.handleFetchStucks}
+              chosenStuckId={chosenStuckId}
               // joinCode={props.joinCode}
               {...props}
             />
@@ -197,9 +232,9 @@ export default function ProgressStepper(props) {
                     onClick={handleNext}
                     sx={{
                       mr: 1,
-                      color: colors.black[100],
+                      color: colors.primary[100],
                       border: 1,
-                      borderColor: colors.black[100],
+                      borderColor: colors.primary[100],
                       fontSize: "14px",
                     }}>
                     {completedSteps() === totalSteps() - 1 ? (
@@ -217,9 +252,9 @@ export default function ProgressStepper(props) {
                     onClick={handleComplete}
                     sx={{
                       mr: 1,
-                      color: colors.black[100],
+                      color: colors.primary[100],
                       border: 1,
-                      borderColor: colors.black[100],
+                      borderColor: colors.zest[600],
                       fontSize: "14px",
                     }}>
                     {completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}

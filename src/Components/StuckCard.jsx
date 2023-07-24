@@ -7,17 +7,16 @@ import { Button, CardActionArea, CardActions, Checkbox, FormControlLabel, FormGr
 //theme
 import { tokens } from "../theme";
 // ui icons
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { CheckBox } from "@mui/icons-material";
 
-export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...rest }) {
+export default function StuckCard({ stuck, activeStep, handleChosenStuck, handleSetCheckedStuckIndex, checked, ...rest }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [checked, setChecked] = useState(false);
-
+  const [numberChecked, setNumberChecked] = useState(0);
   const handleCheckChange = (event) => {
-    setChecked(event.target.checked);
+    console.log("Index of card: ", rest.index);
+    handleSetCheckedStuckIndex(rest.index);
+    handleChosenStuck(stuck.id);
   };
 
   return (
@@ -28,10 +27,10 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
         flexWrap: "wrap",
         fontSize: "14px",
         fontWeight: "bold",
-        padding: "10px 20px",
+        padding: "10px 20px 10px 20px",
         margin: "10px",
         width: "300px",
-        height: "190px",
+        minHeight: "270px",
         justifyContent: "space-between",
         background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
       }}
@@ -51,31 +50,21 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
           gutterBottom
           variant="h6"
           component="div">
-          Submitted By: {stuck.user_topic_id.user_id.display_name}
+          Submitted By: {stuck.user_topic_id.user_id.display_name + " (" + stuck.user_topic_id.user_id.first_name + ")"}
         </Typography>
       </div>
       {activeStep === 1 && (
-        <CardActions sx={{ justifyContent: "end" }}>
+        <CardActions sx={{ justifyContent: "flex-start" }}>
           <FormGroup>
             <FormControlLabel
+              label="Select Stuck"
               control={
                 <Checkbox
-                  sx={{
-                    backgroundColor: colors.blueAccent[700],
-                    color: colors.grey[100],
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    padding: "10px 20px",
-                  }}
                   checked={checked}
-                  onChange={() => {
-                    handleCheckChange;
-                    handleChosenStuck(stuck.id);
-                  }}
+                  onChange={handleCheckChange}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               }
-              label="Select Stuck"
             />
           </FormGroup>
         </CardActions>

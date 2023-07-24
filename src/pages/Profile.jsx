@@ -8,6 +8,10 @@ import { useAuth, supabase } from "../Providers/AuthProvider";
 import UpdateProfileForm from "../Components/UpdateProfileForm";
 import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
@@ -36,27 +40,6 @@ const Profile = ({ handlePageTitle }) => {
 
   return (
     <div>
-      {/* <Box
-        gridColumn="span 12"
-        justifyContent="space-between"
-        marginLeft="10px"
-        marginRight="10px"
-        alignItems="center"
-        height="500px"
-        sx={{
-          backgroundImage: `url("../src/assets/images/2206.i518.016.S.m005.c13.mountains sunset.jpg")`,
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          height: "100%",
-          width: "100%",
-        }}>
-        <Header
-          title="Profile"
-          subtitle="Welcome to your Unstuck Profile"
-        />
-      </Box> */}
-
       <Box
         gridColumn="span 12"
         justifyContent="space-between"
@@ -141,37 +124,121 @@ const Profile = ({ handlePageTitle }) => {
           </Paper>
         )}
 
+        {/* sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[950] : colors.primary[900] }} */}
         <Box
+          // display="flex"
           display="grid"
           gridTemplateColumns="repeat(12, 1fr)"
           mt="25px"
-          gridAutoRows="140px"
+          // gridAutoRows="140px"
           gap="20px">
           <Box
             gridColumn="span 6"
             backgroundColor={colors.primary[900]}
             display="flex"
-            alignItems="center"
-            justifyContent="center">
-            {/* sx={{ background: theme.palette.mode === "dark" ? colors.blueAccent[950] : colors.primary[900] }} */}
+            flexDirection="column"
+            alignItems="top"
+            justifyContent="left"
+            padding="10px">
             <Typography
               variant="h4"
               sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
               My Stucks and Unstucks
             </Typography>
-            <Typography></Typography>
           </Box>
           <Box
             gridColumn="span 6"
             backgroundColor={colors.primary[900]}
             display="flex"
-            alignItems="center"
+            flexDirection="column"
+            alignItems="top"
             justifyContent="center">
-            <Typography
-              variant="h4"
-              sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
-              Badges
-            </Typography>
+            <Box>
+              <Typography
+                variant="h4"
+                sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
+                Badges
+              </Typography>
+            </Box>
+
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-evenly"
+              sx={{ flexGrow: 1, m: 6, textAlign: "center" }}>
+              <Box>
+                <Card
+                  style={{ backgroundColor: colors.primary[900] }}
+                  sx={{
+                    maxWidth: 100,
+                    minHeight: 200,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <CardMedia
+                    component="img"
+                    sx={{ height: 150, width: 100, objectFit: "contain", padding: "1em" }}
+                    image="../src/assets/images/award-6693707_640.png"
+                    title="1st stuck achievement"
+                  />
+                  <Typography
+                    gutterBottom
+                    variant="body2"
+                    component="div">
+                    1st Stuck Achievement
+                  </Typography>
+                </Card>
+              </Box>
+              <Card
+                sx={{
+                  maxWidth: 100,
+                  minHeight: 200,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                style={{ backgroundColor: colors.primary[900] }}>
+                <CardMedia
+                  component="img"
+                  sx={{ height: 150, width: 100, objectFit: "contain" }}
+                  image="../src/assets/images/cup-2533629_640.png"
+                  title="feedback pro"
+                />
+                <Typography
+                  gutterBottom
+                  variant="body2"
+                  component="div">
+                  Feedback Pro
+                </Typography>
+              </Card>
+
+              <Card
+                sx={{
+                  maxWidth: 100,
+                  minHeight: 200,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                style={{ backgroundColor: colors.primary[900] }}>
+                <CardMedia
+                  component="img"
+                  sx={{ height: 150, width: 100, objectFit: "contain" }}
+                  image="../src/assets/images/stars-6699077_640.png"
+                  title="Feedback Pro"
+                />
+                <Typography
+                  gutterBottom
+                  variant="body2"
+                  component="div">
+                  Problem Solving Champion
+                </Typography>
+              </Card>
+            </Box>
           </Box>
         </Box>
       </Box>
