@@ -164,7 +164,6 @@ export function StatementForm(props) {
                   <Card
                     sx={{
                       display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none",
-                      display: "flex",
                       backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
                       ...theme.typography.body2,
                       // padding: theme.spacing(1),
