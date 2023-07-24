@@ -11,7 +11,11 @@ const StepHeader = ({ activeStep }) => {
   const { loading, userDetails, user } = useAuth();
 
   const steps = {
-    1: { primary: "Post A Stuck", secondary: "Describe your Stuck in detail" },
+    1: {
+      primary: "Post A Stuck",
+      secondary:
+        "Within each topic area there are a number of important questions that relate to better understanding the problems and opportunities that are present. By important, we mean questions for which the answers will have significant impact on improving our understanding of the topic area. Things that will keep us stuck if we don't understand them better.",
+    },
     2: { primary: "Select a Stuck", secondary: "Choose a Stuck to work on that inspires you" },
     3: {
       primary: "Problem Statement",
@@ -21,8 +25,10 @@ const StepHeader = ({ activeStep }) => {
     5: { primary: "Example", secondary: "Provide an example of your problem statement that happens in the real world" },
     6: { primary: "Illustration", secondary: "Provide an illustration of your problem statement, like a metaphor or analogy" },
     7: { primary: "Submit Problem", secondary: "Review and change things to your liking. Remember: iterate, iterate, iterate!" },
-    8: { primary: "Review Peer Stucks", secondary: "Provide some helpful feedback for your colleagues. Hopefully they'll do the same for you." }
-
+    8: {
+      primary: "Review Peer Stucks",
+      secondary: "Provide some helpful feedback for your colleagues. Hopefully they'll do the same for you.",
+    },
   };
   return (
     <>
