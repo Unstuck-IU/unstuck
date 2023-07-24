@@ -33,41 +33,202 @@ const StepHeader = ({ activeStep }) => {
   return (
     <>
       {activeStep >= 0 && (
-        <Box 
-        display="flex"
-              alignItems="center"
-              justifyContent="space-evenly"
-        // sx={{
-        //   display: "flex",
-        //   flexDirection: "row",
-        // }}
-        >
-           {/* <Box sx={{backgroundImage: `url("../src/assets/images/support-6773819_640.png")`,
-                            backgroundPosition: "center",
-                            backgroundRepeat: "no-repeat",
-                            backgroundSize: "contain"
-                          }}>Hello
-                          </Box> */}
         <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="10px"
           sx={{
-            m: "30px",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
           }}>
-          <Typography
-            variant="h2"
-            fontWeight="bold"
-            mr="10px">
-            Step {activeStep + 1}: {steps[activeStep + 1].primary}
-          </Typography>
-          <Typography
-            variant="h4"
-            mr="10px">
-            {steps[activeStep + 1].secondary}
-          </Typography>
-          {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
-         
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}>
+            <Typography
+              variant="h2"
+              fontWeight="bold"
+              mr="10px">
+              Step {activeStep + 1}: {steps[activeStep + 1].primary}
+            </Typography>
+            <Typography
+              variant="h4"
+              mr="10px">
+              {steps[activeStep + 1].secondary}
+            </Typography>
+          </Box>
         </Box>
+      )}
+
+      {activeStep === 1 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="10px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}></Box>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/map-29903_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {activeStep === 2 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="10px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}></Box>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/support-6773819_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {activeStep === 3 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="10px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}></Box>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/adventure-5519220_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {activeStep === 4 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="10px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}></Box>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/mountain-7011121_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {activeStep === 5 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="10px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}></Box>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/adventure-7691290_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {activeStep === 6 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="10px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}></Box>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/success-7097008_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
         </Box>
       )}
     </>
