@@ -100,8 +100,9 @@ export default function ProgressStepper(props) {
     setCompleted({});
   };
 
-  // const handleTextFieldChange = (event) => {
-  //   const { name, value } = event.target;
+  const handleTextFieldChange = (event) => {
+    const { name, value } = event.target;
+  };
   const handleTextFieldSubmit = (event) => {
     setFormValues({
       ...formValues,
@@ -162,15 +163,6 @@ export default function ProgressStepper(props) {
       },
       "& .MuiStepConnector-line": {
         borderColor: colors.zest[700],
-      },
-      "& .Mui.": {
-        "&.MuiStepIcon-root": {
-          color: "warning.main",
-          fontSize: "1.5rem",
-        },
-        "& .MuiStepConnector-line": {
-          borderColor: "secondary.main",
-        },
       },
     },
   };

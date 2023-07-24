@@ -74,41 +74,6 @@ export function StatementForm(props) {
     console.log("handleUpload Student Dashboard Data", data);
   };
 
-  // const SexiTextarea = styled(TextField)(
-  //   ({ theme }) => `
-  //   width: 500px;
-  //   font-size: 0.875rem;
-  //   font-weight: 400;
-  //   line-height: 1.5;
-  //   padding: 12px;
-  //   border-radius: 12px 12px 0 12px;
-  //   color: ${theme.palette.mode === "dark" ? colors.black[100] : colors.black[100]};
-  //   background: ${theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800]};
-  //   border: 1px solid ${theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]};
-  //   box-shadow: 0px 2px 2px ${theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]};
-  //   margin: 10px;
-  //   &:hover {
-  //     border-color: ${colors.blueAccent[400]};
-  //   }
-
-  //   &:focus {
-  //     border-color: ${colors.blueAccent[400]};
-  //     box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
-  //   }
-
-  //   // firefox
-  //   &:focus-visible {
-  //     outline: 0;
-  //   }
-  // `
-  // );
-  //   // firefox
-  //   &:focus-visible {
-  //     outline: 0;
-  //   }
-  // `
-  // );
-
   return (
     <>
       {/* HANDLETOPIC DIALOG   */}
@@ -122,6 +87,8 @@ export function StatementForm(props) {
         {/* {fetchError && <p>{fetchError}</p>} */}
         <StepHeader activeStep={props.activeStep} />
       </Box>
+      {/* Step 1+2 - Posting and picking a Stuck to the Topic */}
+
       <Box
         display="flex"
         flexDirection="row"
@@ -145,8 +112,7 @@ export function StatementForm(props) {
           />
         )}
       </Box>
-      {/* )} */}
-      {/* Form for adding new Unstuck to the Topic */}
+
       {props.activeStep <= 1 && (
         // <StepOne/>
         <Box
@@ -185,93 +151,96 @@ export function StatementForm(props) {
               noValidate
               sx={{ mt: 1 }}>
               <form>
-                {/* STATEMENT FORM SECTION */}
-                <Card
-                  sx={{
-                    display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none",
-                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-                    ...theme.typography.body2,
-                    // padding: theme.spacing(1),
-                    textAlign: "center",
-                    color: theme.palette.text.primary,
-                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
-                    // display: "flex",
-                    flexDirection: "column",
-                    flexWrap: "wrap",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    margin: "10px",
-                    width: "600px",
-                    height: "300px",
-                    borderRadius: "12px 12px 12px 12px",
-                    justifyContent: "center",
-                  }}>
-                  <FormGroup sx={{ objectFit: "contain" }}>
-                    <Typography variant="h5">
-                      To help you with understanding what a problem statement looks like, here's an example of one about the
-                      Topic:
-                    </Typography>
-                    <Typography
-                      variant="h4"
-                      color={colors.yellowAccent[400]}>
-                      Making a good cup of coffee
-                    </Typography>
+                {/* Step 3 STATEMENT FORM SECTION */}
+                {props.activeStep === 2 || props.activeStep === 6 ? (
+                  <Card
+                    sx={{
+                      display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none",
+                      display: "flex",
+                      backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                      ...theme.typography.body2,
+                      // padding: theme.spacing(1),
+                      textAlign: "center",
+                      color: theme.palette.text.primary,
+                      background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                      // display: "flex",
+                      flexDirection: "column",
+                      flexWrap: "wrap",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      margin: "10px",
+                      width: "600px",
+                      minHeight: "300px",
+                      borderRadius: "12px 12px 12px 12px",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}>
+                    <FormGroup sx={{ justifyContent: "center", width: "stretch", m: "12px" }}>
+                      {props.activeStep === 2 ? (
+                        <>
+                          <Typography variant="h5">
+                            To help you with understanding what a problem statement looks like, here's an example of one about the
+                            Topic:
+                          </Typography>
+                          <Typography
+                            variant="h4"
+                            color={colors.yellowAccent[400]}>
+                            Making a good cup of coffee
+                          </Typography>
 
-                    {props.activeStep === 2 ? (
-                      <>
-                        <Typography variant="subtitle1">
-                          Problem Statement: "Coffee grounds are too difficult to grind consistently."
-                        </Typography>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                    <Grid
-                      container
-                      // spacing={1}
-                      sx={{ objectFit: "contain" }}>
+                          <Typography variant="subtitle1">
+                            Problem Statement: "Coffee grounds are too difficult to grind consistently."
+                          </Typography>
+                        </>
+                      ) : (
+                        ""
+                      )}
                       <Grid
-                        item
-                        xs={12}
-                        justifyContent="center"
-                        alignItems="center"
+                        container
+                        // spacing={1}
                         sx={{ objectFit: "contain" }}>
-                        <TextField
-                          sx={{
-                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
-                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
-                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
-                            // boxShadow: `inset 1px 1px 2px 2px ${
-                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
-                            // }`,
-                            width: "550px",
-                            fontSize: "0.875rem",
-                            fontWeight: "400",
-                            // lineHeight: "1.5",
-                            height: "250px",
-                            // padding: "12px",
-                            borderRadius: "12px 12px 0 12px",
-                            margin: "20px",
-                          }}
-                          name="statement"
-                          multiline
-                          minRows={9}
-                          className="sexiform-textfield"
-                          id="statement"
-                          label="Statement"
-                          onChange={(e) => setStatementInput(e.target.value)}
-                          value={statementInput}
-                          autoFocus
-                        />
+                        <Grid
+                          item
+                          xs={12}
+                          justifyContent="center"
+                          alignItems="center"
+                          sx={{ objectFit: "contain" }}>
+                          <TextField
+                            sx={{
+                              color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                              background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                              border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                              // boxShadow: `inset 1px 1px 2px 2px ${
+                              //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                              // }`,
+                              width: "stretch",
+                              fontSize: "0.875rem",
+                              fontWeight: "400",
+                              // lineHeight: "1.5",
+                              height: "250px",
+                              // padding: "12px",
+                              borderRadius: "12px 12px 0 12px",
+                              margin: "20px",
+                            }}
+                            name="statement"
+                            multiline
+                            minRows={9}
+                            className="sexiform-textfield"
+                            id="statement"
+                            label="Statement"
+                            onChange={(e) => setStatementInput(e.target.value)}
+                            value={statementInput}
+                            autoFocus
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                    <Grid
-                      container
-                      justifyContent="flex-end"></Grid>
-                  </FormGroup>
-                </Card>
-
-                {/* EXPAND FORM SECTION */}
+                      <Grid
+                        container
+                        justifyContent="flex-end"></Grid>
+                    </FormGroup>
+                  </Card>
+                ) : null}
+                {/* Step 4 EXPAND FORM SECTION */}
                 <Card
                   sx={{
                     display: props.activeStep === 3 || props.activeStep === 6 ? "" : "none",
@@ -312,7 +281,7 @@ export function StatementForm(props) {
                             // boxShadow: `inset 1px 1px 2px 2px ${
                             //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
                             // }`,
-                            width: "550px",
+                            width: "stretch",
                             fontSize: "0.875rem",
                             fontWeight: "400",
                             // lineHeight: "1.5",
@@ -336,7 +305,7 @@ export function StatementForm(props) {
                   </FormGroup>
                 </Card>
 
-                {/* EXAMPLE FORM SECTION */}
+                {/* Step 5 EXAMPLE FORM SECTION */}
 
                 <Card
                   sx={{
@@ -378,7 +347,7 @@ export function StatementForm(props) {
                             // boxShadow: `inset 1px 1px 2px 2px ${
                             //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
                             // }`,
-                            width: "550px",
+                            width: "stretch",
                             fontSize: "0.875rem",
                             fontWeight: "400",
                             // lineHeight: "1.5",
@@ -402,7 +371,7 @@ export function StatementForm(props) {
                   </FormGroup>
                 </Card>
 
-                {/* ILLUSTRATE FORM SECTION */}
+                {/* Step 6 ILLUSTRATE FORM SECTION */}
 
                 <Card
                   sx={{
@@ -445,7 +414,7 @@ export function StatementForm(props) {
                             // boxShadow: `inset 1px 1px 2px 2px ${
                             //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
                             // }`,
-                            width: "550px",
+                            width: "stretch",
                             fontSize: "0.875rem",
                             fontWeight: "400",
                             // lineHeight: "1.5",
@@ -474,6 +443,7 @@ export function StatementForm(props) {
         </Container>
       </Box>
 
+      {/* Step 8 EXPAND FORM SECTION */}
       {props.activeStep === 7 && (
         <Box>
           <FeedbackComment />

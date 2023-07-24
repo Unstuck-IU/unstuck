@@ -27,10 +27,10 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
         flexWrap: "wrap",
         fontSize: "14px",
         fontWeight: "bold",
-        padding: "10px 20px",
+        padding: "10px 20px 10px 20px",
         margin: "10px",
         width: "300px",
-        height: "190px",
+        minHeight: "270px",
         justifyContent: "space-between",
         background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
       }}
@@ -50,11 +50,11 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
           gutterBottom
           variant="h6"
           component="div">
-          Submitted By: {stuck.user_topic_id.user_id.display_name}
+          Submitted By: {stuck.user_topic_id.user_id.display_name + " (" + stuck.user_topic_id.user_id.first_name + ")"}
         </Typography>
       </div>
       {activeStep === 1 && (
-        <CardActions sx={{ justifyContent: "end" }}>
+        <CardActions sx={{ justifyContent: "flex-start" }}>
           <FormGroup>
             <FormControlLabel
               label="Select Stuck"
