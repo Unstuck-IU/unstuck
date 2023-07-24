@@ -138,6 +138,7 @@ export default function ProgressStepper(props) {
         .eq("topic_id", props.activeTopic.id)
         .select();
       console.log("updatedUserTopic after updating the chosen stuck: ", updatedUserTopic);
+      // save the data we just collected from updating the user_topic table to state
     } else if (chosenStuckId === null) {
       props.handleAlert("Please choose a stuck before continuing", "warning");
     }

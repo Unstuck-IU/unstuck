@@ -3,7 +3,7 @@ import { tokens } from "../theme";
 import { useState, useEffect } from "react";
 import { supabase, useAuth } from "../Providers/AuthProvider";
 
-const StepHeader = ({ activeStep }) => {
+const StepHeader = ({ activeStep, currentStuckData }) => {
   const [sherpa, setSherpa] = useState("");
   const [fetchError, setFetchError] = useState("");
   const theme = useTheme();
@@ -19,15 +19,29 @@ const StepHeader = ({ activeStep }) => {
     2: { primary: "Select a Stuck", secondary: "Choose a Stuck to work on that inspires you" },
     3: {
       primary: "Problem Statement",
-      secondary: "Write your problem statement out in one to two sentences, being as clear and concise as possible",
+      secondary:
+        "Referring to your selected 'Stuck', concisely state the following in one or two sentences; the current situation, the desired future situation, and the gap(s) that exist between the two.",
     },
-    4: { primary: "Expand", secondary: "Expand on your problem statement, providing more detail and context" },
-    5: { primary: "Example", secondary: "Provide an example of your problem statement that happens in the real world" },
-    6: { primary: "Illustration", secondary: "Provide an illustration of your problem statement, like a metaphor or analogy" },
+    4: {
+      primary: "Expand",
+      secondary:
+        "Describe more about the problem and how it works including when and where it is happening, who or what is involved, and what the consequences are and / or might be if it continues. Perhaps highlight key relationships, feedback loops, or concepts.",
+    },
+    5: {
+      primary: "Example",
+      secondary:
+        "Provide a sample scenario that is representative of the problem in action. If there are variations, consider more than one example to help get further clarity.",
+    },
+    6: {
+      primary: "Illustration",
+      secondary:
+        "Provide a representation of the problem in a different form that is already more familiar using synonyms, analogies, metaphors, or visual presentations.",
+    },
     7: { primary: "Submit Problem", secondary: "Review and change things to your liking. Remember: iterate, iterate, iterate!" },
     8: {
       primary: "Review Peer Stucks",
-      secondary: "Provide some helpful feedback for your colleagues. Hopefully they'll do the same for you.",
+      secondary:
+        "Provide some helpful feedback for your peers. You will be receiving feedback from them as well, after which you will use to further clarify the problem you've identified with your Stuck.",
     },
   };
   return (
@@ -50,6 +64,14 @@ const StepHeader = ({ activeStep }) => {
             mr="10px">
             {steps[activeStep + 1].secondary}
           </Typography>
+          {activeStep === 2 && currentStuckData.driving_question !== null && (
+            <Typography
+              mt={"1em"}
+              variant="h3"
+              fontWeight={"bold"}>
+              Selected Stuck: {currentStuckData[0].driving_question}
+            </Typography>
+          )}
           {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
         </Box>
       )}

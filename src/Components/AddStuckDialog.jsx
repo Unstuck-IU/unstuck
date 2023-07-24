@@ -71,29 +71,47 @@ export default function AddStuckDialog({ ...props }) {
       <Dialog
         open={open}
         onClose={handleClose}>
-        <DialogTitle fontSize="large">Add New Stuck To Current Topic</DialogTitle>
+        <DialogTitle
+          color={colors.black[100]}
+          fontSize="x-large"
+          fontWeight={"bold"}>
+          Add New Stuck To Current Topic
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText
+            fontSize={"large"}
+            fontWeight={"600"}>
             A 'Stuck' is defined as: "A defined problem, or potential area inside the overall topic area that needs improvement."
             Something we are 'Stuck' on.
           </DialogContentText>
           <DialogContentText
             mt={"10px"}
-            fontSize={"medium"}
-            fontWeight="bold">
+            fontSize={"x-large"}
+            fontWeight={"600"}
+            color={colors.zest[400]}>
             As an Example:
           </DialogContentText>
 
-          <DialogContentText>
+          <DialogContentText
+            fontSize={"large"}
+            fontWeight="600">
             If the Topic area is 'World Peace', the Stuck might be: "What is driving the ongoing armed conflict in Ukraine?" - or
             - "What are the potential routes to decreasing the number, intensity, and duration of conflicts?"
           </DialogContentText>
           <DialogContentText
             mt={"30px"}
-            fontSize={"medium"}
-            fontWeight="bold">
+            fontSize={"large"}
+            fontStyle={"italic"}
+            fontWeight="900">
             So get creative and explore different areas of the topic, to come up with a stuck that interests you personally, and
             that you find engaging. You'll be exploring this Stuck further in the next steps!
+          </DialogContentText>
+          <DialogContentText
+            color={colors.zest[400]}
+            mt={"30px"}
+            fontSize={"large"}
+            fontWeight="bold">
+            Current Topic: {props.activeTopic?.topic_string}
           </DialogContentText>
           <TextField
             sx={{ mt: "15px" }}
@@ -102,7 +120,7 @@ export default function AddStuckDialog({ ...props }) {
             multiline
             margin="dense"
             id="stuck"
-            label="Write Your Stuck Here"
+            label="Write your Stuck about the current topic here"
             type="text"
             value={drivingQuestion}
             onChange={(e) => setDrivingQuestion(e.target.value)}

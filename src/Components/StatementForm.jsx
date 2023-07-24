@@ -30,11 +30,12 @@ import FeedbackComment from "./FeedbackComment";
 
 export function StatementForm(props) {
   const [statementInput, setStatementInput] = useState("");
-  const [expandInput, setExpandInput] = useState("");
-  const [exampleInput, setExampleInput] = useState("");
-  const [illustrateInput, setIllustrateInput] = useState("");
-  const [checked, setChecked] = useState(false);
   const [checkedStuckIndex, setCheckedStuckIndex] = useState(null);
+  const [currentStuckData, setCurrentStuckData] = useState(null);
+  // const [expandInput, setExpandInput] = useState("");
+  // const [exampleInput, setExampleInput] = useState("");
+  // const [illustrateInput, setIllustrateInput] = useState("");
+  // const [checked, setChecked] = useState(false);
 
   const { userDetails } = useAuth();
   const theme = useTheme();
@@ -80,6 +81,21 @@ export function StatementForm(props) {
   const handleSetCheckedStuckIndex = async (num) => {
     setCheckedStuckIndex(num);
   };
+
+  useEffect(() => {
+    console.log("activeTopic Data: ", props.activeTopic);
+    const fetchStuckTitle = async () => {
+      const { data: stuck, error } = await supabase.from("stuck").select("driving_question").eq("id", props.chosenStuckId);
+      if (stuck) {
+        setCurrentStuckData(stuck);
+      }
+    };
+    if (checkedStuckIndex !== null) {
+      fetchStuckTitle();
+    }
+  }, [checkedStuckIndex]);
+  console.log("currentStuckData: ", currentStuckData);
+
   return (
     <>
       {/* HANDLETOPIC DIALOG   */}
@@ -91,7 +107,10 @@ export function StatementForm(props) {
 
         {/* JOIN TOPIC   */}
         {/* {fetchError && <p>{fetchError}</p>} */}
-        <StepHeader activeStep={props.activeStep} />
+        <StepHeader
+          activeStep={props.activeStep}
+          currentStuckData={currentStuckData ? currentStuckData : null}
+        />
       </Box>
       {/* Step 1+2 - Posting and picking a Stuck to the Topic */}
 
@@ -185,7 +204,8 @@ export function StatementForm(props) {
                     <FormGroup sx={{ justifyContent: "center", width: "stretch", m: "12px" }}>
                       {props.activeStep === 2 ? (
                         <>
-                          <Typography variant="h5">
+                          {/* waiting for Greg's help with what to fill in here for examples */}
+                          {/* <Typography variant="h5">
                             To help you with understanding what a problem statement looks like, here's an example of one about the
                             Topic:
                           </Typography>
@@ -194,10 +214,9 @@ export function StatementForm(props) {
                             color={colors.yellowAccent[400]}>
                             Making a good cup of coffee
                           </Typography>
-
                           <Typography variant="subtitle1">
                             Problem Statement: "Coffee grounds are too difficult to grind consistently."
-                          </Typography>
+                          </Typography> */}
                         </>
                       ) : (
                         ""
