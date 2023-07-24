@@ -9,13 +9,13 @@ import { tokens } from "../theme";
 // ui icons
 import { CheckBox } from "@mui/icons-material";
 
-export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...rest }) {
+export default function StuckCard({ stuck, activeStep, handleChosenStuck, handleSetCheckedStuckIndex, checked, ...rest }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [checked, setChecked] = useState(false);
-
+  const [numberChecked, setNumberChecked] = useState(0);
   const handleCheckChange = (event) => {
-    setChecked(event.target.checked);
+    console.log("Index of card: ", rest.index);
+    handleSetCheckedStuckIndex(rest.index);
     handleChosenStuck(stuck.id);
   };
 

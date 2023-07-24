@@ -33,6 +33,9 @@ export function StatementForm(props) {
   const [expandInput, setExpandInput] = useState("");
   const [exampleInput, setExampleInput] = useState("");
   const [illustrateInput, setIllustrateInput] = useState("");
+  const [checked, setChecked] = useState(false);
+  const [checkedStuckIndex, setCheckedStuckIndex] = useState(null);
+
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -74,6 +77,9 @@ export function StatementForm(props) {
     console.log("handleUpload Student Dashboard Data", data);
   };
 
+  const handleSetCheckedStuckIndex = async (num) => {
+    setCheckedStuckIndex(num);
+  };
   return (
     <>
       {/* HANDLETOPIC DIALOG   */}
@@ -128,6 +134,8 @@ export function StatementForm(props) {
               activeStep={props.activeStep}
               // setActiveStep={props.activeStep}
               index={index}
+              checked={checkedStuckIndex === index ? true : false}
+              handleSetCheckedStuckIndex={handleSetCheckedStuckIndex}
               // props={props}
               handleChosenStuck={props.handleChosenStuck}
             />
