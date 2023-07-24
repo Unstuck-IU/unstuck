@@ -24,6 +24,21 @@ const StepHeader = ({ activeStep }) => {
   return (
     <>
       {activeStep >= 0 && (
+        <Box 
+        display="flex"
+              alignItems="center"
+              justifyContent="space-evenly"
+        // sx={{
+        //   display: "flex",
+        //   flexDirection: "row",
+        // }}
+        >
+           {/* <Box sx={{backgroundImage: `url("../src/assets/images/support-6773819_640.png")`,
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat",
+                            backgroundSize: "contain"
+                          }}>Hello
+                          </Box> */}
         <Box
           sx={{
             m: "30px",
@@ -42,6 +57,8 @@ const StepHeader = ({ activeStep }) => {
             {steps[activeStep + 1].secondary}
           </Typography>
           {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
+         
+        </Box>
         </Box>
       )}
     </>

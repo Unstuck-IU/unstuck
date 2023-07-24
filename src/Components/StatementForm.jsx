@@ -25,62 +25,61 @@ import JoinTopicDialog from "../components/JoinTopicDialog";
 import TopicHeader from "../components/TopicHeader";
 import AddStuckDialog from "../components/AddStuckDialog";
 import StuckCard from "../components/StuckCard";
-import StepHeader from "../components/StepHeader";
+import StepHeader from "./StepHeader";
 import FeedbackComment from "./FeedbackComment";
 
 export function StatementForm(props) {
+  const [statementInput, setStatementInput] = useState("");
+  const [expandInput, setExpandInput] = useState("");
+  const [exampleInput, setExampleInput] = useState("");
+  const [illustrateInput, setIllustrateInput] = useState("");
+  const [checked, setChecked] = useState(false);
+  const [checkedStuckIndex, setCheckedStuckIndex] = useState(null);
+
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  console.log("Props from statement form", props);
 
-  const SexiCard = styled(Card)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.primary,
-    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    fontSize: "14px",
-    fontWeight: "bold",
-    margin: "10px",
-    width: "600px",
-    height: "300px",
-    borderRadius: "12px 12px 12px 12px",
-    justifyContent: "center",
-  }));
+  // TODO: Finish testing why the Styled card and textarea caused issues with text entry (reversed display/entry of text)
 
-  const SexiTextarea = styled(TextareaAutosize)(
-    ({ theme }) => `
-    width: 500px;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px 12px 0 12px;
-    color: ${theme.palette.mode === "dark" ? colors.black[100] : colors.black[100]};
-    background: ${theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800]};
-    border: 1px solid ${theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]};
-    box-shadow: 0px 2px 2px ${theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]};
-    margin: 10px;
-    &:hover {
-      border-color: ${colors.blueAccent[400]};
+  // const SexiCard = styled(Card)(({ theme, ...props }) => ({
+  //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(1),
+  //   textAlign: "center",
+  //   color: theme.palette.text.primary,
+  //   background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   flexWrap: "wrap",
+  //   fontSize: "14px",
+  //   fontWeight: "bold",
+  //   margin: "10px",
+  //   width: "600px",
+  //   height: "300px",
+  //   borderRadius: "12px 12px 12px 12px",
+  //   justifyContent: "center",
+  // }));
+
+  const handleStatementSubmit = async () => {
+    const { data: statement, error } = await supabase
+      .from("user_topic")
+      .update({
+        statement_text: statementInput,
+      })
+      .eq("topic_id", props.activeTopic.id) // Todo: ? Add join with user_topic on topic id and return?
+      .eq("user_id", userDetails.user_id); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
+    if (error) {
+      console.log("Error received while updating Stuck table entries. \n", error);
     }
 
-    &:focus {
-      border-color: ${colors.blueAccent[400]};
-      box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
-    }
+    console.log("handleUpload Student Dashboard Data", data);
+  };
 
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `
-  );
-
+  const handleSetCheckedStuckIndex = async (num) => {
+    setCheckedStuckIndex(num);
+  };
   return (
     <>
       {/* HANDLETOPIC DIALOG   */}
@@ -94,6 +93,8 @@ export function StatementForm(props) {
         {/* {fetchError && <p>{fetchError}</p>} */}
         <StepHeader activeStep={props.activeStep} />
       </Box>
+      {/* Step 1+2 - Posting and picking a Stuck to the Topic */}
+
       <Box
         display="flex"
         flexDirection="row"
@@ -117,8 +118,7 @@ export function StatementForm(props) {
           />
         )}
       </Box>
-      {/* )} */}
-      {/* Form for adding new Unstuck to the Topic */}
+
       {props.activeStep <= 1 && (
         // <StepOne/>
         <Box
@@ -134,6 +134,8 @@ export function StatementForm(props) {
               activeStep={props.activeStep}
               // setActiveStep={props.activeStep}
               index={index}
+              checked={checkedStuckIndex === index ? true : false}
+              handleSetCheckedStuckIndex={handleSetCheckedStuckIndex}
               // props={props}
               handleChosenStuck={props.handleChosenStuck}
             />
@@ -157,59 +159,144 @@ export function StatementForm(props) {
               noValidate
               sx={{ mt: 1 }}>
               <form>
-                {/* STATEMENT FORM SECTION */}
-                <SexiCard sx={{ display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none" }}>
-                  <FormGroup sx={{ objectFit: "contain" }}>
-                    <Typography variant="h5">State the Problem in Your Own Words:</Typography>
-                    {props.activeStep === 2 ? <Typography variant="subtitle1">This is [explanation text]</Typography> : ""}
-                    <Grid
-                      container
-                      spacing={1}>
-                      <Grid
-                        item
-                        xs={12}
-                        justifyContent="center"
-                        alignItems="center">
-                        <SexiTextarea
-                          name="statement"
-                          fullWidth
-                          multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
-                          id="statement"
-                          label="Statement"
-                          value={props.formValues.statement}
-                          onChange={props.handleTextFieldChange}
-                          autoFocus
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid
-                      container
-                      justifyContent="flex-end"></Grid>
-                  </FormGroup>
-                </SexiCard>
+                {/* Step 3 STATEMENT FORM SECTION */}
+                {props.activeStep === 2 || props.activeStep === 6 ? (
+                  <Card
+                    sx={{
+                      display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none",
+                      backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                      ...theme.typography.body2,
+                      // padding: theme.spacing(1),
+                      textAlign: "center",
+                      color: theme.palette.text.primary,
+                      background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                      // display: "flex",
+                      flexDirection: "column",
+                      flexWrap: "wrap",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      margin: "10px",
+                      width: "600px",
+                      minHeight: "300px",
+                      borderRadius: "12px 12px 12px 12px",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}>
+                    <FormGroup sx={{ justifyContent: "center", width: "stretch", m: "12px" }}>
+                      {props.activeStep === 2 ? (
+                        <>
+                          <Typography variant="h5">
+                            To help you with understanding what a problem statement looks like, here's an example of one about the
+                            Topic:
+                          </Typography>
+                          <Typography
+                            variant="h4"
+                            color={colors.yellowAccent[400]}>
+                            Making a good cup of coffee
+                          </Typography>
 
-                {/* EXPAND FORM SECTION */}
-                <SexiCard sx={{ display: props.activeStep === 3 || props.activeStep === 6 ? "" : "none" }}>
+                          <Typography variant="subtitle1">
+                            Problem Statement: "Coffee grounds are too difficult to grind consistently."
+                          </Typography>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      <Grid
+                        container
+                        // spacing={1}
+                        sx={{ objectFit: "contain" }}>
+                        <Grid
+                          item
+                          xs={12}
+                          justifyContent="center"
+                          alignItems="center"
+                          sx={{ objectFit: "contain" }}>
+                          <TextField
+                            sx={{
+                              color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                              background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                              border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                              // boxShadow: `inset 1px 1px 2px 2px ${
+                              //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                              // }`,
+                              width: "stretch",
+                              fontSize: "0.875rem",
+                              fontWeight: "400",
+                              // lineHeight: "1.5",
+                              height: "250px",
+                              // padding: "12px",
+                              borderRadius: "12px 12px 0 12px",
+                              margin: "20px",
+                            }}
+                            name="statement"
+                            multiline
+                            minRows={9}
+                            className="sexiform-textfield"
+                            id="statement"
+                            label="Statement"
+                            onChange={(e) => setStatementInput(e.target.value)}
+                            value={statementInput}
+                            autoFocus
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        justifyContent="flex-end"></Grid>
+                    </FormGroup>
+                  </Card>
+                ) : null}
+                {/* Step 4 EXPAND FORM SECTION */}
+                <Card
+                  sx={{
+                    display: props.activeStep === 3 || props.activeStep === 6 ? "" : "none",
+                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    ...theme.typography.body2,
+                    padding: theme.spacing(1),
+                    textAlign: "center",
+                    color: theme.palette.text.primary,
+                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                    // display: "flex",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    margin: "10px",
+                    width: "600px",
+                    height: "300px",
+                    borderRadius: "12px 12px 12px 12px",
+                    justifyContent: "center",
+                  }}>
                   <FormGroup sx={{ objectFit: "contain" }}>
-                    <Typography variant="h5">Expand On Your View of the Problem:</Typography>
-                    <Typography variant="subtitle1">
-                      Try to add extra details that you may have thought were relevent, but maybe did not feel important enough to
-                      include in your original statement
-                    </Typography>
+                    <Typography variant="h5"></Typography>
+                    <Typography variant="subtitle1"></Typography>
                     <Grid
                       container
                       spacing={1}>
                       <Grid
                         item
                         xs={12}>
-                        <SexiTextarea
+                        <TextField
                           name="expand"
-                          fullWidth
                           multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
+                          minRows={9}
+                          sx={{
+                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "stretch",
+                            fontSize: "0.875rem",
+                            fontWeight: "400",
+                            // lineHeight: "1.5",
+                            height: "250px",
+                            // padding: "12px",
+                            borderRadius: "12px 12px 0 12px",
+                            margin: "20px",
+                          }}
                           id="expand"
                           label="Expand"
                           value={props.formValues.expand}
@@ -223,29 +310,59 @@ export function StatementForm(props) {
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
-                </SexiCard>
+                </Card>
 
-                {/* EXAMPLE FORM SECTION */}
+                {/* Step 5 EXAMPLE FORM SECTION */}
 
-                <SexiCard sx={{ display: props.activeStep === 4 || props.activeStep === 6 ? "" : "none" }}>
+                <Card
+                  sx={{
+                    display: props.activeStep === 4 || props.activeStep === 6 ? "" : "none",
+                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    ...theme.typography.body2,
+                    padding: theme.spacing(1),
+                    textAlign: "center",
+                    color: theme.palette.text.primary,
+                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                    // display: "flex",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    margin: "10px",
+                    width: "600px",
+                    height: "300px",
+                    borderRadius: "12px 12px 12px 12px",
+                    justifyContent: "center",
+                  }}>
                   <FormGroup>
-                    <Typography variant="h5">Write About a Specific Example of The Problem:</Typography>
-                    <Typography variant="subtitle1">
-                      A real-world example of this type of problem may help you and others to make a connection with the problem,
-                      but don't limit yourself if you can imagine a scenario.{" "}
-                    </Typography>
+                    <Typography variant="h5"></Typography>
+                    <Typography variant="subtitle1"> </Typography>
                     <Grid
                       container
                       spacing={1}>
                       <Grid
                         item
                         xs={12}>
-                        <SexiTextarea
+                        <TextField
                           name="example"
-                          fullWidth
                           multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
+                          minRows={9}
+                          sx={{
+                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "stretch",
+                            fontSize: "0.875rem",
+                            fontWeight: "400",
+                            // lineHeight: "1.5",
+                            height: "20px",
+                            // padding: "12px",
+                            borderRadius: "12px 12px 0 12px",
+                            margin: "20px",
+                          }}
                           id="example"
                           label="Example"
                           value={props.formValues.example}
@@ -259,30 +376,60 @@ export function StatementForm(props) {
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
-                </SexiCard>
+                </Card>
 
-                {/* ILLUSTRATE FORM SECTION */}
+                {/* Step 6 ILLUSTRATE FORM SECTION */}
 
-                <SexiCard sx={{ display: props.activeStep === 5 || props.activeStep === 6 ? "" : "none" }}>
+                <Card
+                  sx={{
+                    display: props.activeStep === 5 || props.activeStep === 6 ? "" : "none",
+                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    ...theme.typography.body2,
+                    padding: "5px", // theme.spacing(1),
+                    textAlign: "center",
+                    color: theme.palette.text.primary,
+                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                    // display: "flex",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    margin: "10px",
+                    width: "600px",
+                    height: "300px",
+                    borderRadius: "12px 12px 12px 12px",
+                    justifyContent: "center",
+                  }}>
                   <FormGroup>
-                    <Typography variant="h5">Create an Illustration of Your Problem:</Typography>
-                    <Typography variant="subtitle1">
-                      {" "}
-                      Illustration usually implies creating a drawing, but here it means to create a mental image or demonstrate
-                      with an analogy.\n If you prefer pictures, feel free to add a picture!{" "}
-                    </Typography>
+                    <Typography variant="h5"></Typography>
+                    <Typography variant="subtitle1"> </Typography>
                     <Grid
                       container
                       spacing={1}>
                       <Grid
                         item
                         xs={12}>
-                        <SexiTextarea
+                        <TextField
                           name="illustrate"
                           fullWidth
                           multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
+                          minRows={9}
+                          sx={{
+                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "stretch",
+                            fontSize: "0.875rem",
+                            fontWeight: "400",
+                            // lineHeight: "1.5",
+                            height: "250px",
+                            // padding: "12px",
+                            borderRadius: "12px 12px 0 12px",
+                            margin: "20px",
+                          }}
                           id="illustrate"
                           label="Illustrate"
                           value={props.formValues.illustrate}
@@ -296,18 +443,19 @@ export function StatementForm(props) {
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
-                </SexiCard>
+                </Card>
               </form>
             </Box>
           </Box>
         </Container>
       </Box>
 
+      {/* Step 8 EXPAND FORM SECTION */}
       {props.activeStep === 7 && (
         <Box>
           <FeedbackComment />
-        </Box>)
-      }
+        </Box>
+      )}
     </>
   );
 }
