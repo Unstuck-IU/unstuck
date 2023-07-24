@@ -55,7 +55,7 @@ export default function SelectCurrentTopicDialog({ ...props }) {
         <Button
           sx={{
             // backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
+            color: colors.black[100],
             backgroundColor: colors.greenAccent[700],
             fontSize: "14px",
             fontWeight: "bold",
@@ -71,7 +71,8 @@ export default function SelectCurrentTopicDialog({ ...props }) {
         <Button
           sx={{
             // backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
+            color: colors.black[100],
+            backgroundColor: colors.blueAccent[800],
             fontSize: "14px",
             fontWeight: "bold",
             padding: "10px 20px",

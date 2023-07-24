@@ -6,6 +6,7 @@ import { Container, CssBaseline, Grid, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { tokens } from "../theme.js";
+import { useAuth } from "../Providers/AuthProvider";
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -15,13 +16,19 @@ const Item = styled(Card)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-export default function Home() {
+export default function Home({ handlePageTitle }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [loading, setLoading] = useState(false);
+  const { userDetails } = useAuth();
+
+  useEffect(() => {
+    if (userDetails) {
+      handlePageTitle("", "");
+    }
+  }, [userDetails]);
 
   return (
-    
     <div>
       <Box sx={{ flexGrow: 1, m: 2 }}>
         <div>

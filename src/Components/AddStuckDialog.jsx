@@ -57,7 +57,7 @@ export default function AddStuckDialog({ ...props }) {
     <div>
       <Button
         sx={{
-          backgroundColor: colors.blueAccent[700],
+          backgroundColor: theme.palette.mode === "dark" ? colors.zest[600] : colors.zest[600],
           color: colors.grey[100],
           fontSize: "14px",
           fontWeight: "bold",

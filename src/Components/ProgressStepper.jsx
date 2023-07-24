@@ -3,13 +3,22 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
+import styled from "@emotion/styled";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatementForm } from "./StatementForm";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { useAuth, supabase } from "../Providers/AuthProvider";
+
+const Item = styled(Stepper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
+  ...theme.typography.body2,
+  padding: theme.spacing(3),
+  textAlign: "left",
+  color: theme.palette.text.zest,
+}));
 
 const steps = [
   "Post a Stuck",
@@ -19,7 +28,7 @@ const steps = [
   "Problem: Example",
   "Problem: Illustration",
   "Submit Problem",
-  // "Review Peers Stucks",
+  "Review Peers Stucks",
 ];
 
 export default function ProgressStepper(props) {
@@ -27,9 +36,19 @@ export default function ProgressStepper(props) {
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [chosenStuckId, setChosenStuckId] = useState(null);
+  const [isAllStepsComplete, setIsAllStepsComplete] = useState(false);
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  useEffect(() => {
+    //check if all of the steps in the stepper have been marked as complete, if so, send call to handleUpload function
+    if (completedSteps() === totalSteps()) {
+      setIsAllStepsComplete(true);
+      props.handleUpload(formValues);
+    }
+  }, [completed]);
+
   const totalSteps = () => {
     return steps.length;
   };
@@ -48,15 +67,10 @@ export default function ProgressStepper(props) {
     return activeStep === totalSteps() - 1;
   };
 
-  const allStepsCompleted = () => {
-    props.handleUpload(formValues);
-    return completedSteps() === totalSteps();
-  };
-
   const handleNext = () => {
-    const newActiveStep = null;
+    let newActiveStep = null;
 
-    if (isLastStep() && !allStepsCompleted()) {
+    if (isLastStep() && isAllStepsComplete === false) {
       // if it's the last step, but not all steps have been completed,
       // find the first step that has not been completed
       newActiveStep = steps.findIndex((step, i) => !(i in completed));
@@ -79,8 +93,6 @@ export default function ProgressStepper(props) {
 
   const handleStep = (step) => {
     setActiveStep(step);
-    // console.log("current active step", activeStep)
-    // console.log("Current stepper step:", step)
   };
 
   const handleReset = () => {
@@ -95,6 +107,7 @@ export default function ProgressStepper(props) {
       ...formValues,
       [name]: value,
     });
+    console.log(formValues, formValues.statement);
   };
 
   const handleSave = () => {
@@ -110,25 +123,62 @@ export default function ProgressStepper(props) {
     handleNext();
   };
 
-  const handleChosenStuck = async (stuckId) => {
-    console.log("STUCK CARD CLICKED");
-    console.log("Stuck Id of selected card:", stuckId);
+  const handleChosenStuck = (stuckId) => {
     setChosenStuckId(stuckId);
+    console.log("chosen stuck id: ", stuckId);
   };
 
   const submitChosenStuck = async () => {
-    const { data: updatedUserTopic, error } = await supabase
-      .from("user_topic")
-      .update({ selected_stuck_id: chosenStuckId })
-      .eq("user_id", userDetails?.user_id)
-      .eq("topic_id", props.activeTopic.id)
-      .select();
-    console.log("updatedUserTopic after updating the chosen stuck: ", updatedUserTopic);
+    if (chosenStuckId !== null) {
+      const { data: updatedUserTopic, error } = await supabase
+        .from("user_topic")
+        .update({ selected_stuck_id: chosenStuckId })
+        .eq("user_id", userDetails?.user_id)
+        .eq("topic_id", props.activeTopic.id)
+        .select();
+      console.log("updatedUserTopic after updating the chosen stuck: ", updatedUserTopic);
+    } else if (chosenStuckId === null) {
+      props.handleAlert("Please choose a stuck before continuing", "warning");
+    }
+  };
+
+  const stepStyle = {
+    boxShadow: 2,
+    backgroundColor: "rgba(0,0,0,0.1)",
+    padding: 2,
+    "& .Mui-active": {
+      "&.MuiStepIcon-root": {
+        color: colors.greenAccent[600],
+        fontSize: "1.5rem",
+      },
+      "& .MuiStepConnector-line": {
+        borderColor: colors.greenAccent[600],
+      },
+    },
+    "& .Mui-completed": {
+      "&.MuiStepIcon-root": {
+        color: colors.zest[500],
+        fontSize: "1.5rem",
+      },
+      "& .MuiStepConnector-line": {
+        borderColor: colors.zest[700],
+      },
+      "& .Mui.": {
+        "&.MuiStepIcon-root": {
+          color: "warning.main",
+          fontSize: "1.5rem",
+        },
+        "& .MuiStepConnector-line": {
+          borderColor: "secondary.main",
+        },
+      },
+    },
   };
 
   return (
     <Box sx={{ width: "100%" }}>
       <Stepper
+        sx={stepStyle}
         nonLinear
         alternativeLabel
         activeStep={activeStep}>
@@ -137,7 +187,7 @@ export default function ProgressStepper(props) {
             key={label}
             completed={completed[index]}>
             <StepButton
-              color="inherit"
+              color={colors.zest[600]}
               onClick={() => handleStep(index)}>
               {label}
             </StepButton>
@@ -145,7 +195,7 @@ export default function ProgressStepper(props) {
         ))}
       </Stepper>
       <div>
-        {allStepsCompleted() ? (
+        {isAllStepsComplete ? (
           <>
             <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished.</Typography>
             <Typography sx={{ mt: 2, mb: 1 }}>Please wait for your Sherpa to activate the next step!</Typography>
@@ -190,9 +240,9 @@ export default function ProgressStepper(props) {
                     onClick={handleNext}
                     sx={{
                       mr: 1,
-                      color: colors.black[100],
+                      color: colors.primary[100],
                       border: 1,
-                      borderColor: colors.black[100],
+                      borderColor: colors.primary[100],
                       fontSize: "14px",
                     }}>
                     {completedSteps() === totalSteps() - 1 ? (
@@ -210,9 +260,9 @@ export default function ProgressStepper(props) {
                     onClick={handleComplete}
                     sx={{
                       mr: 1,
-                      color: colors.black[100],
+                      color: colors.primary[100],
                       border: 1,
-                      borderColor: colors.black[100],
+                      borderColor: colors.zest[600],
                       fontSize: "14px",
                     }}>
                     {completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}

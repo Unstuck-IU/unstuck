@@ -25,7 +25,8 @@ import JoinTopicDialog from "../components/JoinTopicDialog";
 import TopicHeader from "../components/TopicHeader";
 import AddStuckDialog from "../components/AddStuckDialog";
 import StuckCard from "../components/StuckCard";
-import StepHeader from "../components/StepHeader";
+import StepHeader from "./StepHeader";
+import FeedbackComment from "./FeedbackComment";
 
 export function StatementForm(props) {
   const [statementInput, setStatementInput] = useState("");
@@ -35,25 +36,28 @@ export function StatementForm(props) {
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  console.log("Props from statement form", props);
 
-  const SexiCard = styled(Card)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.primary,
-    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    fontSize: "14px",
-    fontWeight: "bold",
-    margin: "10px",
-    width: "600px",
-    height: "300px",
-    borderRadius: "12px 12px 12px 12px",
-    justifyContent: "center",
-  }));
+  // TODO: Finish testing why the Styled card and textarea caused issues with text entry (reversed display/entry of text)
+
+  // const SexiCard = styled(Card)(({ theme, ...props }) => ({
+  //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(1),
+  //   textAlign: "center",
+  //   color: theme.palette.text.primary,
+  //   background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   flexWrap: "wrap",
+  //   fontSize: "14px",
+  //   fontWeight: "bold",
+  //   margin: "10px",
+  //   width: "600px",
+  //   height: "300px",
+  //   borderRadius: "12px 12px 12px 12px",
+  //   justifyContent: "center",
+  // }));
 
   const handleStatementSubmit = async () => {
     const { data: statement, error } = await supabase
@@ -92,6 +96,12 @@ export function StatementForm(props) {
   //     box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.blueAccent[200]};
   //   }
 
+  //   // firefox
+  //   &:focus-visible {
+  //     outline: 0;
+  //   }
+  // `
+  // );
   //   // firefox
   //   &:focus-visible {
   //     outline: 0;
@@ -176,7 +186,26 @@ export function StatementForm(props) {
               sx={{ mt: 1 }}>
               <form>
                 {/* STATEMENT FORM SECTION */}
-                <SexiCard sx={{ display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none" }}>
+                <Card
+                  sx={{
+                    display: props.activeStep === 2 || props.activeStep === 6 ? "" : "none",
+                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    ...theme.typography.body2,
+                    // padding: theme.spacing(1),
+                    textAlign: "center",
+                    color: theme.palette.text.primary,
+                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                    // display: "flex",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    margin: "10px",
+                    width: "600px",
+                    height: "300px",
+                    borderRadius: "12px 12px 12px 12px",
+                    justifyContent: "center",
+                  }}>
                   <FormGroup sx={{ objectFit: "contain" }}>
                     <Typography variant="h5">
                       To help you with understanding what a problem statement looks like, here's an example of one about the
@@ -199,17 +228,35 @@ export function StatementForm(props) {
                     )}
                     <Grid
                       container
-                      spacing={1}>
+                      // spacing={1}
+                      sx={{ objectFit: "contain" }}>
                       <Grid
                         item
                         xs={12}
                         justifyContent="center"
-                        alignItems="center">
+                        alignItems="center"
+                        sx={{ objectFit: "contain" }}>
                         <TextField
+                          sx={{
+                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
+                            fontSize: "0.875rem",
+                            fontWeight: "400",
+                            // lineHeight: "1.5",
+                            height: "250px",
+                            // padding: "12px",
+                            borderRadius: "12px 12px 0 12px",
+                            margin: "20px",
+                          }}
                           name="statement"
                           multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
+                          minRows={9}
+                          className="sexiform-textfield"
                           id="statement"
                           label="Statement"
                           onChange={(e) => setStatementInput(e.target.value)}
@@ -222,16 +269,32 @@ export function StatementForm(props) {
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
-                </SexiCard>
+                </Card>
 
                 {/* EXPAND FORM SECTION */}
-                <SexiCard sx={{ display: props.activeStep === 3 || props.activeStep === 6 ? "" : "none" }}>
+                <Card
+                  sx={{
+                    display: props.activeStep === 3 || props.activeStep === 6 ? "" : "none",
+                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    ...theme.typography.body2,
+                    padding: theme.spacing(1),
+                    textAlign: "center",
+                    color: theme.palette.text.primary,
+                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                    // display: "flex",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    margin: "10px",
+                    width: "600px",
+                    height: "300px",
+                    borderRadius: "12px 12px 12px 12px",
+                    justifyContent: "center",
+                  }}>
                   <FormGroup sx={{ objectFit: "contain" }}>
-                    <Typography variant="h5">Expand On Your View of the Problem:</Typography>
-                    <Typography variant="subtitle1">
-                      Try to add extra details that you may have thought were relevent, but maybe did not feel important enough to
-                      include in your original statement
-                    </Typography>
+                    <Typography variant="h5"></Typography>
+                    <Typography variant="subtitle1"></Typography>
                     <Grid
                       container
                       spacing={1}>
@@ -241,8 +304,23 @@ export function StatementForm(props) {
                         <TextField
                           name="expand"
                           multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
+                          minRows={9}
+                          sx={{
+                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
+                            fontSize: "0.875rem",
+                            fontWeight: "400",
+                            // lineHeight: "1.5",
+                            height: "250px",
+                            // padding: "12px",
+                            borderRadius: "12px 12px 0 12px",
+                            margin: "20px",
+                          }}
                           id="expand"
                           label="Expand"
                           value={props.formValues.expand}
@@ -256,17 +334,33 @@ export function StatementForm(props) {
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
-                </SexiCard>
+                </Card>
 
                 {/* EXAMPLE FORM SECTION */}
 
-                <SexiCard sx={{ display: props.activeStep === 4 || props.activeStep === 6 ? "" : "none" }}>
+                <Card
+                  sx={{
+                    display: props.activeStep === 4 || props.activeStep === 6 ? "" : "none",
+                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    ...theme.typography.body2,
+                    padding: theme.spacing(1),
+                    textAlign: "center",
+                    color: theme.palette.text.primary,
+                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                    // display: "flex",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    margin: "10px",
+                    width: "600px",
+                    height: "300px",
+                    borderRadius: "12px 12px 12px 12px",
+                    justifyContent: "center",
+                  }}>
                   <FormGroup>
-                    <Typography variant="h5">Write About a Specific Example of The Problem:</Typography>
-                    <Typography variant="subtitle1">
-                      A real-world example of this type of problem may help you and others to make a connection with the problem,
-                      but don't limit yourself if you can imagine a scenario.{" "}
-                    </Typography>
+                    <Typography variant="h5"></Typography>
+                    <Typography variant="subtitle1"> </Typography>
                     <Grid
                       container
                       spacing={1}>
@@ -276,8 +370,23 @@ export function StatementForm(props) {
                         <TextField
                           name="example"
                           multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
+                          minRows={9}
+                          sx={{
+                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
+                            fontSize: "0.875rem",
+                            fontWeight: "400",
+                            // lineHeight: "1.5",
+                            height: "20px",
+                            // padding: "12px",
+                            borderRadius: "12px 12px 0 12px",
+                            margin: "20px",
+                          }}
                           id="example"
                           label="Example"
                           value={props.formValues.example}
@@ -291,18 +400,33 @@ export function StatementForm(props) {
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
-                </SexiCard>
+                </Card>
 
                 {/* ILLUSTRATE FORM SECTION */}
 
-                <SexiCard sx={{ display: props.activeStep === 5 || props.activeStep === 6 ? "" : "none" }}>
+                <Card
+                  sx={{
+                    display: props.activeStep === 5 || props.activeStep === 6 ? "" : "none",
+                    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                    ...theme.typography.body2,
+                    padding: "5px", // theme.spacing(1),
+                    textAlign: "center",
+                    color: theme.palette.text.primary,
+                    background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                    // display: "flex",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    margin: "10px",
+                    width: "600px",
+                    height: "300px",
+                    borderRadius: "12px 12px 12px 12px",
+                    justifyContent: "center",
+                  }}>
                   <FormGroup>
-                    <Typography variant="h5">Create an Illustration of Your Problem:</Typography>
-                    <Typography variant="subtitle1">
-                      {" "}
-                      Illustration usually implies creating a drawing, but here it means to create a mental image or demonstrate
-                      with an analogy.\n If you prefer pictures, feel free to add a picture!{" "}
-                    </Typography>
+                    <Typography variant="h5"></Typography>
+                    <Typography variant="subtitle1"> </Typography>
                     <Grid
                       container
                       spacing={1}>
@@ -313,8 +437,23 @@ export function StatementForm(props) {
                           name="illustrate"
                           fullWidth
                           multiline
-                          minRows={5}
-                          sx={{ mt: 2 }}
+                          minRows={9}
+                          sx={{
+                            color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
+                            background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+                            border: `1px solid theme.palette.mode === "dark" ? colors.grey[700] : colors.grey[200]`,
+                            // boxShadow: `inset 1px 1px 2px 2px ${
+                            //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
+                            // }`,
+                            width: "550px",
+                            fontSize: "0.875rem",
+                            fontWeight: "400",
+                            // lineHeight: "1.5",
+                            height: "250px",
+                            // padding: "12px",
+                            borderRadius: "12px 12px 0 12px",
+                            margin: "20px",
+                          }}
                           id="illustrate"
                           label="Illustrate"
                           value={props.formValues.illustrate}
@@ -328,12 +467,18 @@ export function StatementForm(props) {
                       container
                       justifyContent="flex-end"></Grid>
                   </FormGroup>
-                </SexiCard>
+                </Card>
               </form>
             </Box>
           </Box>
         </Container>
       </Box>
+
+      {props.activeStep === 7 && (
+        <Box>
+          <FeedbackComment />
+        </Box>
+      )}
     </>
   );
 }

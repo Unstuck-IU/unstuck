@@ -104,7 +104,7 @@ const SherpaDashboard = () => {
     // .select("id, sherpa_owner_id, topic_string")
     // .eq("id", newActiveTopicId)
     // .single();
-    console.log("################################# fetchedTopic after selecting from the dropdown ", fetchedTopic);
+    console.log("fetchedTopic after selecting from the dropdown ", fetchedTopic);
     if (fetchedTopicError?.message) {
       handleAlert(`An error occurred: ${fetchedTopicError.message}`, "error");
     } else if (fetchedTopic.id && userDetails) {
@@ -202,13 +202,13 @@ const SherpaDashboard = () => {
       console.log("trying to get stucks from the database");
       let { data: stuck, error } = await supabase
         .from("stuck")
-        .select("*, user_topic!inner(*, user_details!inner(*))")
-        .eq("user_topic.topic_id", activeTopic.id);
-      console.log(stuck);
+        .select("*, user_topic_id!inner(*, user_id!inner(*))")
+        .eq("user_topic_id.topic_id", activeTopic.id);
+      console.log("list of stucks: ", stuck);
       if (error) {
-        setFetchError("Could not fetch the list of stucks");
+        handleAlert("Could not fetch the list of stucks" + "\n" + "Error: " + error, "error");
         setStucks(null);
-        console.log("there was an error ", error);
+        // console.log("there was an error ", error);
       }
       if (stuck) {
         setStucks(stuck);

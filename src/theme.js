@@ -310,30 +310,30 @@ export const themeSettings = (mode) => {
           }),
     },
     typography: {
-      fontFamily: ["Urbanist", "sans-serif"].join(","),
-      fontSize: 12,
+      fontFamily: ["Urbanist:wght@700", "sans-serif"].join(","),
+      fontSize: 14,
       h1: {
-        fontFamily: ["Urbanist", "sans-serif"].join(","),
+        fontFamily: ["Urbanist:wght@700", "sans-serif"].join(","),
         fontSize: 40,
       },
       h2: {
-        fontFamily: ["Urbanist", "sans-serif"].join(","),
+        fontFamily: ["Urbanist:wght@700", "sans-serif"].join(","),
         fontSize: 32,
       },
       h3: {
-        fontFamily: ["Urbanist", "sans-serif"].join(","),
+        fontFamily: ["Urbanist:wght@700", "sans-serif"].join(","),
         fontSize: 24,
       },
       h4: {
-        fontFamily: ["Urbanist", "sans-serif"].join(","),
+        fontFamily: ["Urbanist:wght@700", "sans-serif"].join(","),
         fontSize: 20,
       },
       h5: {
-        fontFamily: ["Urbanist", "sans-serif"].join(","),
+        fontFamily: ["UUrbanist:wght@700", "sans-serif"].join(","),
         fontSize: 18,
       },
       h6: {
-        fontFamily: ["Urbanist", "sans-serif"].join(","),
+        fontFamily: ["Urbanist:wght@700t", "sans-serif"].join(","),
         fontSize: 14,
       },
     },

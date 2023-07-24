@@ -1,18 +1,24 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions, useTheme } from "@mui/material";
+import { Button, CardActionArea, CardActions, Checkbox, FormControlLabel, FormGroup, useTheme } from "@mui/material";
 //theme
 import { tokens } from "../theme";
 // ui icons
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { CheckBox } from "@mui/icons-material";
 
 export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...rest }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckChange = (event) => {
+    setChecked(event.target.checked);
+    handleChosenStuck(stuck.id);
+  };
+
   return (
     <Card
       sx={{
@@ -49,20 +55,18 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, ...res
       </div>
       {activeStep === 1 && (
         <CardActions sx={{ justifyContent: "end" }}>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-            onClick={() => {
-              handleChosenStuck(stuck.id);
-            }}>
-            <CheckBoxOutlineBlankIcon sx={{ mr: "10px" }} />
-            Select Stuck
-          </Button>
+          <FormGroup>
+            <FormControlLabel
+              label="Select Stuck"
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={handleCheckChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              }
+            />
+          </FormGroup>
         </CardActions>
       )}
     </Card>

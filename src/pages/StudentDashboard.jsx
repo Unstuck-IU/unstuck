@@ -241,6 +241,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
           alignContent="flex-start">
           <TopicHeader activeTopic={activeTopic} />
           <Box
+            mt={2}
             display="flex"
             flexDirection="row"
             justifyContent="end"
@@ -264,7 +265,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
         </Box>
         {/* student dashboard content + stepper */}
         <Box
-          m="20px"
+          my="20px"
           display="flex"
           flexDirection="column"
           alignItems="center"
@@ -284,8 +285,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
             stucks={stucks}
             setStucks={setStucks}
             handleUpload={handleUpload}
-            message={message}
-            alertSeverity={alertSeverity}
+            handleAlert={handleAlert}
           />
         </Box>
       </Box>
