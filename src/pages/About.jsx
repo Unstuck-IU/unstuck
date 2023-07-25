@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { tokens } from "../theme";
 import { Box, useTheme } from "@mui/material";
 import { useAuth } from "../Providers/AuthProvider";
+import "./About.css";
 
 const About = ({ handlePageTitle }) => {
   const theme = useTheme();
@@ -22,7 +23,7 @@ const About = ({ handlePageTitle }) => {
         <h1>About</h1>
         <h4>Image credits:</h4>
         <a href="https://www.freepik.com/free-vector/cartoon-nature-landscape-with-mountain-forest-deciduous-trees-trunks-clearance_10385782.htm#page=7&query=cartoon%20climbing%20mountain&position=0&from_view=search&track=ais">
-          Image by upklyak
+          Topbar Image by upklyak
         </a>{" "}
         <br />
         <a href="https://pixabay.com/users/thehalaldesign-19718486/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6699074">
@@ -51,13 +52,41 @@ const About = ({ handlePageTitle }) => {
         <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2533629">
           Pixabay
         </a>
-        <br />
+        {/* <br />
         Image by{" "}
         <a href="https://pixabay.com/users/thehalaldesign-19718486/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6693707">
           3D Illustrator and Graphic Designer
         </a>{" "}
         from{" "}
         <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6693707">
+          Pixabay
+        <br />
+        </a> */}
+        <br />
+        Image by{" "}
+        <a href="https://pixabay.com/users/clker-free-vector-images-3736/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=29903">
+          Clker-Free-Vector-Images
+        </a>{" "}
+        from{" "}
+        <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=29903">
+          Pixabay
+        </a>
+        <br />
+        Image by{" "}
+        <a href="https://pixabay.com/users/mohamed_hassan-5229782/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=5519220">
+          Mohamed Hassan
+        </a>{" "}
+        from{" "}
+        <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=5519220">
+          Pixabay
+        </a>
+        <br />
+        Image by{" "}
+        <a href="https://pixabay.com/users/stux-12364/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2718596">
+          Stefan Schweihofer
+        </a>{" "}
+        from{" "}
+        <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2718596">
           Pixabay
         </a>
       </Box>

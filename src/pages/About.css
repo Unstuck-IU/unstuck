@@ -1,0 +1,19 @@
+a:link {
+    color: #E8AA42;
+    background-color: transparent;
+    text-decoration: none;
+    /* font-size: 10px; */
+  }
+  
+  a:visited {
+    color: #E57C23;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 10px;
+  }
+  
+  a:hover {
+    color: #025464;
+    background-color: transparent;
+    text-decoration: underline;
+    }

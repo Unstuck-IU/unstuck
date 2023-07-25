@@ -111,15 +111,16 @@ export default function FeedbackComment() {
                   justifyContent: "space-around",
                 }}
                 variant="body1">
-                Listen, strange women lyin’ in ponds distributin’ swords is no system for a basis of government. Supreme executive
-                power derives from a mandate from the masses, not from some farcical aquatic ceremony. Are you suggesting coconuts
-                migrate? Well, now, uh, Launcelot, Galahad, and I wait until nightfall, and then leap out of the rabbit, taking
-                the French by surprise—not only by surprise but totally unarmed!
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 <br></br>
                 <br></br>
-                We dine well here in Camelot. We eat ham and jam and Spam a lot. Well, don’t. It’s just like those miserable
-                psalms, always so depressing. You don’t frighten us with your silly knees-bent running around advancing behavior!
-                You must return here with a shrubbery. Or else you will never pass through these woods—alive.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </Typography>
             </Box>
 

@@ -61,31 +61,223 @@ const StepHeader = ({ activeStep, currentStuckData, ...rest }) => {
     <>
       {activeStep >= 0 && (
         <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
           sx={{
-            m: "30px",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
           }}>
-          <Typography
-            variant="h2"
-            fontWeight="bold"
-            mr="10px">
-            Step {activeStep + 1}: {steps[activeStep + 1].primary}
-          </Typography>
-          <Typography
-            variant="h4"
-            mr="10px">
-            {steps[activeStep + 1].secondary}
-          </Typography>
-          {activeStep === 2 && (
+          <Box
+            sx={{
+              m: "30px",
+              display: "flex",
+              flexDirection: "column",
+            }}>
             <Typography
-              mt={"1em"}
-              variant="h3"
-              fontWeight={"bold"}>
-              Selected Stuck: {stuckData.driving_question}
+              variant="h2"
+              fontWeight="bold"
+              mr="10px">
+              Step {activeStep + 1}: {steps[activeStep + 1].primary}
             </Typography>
-          )}
-          {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}
+            <Typography
+              variant="h4"
+              mr="10px">
+              {steps[activeStep + 1].secondary}
+            </Typography>
+            {activeStep === 2 && (
+              <Typography
+                mt={"1em"}
+                variant="h3"
+                fontWeight={"bold"}>
+                Selected Stuck: {stuckData.driving_question}
+              </Typography>
+            )}
+          </Box>
+        </Box>
+      )}
+      {/* Post a Stuck */}
+      {activeStep === 0 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/post-it-2718596_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {/* Pick a Stuck */}
+      {activeStep === 1 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/map-29903_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {/* Problem: Statement */}
+      {activeStep === 2 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/support-6773819_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {/* Problem: Expand */}
+      {activeStep === 3 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/adventure-5519220_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {/* Problem: Example */}
+      {activeStep === 4 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/mountain-7011121_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {/* Problem: Illustration */}
+      {activeStep === 5 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/adventure-7691290_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {/* Submit Problem */}
+      {activeStep === 6 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/success-7097008_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {activeStep === 7 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/survey-7078101_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
         </Box>
       )}
     </>
