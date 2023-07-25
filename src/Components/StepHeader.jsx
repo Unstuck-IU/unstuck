@@ -37,7 +37,7 @@ const StepHeader = ({ activeStep }) => {
           display="flex"
           alignItems="space-evenly"
           justifyContent="space-evenly"
-          marginTop="10px"
+          marginTop="15px"
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -62,23 +62,40 @@ const StepHeader = ({ activeStep }) => {
           </Box>
         </Box>
       )}
-
-      {activeStep === 1 && (
+      {/* Post a Stuck */}
+      {activeStep === 0 && (
         <Box
           display="flex"
           alignItems="space-evenly"
           justifyContent="space-evenly"
-          marginTop="10px"
+          marginTop="15px"
           sx={{
             display: "flex",
             flexDirection: "row",
           }}>
           <Box
+            display="flex"
             sx={{
-              m: "30px",
-              display: "flex",
-              flexDirection: "column",
+              backgroundImage: `url("../src/assets/images/post-it-2718596_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              width: "250px",
+              height: "150px",
             }}></Box>
+        </Box>
+      )}
+      {/* Pick a Stuck */}
+      {activeStep === 1 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
           <Box
             display="flex"
             sx={{
@@ -91,22 +108,17 @@ const StepHeader = ({ activeStep }) => {
             }}></Box>
         </Box>
       )}
+      {/* Problem: Statement */}
       {activeStep === 2 && (
         <Box
           display="flex"
           alignItems="space-evenly"
           justifyContent="space-evenly"
-          marginTop="10px"
+          marginTop="15px"
           sx={{
             display: "flex",
             flexDirection: "row",
           }}>
-          <Box
-            sx={{
-              m: "30px",
-              display: "flex",
-              flexDirection: "column",
-            }}></Box>
           <Box
             display="flex"
             sx={{
@@ -119,22 +131,17 @@ const StepHeader = ({ activeStep }) => {
             }}></Box>
         </Box>
       )}
+      {/* Problem: Expand */}
       {activeStep === 3 && (
         <Box
           display="flex"
           alignItems="space-evenly"
           justifyContent="space-evenly"
-          marginTop="10px"
+          marginTop="15px"
           sx={{
             display: "flex",
             flexDirection: "row",
           }}>
-          <Box
-            sx={{
-              m: "30px",
-              display: "flex",
-              flexDirection: "column",
-            }}></Box>
           <Box
             display="flex"
             sx={{
@@ -147,22 +154,17 @@ const StepHeader = ({ activeStep }) => {
             }}></Box>
         </Box>
       )}
+      {/* Problem: Example */}
       {activeStep === 4 && (
         <Box
           display="flex"
           alignItems="space-evenly"
           justifyContent="space-evenly"
-          marginTop="10px"
+          marginTop="15px"
           sx={{
             display: "flex",
             flexDirection: "row",
           }}>
-          <Box
-            sx={{
-              m: "30px",
-              display: "flex",
-              flexDirection: "column",
-            }}></Box>
           <Box
             display="flex"
             sx={{
@@ -175,22 +177,17 @@ const StepHeader = ({ activeStep }) => {
             }}></Box>
         </Box>
       )}
+      {/* Problem: Illustration */}
       {activeStep === 5 && (
         <Box
           display="flex"
           alignItems="space-evenly"
           justifyContent="space-evenly"
-          marginTop="10px"
+          marginTop="15px"
           sx={{
             display: "flex",
             flexDirection: "row",
           }}>
-          <Box
-            sx={{
-              m: "30px",
-              display: "flex",
-              flexDirection: "column",
-            }}></Box>
           <Box
             display="flex"
             sx={{
@@ -203,26 +200,43 @@ const StepHeader = ({ activeStep }) => {
             }}></Box>
         </Box>
       )}
+      {/* Submit Problem */}
       {activeStep === 6 && (
         <Box
           display="flex"
           alignItems="space-evenly"
           justifyContent="space-evenly"
-          marginTop="10px"
+          marginTop="15px"
           sx={{
             display: "flex",
             flexDirection: "row",
           }}>
           <Box
-            sx={{
-              m: "30px",
-              display: "flex",
-              flexDirection: "column",
-            }}></Box>
-          <Box
             display="flex"
             sx={{
               backgroundImage: `url("../src/assets/images/success-7097008_640.png")`,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              width: "250px",
+              height: "150px",
+            }}></Box>
+        </Box>
+      )}
+      {activeStep === 7 && (
+        <Box
+          display="flex"
+          alignItems="space-evenly"
+          justifyContent="space-evenly"
+          marginTop="15px"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}>
+          <Box
+            display="flex"
+            sx={{
+              backgroundImage: `url("../src/assets/images/survey-7078101_640.png")`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
