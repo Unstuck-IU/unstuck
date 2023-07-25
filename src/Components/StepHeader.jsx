@@ -3,12 +3,21 @@ import { tokens } from "../theme";
 import { useState, useEffect } from "react";
 import { supabase, useAuth } from "../Providers/AuthProvider";
 
-const StepHeader = ({ activeStep, currentStuckData }) => {
+const StepHeader = ({ activeStep, currentStuckData, ...rest }) => {
   const [sherpa, setSherpa] = useState("");
   const [fetchError, setFetchError] = useState("");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
+
+  const stuckData = {};
+  if (currentStuckData === null) {
+    stuckData.driving_question = "No Stuck Selected, please go back to Step 2 and select a Stuck.";
+    rest.handleAlert("No Stuck Selected, please go back to Step 2 and select a Stuck", "error");
+  } else {
+    stuckData.driving_question = currentStuckData[0].driving_question;
+  }
+  console.log("stuckData: ", stuckData);
 
   const steps = {
     1: {
@@ -20,7 +29,7 @@ const StepHeader = ({ activeStep, currentStuckData }) => {
     3: {
       primary: "Problem Statement",
       secondary:
-        "Referring to your selected 'Stuck', concisely state the following in one or two sentences; the current situation, the desired future situation, and the gap(s) that exist between the two.",
+        "Referring to your selected 'Stuck', concisely state the following in one or two sentences: The current situation, the desired future situation, and the gap(s) that exist between the two.",
     },
     4: {
       primary: "Expand",
@@ -37,7 +46,11 @@ const StepHeader = ({ activeStep, currentStuckData }) => {
       secondary:
         "Provide a representation of the problem in a different form that is already more familiar using synonyms, analogies, metaphors, or visual presentations.",
     },
-    7: { primary: "Submit Problem", secondary: "Review and change things to your liking. Remember: iterate, iterate, iterate!" },
+    7: {
+      primary: "Review and Submit Problem",
+      secondary:
+        "Review and change things to your liking. Remember: It's totally ok to delete what you had and to try again, there's no shame in starting over!",
+    },
     8: {
       primary: "Review Peer Stucks",
       secondary:
@@ -64,12 +77,12 @@ const StepHeader = ({ activeStep, currentStuckData }) => {
             mr="10px">
             {steps[activeStep + 1].secondary}
           </Typography>
-          {activeStep === 2 && currentStuckData.driving_question !== null && (
+          {activeStep === 2 && (
             <Typography
               mt={"1em"}
               variant="h3"
               fontWeight={"bold"}>
-              Selected Stuck: {currentStuckData[0].driving_question}
+              Selected Stuck: {stuckData.driving_question}
             </Typography>
           )}
           {/* <Typography variant="p">This is the topic for the current class, which you will use to base you Stuck on.</Typography> */}

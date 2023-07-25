@@ -11,7 +11,6 @@ import { Box, Button, Card, IconButton, Typography, useTheme, Alert, CardActions
 import ProgressStepper from "../Components/ProgressStepper";
 
 import Header from "../components/Header";
-import StepHeader from "../components/StepHeader";
 import LineChart from "../components/LineChart";
 // import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../components/BarChart";
@@ -197,22 +196,39 @@ const StudentDashboard = ({ handlePageTitle }) => {
 
   // Update all instances to handleSexiFormUpload or some variant for clarity?
   const handleUpload = async (formValues) => {
-    const { data, error } = await supabase
-      .from("stuck")
+    const { data: formUpload, error: formUploadError } = await supabase
+      .from("user_topic")
       .update({
         statement_text: formValues.statement,
         expand_text: formValues.expand,
         example_text: formValues.example,
-        illustration_text: formValues.illustrate,
+        illustrate_text: formValues.illustrate,
       })
-      .eq("user_topic_id", 36) // Todo: ? Add join with user_topic on topic id and return?
-      .eq("id", 27); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
-    if (error) {
-      console.log("Error received while updating Stuck table entries. \n", error);
+      .eq("user_id", userDetails.user_id) // matches the current user_id of logged in student
+      .eq("topic_id", activeTopic.id); // matches the current topic, completing the filter for the correct user_topic record
+    if (formUploadError) {
+      console.log("Error received while updating user_topic table entries for formValues. \n", formUploadError);
+    } else {
+      console.log("handleUpload from all steps being complete! formUpload: ", formUpload);
     }
-
-    console.log("handleUpload Student Dashboard Data", data);
   };
+  //   ///////
+  //   const { data, error } = await supabase
+  //     .from("stuck")
+  //     .update({
+  //       statement_text: formValues.statement,
+  //       expand_text: formValues.expand,
+  //       example_text: formValues.example,
+  //       illustration_text: formValues.illustrate,
+  //     })
+  //     .eq("user_topic_id", 36) // Todo: ? Add join with user_topic on topic id and return?
+  //     .eq("id", 27); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
+  //   if (error) {
+  //     console.log("Error received while updating Stuck table entries. \n", error);
+  //   }
+
+  //   console.log("handleUpload Student Dashboard Data", data);
+  // };
 
   if (loading)
     return (

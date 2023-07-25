@@ -27,7 +27,7 @@ const steps = [
   "Problem: Expand",
   "Problem: Example",
   "Problem: Illustration",
-  "Submit Problem",
+  "Review and Submit Problem",
   "Review Peers Stucks",
 ];
 
@@ -42,10 +42,12 @@ export default function ProgressStepper(props) {
   const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
+    console.log("ProgressStepper useEffect called, activeStep: ", activeStep);
     //check if all of the steps in the stepper have been marked as complete, if so, send call to handleUpload function
-    if (completedSteps() === totalSteps()) {
+
+    if (completedSteps() === totalSteps() - 1) {
+      console.log("all steps are complete! setting isAllStepsComplete to true");
       setIsAllStepsComplete(true);
-      props.handleUpload(formValues);
     }
   }, [completed]);
 
@@ -82,6 +84,9 @@ export default function ProgressStepper(props) {
       if (chosenStuckId !== null && activeStep === 1) {
         submitChosenStuck();
       }
+      if (activeStep === 6) {
+        props.handleUpload(formValues);
+      }
     }
 
     setActiveStep(newActiveStep);
@@ -96,30 +101,75 @@ export default function ProgressStepper(props) {
   };
 
   const handleReset = () => {
+    setIsAllStepsComplete(false);
     setActiveStep(0);
     setCompleted({});
   };
 
   const handleTextFieldChange = (event) => {
+    // this is the one to update the info as each field is typed into
     const { name, value } = event.target;
-  };
-  const handleTextFieldSubmit = (event) => {
+    console.log("handleTextFieldChange, name:", name, "value: ", value);
     setFormValues({
       ...formValues,
       [name]: value,
     });
-    console.log(formValues, formValues.statement);
+    console.log("formValues: ", formValues);
+  };
+
+  const handleTextFieldSubmit = async (columnName) => {
+    console.log("handleTextFieldSubmit was called, columnName: ", columnName.name);
+    // this is the one used to send the info to the database
+    // supabase update user_topic {column_name}
+    // supabase table names: statement_text, expand_text, example_text, illustration_text
+    let columnToUpdate = columnName.name + "_text"; // get just the column name from the form input
+    console.log("columnToUpdate: ", columnToUpdate);
+    const { data: textFieldFormSubmit, error: textFieldFormSubmitError } = await supabase
+      .from("user_topic")
+      .update({
+        [columnToUpdate]: formValues[columnName.name], // object bracket notation used to specify dynamic values of key:value pairs
+      })
+      .eq("user_id", userDetails.user_id) // matches the current user_id of logged in student
+      .eq("topic_id", props.activeTopic.id) // matches the current topic, completing the filter for the correct user_topic record
+      .select();
+    if (textFieldFormSubmitError) {
+      console.log("Error received while updating user_topic table entries for formValues. \n", textFieldFormSubmitError);
+    } else {
+      console.log("handleTextFieldSubmit: studentEntries: ", textFieldFormSubmit);
+    }
   };
 
   const handleSave = () => {
     localStorage.setItem("formValues", formValues);
-    console.log("These are the current form values \n", formValues, "This is formValues.statement\n", formValues.statement);
+    console.log("These are the current form values: \n", formValues);
   };
 
   const handleComplete = () => {
+    console.log("handleComplete was called");
+    console.log("activeStep: ", activeStep);
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
+    if (activeStep === 2) {
+      console.log("handleComplete was called for statement (step 2)");
+      handleTextFieldSubmit(statement);
+    }
+    if (activeStep === 3) {
+      console.log("handleComplete was called for expand (step 3)");
+      handleTextFieldSubmit(expand);
+    }
+    if (activeStep === 4) {
+      console.log("handleComplete was called for example (step 4)");
+      handleTextFieldSubmit(example);
+    }
+    if (activeStep === 5) {
+      console.log("handleComplete was called for illustrate (step 5)");
+      handleTextFieldSubmit(illustrate);
+    }
+    if (activeStep === 6) {
+      console.log("handleComplete was called for Submit Stuck", formValues);
+      props.handleUpload(formValues);
+    }
     handleSave();
     handleNext();
   };
@@ -207,6 +257,7 @@ export default function ProgressStepper(props) {
               activeTopic={props.activeTopic}
               handleFetchStucks={props.handleFetchStucks}
               chosenStuckId={chosenStuckId}
+              handleAlert={props.handleAlert}
               // joinCode={props.joinCode}
               {...props}
             />
@@ -227,40 +278,41 @@ export default function ProgressStepper(props) {
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              {activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <Button
-                    onClick={handleNext}
-                    sx={{
-                      mr: 1,
-                      color: colors.primary[100],
-                      border: 1,
-                      borderColor: colors.primary[100],
-                      fontSize: "14px",
-                    }}>
-                    {completedSteps() === totalSteps() - 1 ? (
-                      "Finish"
-                    ) : (
-                      <Typography
-                        variant="caption"
-                        sx={{ display: "inline-block" }}>
-                        Next Step
-                      </Typography>
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handleComplete}
-                    sx={{
-                      mr: 1,
-                      color: colors.primary[100],
-                      border: 1,
-                      borderColor: colors.zest[600],
-                      fontSize: "14px",
-                    }}>
-                    {completedSteps() === totalSteps() - 1 ? "Finish" : "Complete Step"}
-                  </Button>
-                ))}
+              {activeStep < steps.length && completed[activeStep] && completedSteps() < totalSteps() - 1 ? (
+                <Button
+                  onClick={handleNext}
+                  sx={{
+                    mr: 1,
+                    color: colors.primary[100],
+                    border: 1,
+                    borderColor: colors.primary[100],
+                    fontSize: "14px",
+                  }}>
+                  <Typography
+                    variant="caption"
+                    sx={{ display: "inline-block" }}>
+                    Next Step
+                  </Typography>
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    handleComplete();
+                  }}
+                  sx={{
+                    mr: 1,
+                    color: colors.primary[100],
+                    border: 1,
+                    borderColor: colors.zest[600],
+                    fontSize: "14px",
+                  }}>
+                  {activeStep === 6
+                    ? "Submit Filled Out Stuck"
+                    : completedSteps() >= totalSteps() - 1
+                    ? "Finish"
+                    : "Complete Step"}
+                </Button>
+              )}
             </Box>
           </React.Fragment>
         )}

@@ -40,7 +40,6 @@ export function StatementForm(props) {
   const { userDetails } = useAuth();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  console.log("Props from statement form", props);
 
   // TODO: Finish testing why the Styled card and textarea caused issues with text entry (reversed display/entry of text)
 
@@ -63,20 +62,20 @@ export function StatementForm(props) {
   //   justifyContent: "center",
   // }));
 
-  const handleStatementSubmit = async () => {
-    const { data: statement, error } = await supabase
-      .from("user_topic")
-      .update({
-        statement_text: statementInput,
-      })
-      .eq("topic_id", props.activeTopic.id) // Todo: ? Add join with user_topic on topic id and return?
-      .eq("user_id", userDetails.user_id); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
-    if (error) {
-      console.log("Error received while updating Stuck table entries. \n", error);
-    }
+  // const handleStatementSubmit = async () => {
+  //   const { data: statement, error } = await supabase
+  //     .from("user_topic")
+  //     .update({
+  //       statement_text: statementInput,
+  //     })
+  //     .eq("topic_id", props.activeTopic.id) // Todo: ? Add join with user_topic on topic id and return?
+  //     .eq("user_id", userDetails.user_id); // Change to retrieved ID from handleChosenStuck (StuckCard/ProgressStepper)
+  //   if (error) {
+  //     console.log("Error received while updating Stuck table entries. \n", error);
+  //   }
 
-    console.log("handleUpload Student Dashboard Data", data);
-  };
+  //   console.log("handleUpload Student Dashboard Data", data);
+  // };
 
   const handleSetCheckedStuckIndex = async (num) => {
     setCheckedStuckIndex(num);
@@ -94,7 +93,6 @@ export function StatementForm(props) {
       fetchStuckTitle();
     }
   }, [checkedStuckIndex]);
-  console.log("currentStuckData: ", currentStuckData);
 
   return (
     <>
@@ -110,6 +108,7 @@ export function StatementForm(props) {
         <StepHeader
           activeStep={props.activeStep}
           currentStuckData={currentStuckData ? currentStuckData : null}
+          handleAlert={props.handleAlert}
         />
       </Box>
       {/* Step 1+2 - Posting and picking a Stuck to the Topic */}
@@ -202,25 +201,6 @@ export function StatementForm(props) {
                       justifyContent: "center",
                     }}>
                     <FormGroup sx={{ justifyContent: "center", width: "stretch", m: "12px" }}>
-                      {props.activeStep === 2 ? (
-                        <>
-                          {/* waiting for Greg's help with what to fill in here for examples */}
-                          {/* <Typography variant="h5">
-                            To help you with understanding what a problem statement looks like, here's an example of one about the
-                            Topic:
-                          </Typography>
-                          <Typography
-                            variant="h4"
-                            color={colors.yellowAccent[400]}>
-                            Making a good cup of coffee
-                          </Typography>
-                          <Typography variant="subtitle1">
-                            Problem Statement: "Coffee grounds are too difficult to grind consistently."
-                          </Typography> */}
-                        </>
-                      ) : (
-                        ""
-                      )}
                       <Grid
                         container
                         // spacing={1}
@@ -254,8 +234,8 @@ export function StatementForm(props) {
                             className="sexiform-textfield"
                             id="statement"
                             label="Statement"
-                            onChange={(e) => setStatementInput(e.target.value)}
-                            value={statementInput}
+                            onChange={props.handleTextFieldChange}
+                            value={props.formValues.statement}
                             autoFocus
                           />
                         </Grid>
