@@ -88,8 +88,11 @@ export default function ProgressStepper(props) {
         props.handleUpload(formValues);
       }
     }
-
-    setActiveStep(newActiveStep);
+    if (activeStep === 1 && chosenStuckId === null) {
+      props.handleAlert("Please choose a stuck before continuing", "warning");
+    } else {
+      setActiveStep(newActiveStep);
+    }
   };
 
   const handleBack = () => {
@@ -220,6 +223,10 @@ export default function ProgressStepper(props) {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <meta
+        name="view-transition"
+        content="same-origin"
+      />
       <Stepper
         sx={stepStyle}
         nonLinear
