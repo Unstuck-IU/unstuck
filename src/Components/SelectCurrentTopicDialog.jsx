@@ -22,12 +22,17 @@ export default function SelectCurrentTopicDialog({ ...props }) {
   const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
-    const retrieveTopics = async () => {
-      const { data: sherpaTopics, error } = await supabase.from("topic").select("*").eq("sherpa_owner_id", userDetails.user_id);
-      console.log("sherpaTopics", sherpaTopics);
-      setSherpaTopics(sherpaTopics);
-    };
-    retrieveTopics();
+    if (userDetails !== null) {
+      const retrieveTopics = async () => {
+        const { data: sherpaTopics, error } = await supabase
+          .from("topic")
+          .select("*")
+          .eq("sherpa_owner_id", userDetails?.user_id);
+        console.log("sherpaTopics", sherpaTopics);
+        setSherpaTopics(sherpaTopics);
+      };
+      retrieveTopics();
+    }
   }, [user]);
 
   const handleClickOpen = () => {

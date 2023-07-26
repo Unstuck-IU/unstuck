@@ -95,7 +95,7 @@ const SherpaDashboard = () => {
     let { data: fetchedTopic, error: fetchedTopicError } = await supabase
       .from("topic")
       // .select("*, topic_id!inner(*), user_id!inner(*)")
-      .select("*, sherpa_owner_id!inner(*)")
+      .select("*")
       .eq("sherpa_owner_id", userDetails?.user_id ? userDetails?.user_id : null)
       .eq("id", newActiveTopicId)
       .single();
