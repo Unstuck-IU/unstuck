@@ -13,7 +13,7 @@ const About = ({ handlePageTitle }) => {
 
   useEffect(() => {
     if (userDetails) {
-      handlePageTitle("", "");
+      handlePageTitle("About", "");
     }
   }, [userDetails]);
 
@@ -24,13 +24,13 @@ const About = ({ handlePageTitle }) => {
         content="same-origin"
       />
       <Box>
-        <h1>About</h1>
         <h2>Unstuck Developer Team</h2>
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-evenly",
+            flexWrap: "wrap",
           }}>
           <Card
             sx={{
@@ -47,26 +47,125 @@ const About = ({ handlePageTitle }) => {
               background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
             }}>
             <CardMedia
-              sx={{ height: 140 }}
-              image="/src/assets/images/developer-team-1.png"
-              title="green iguana"
+              sx={{ height: 300 }}
+              image="/src/assets/images/jenny-head-shot-cropped.jpg"
+              title="Jenny-Headshot"
             />
             <CardContent>
-              <div>
-                <Typography
-                  variant="h5"
-                  textAlign="left">
-                  {" "}
-                  Name
-                </Typography>
-                <Typography
-                  mt="10px"
-                  gutterBottom
-                  variant="h6"
-                  component="div">
-                  Picture
-                </Typography>
-              </div>
+              <Typography
+                variant="h5"
+                textAlign="left">
+                {" "}
+                Jennifer Gajdos-Bomben
+              </Typography>
+              <a href="mailto:jgajdosbomben@gmail.com">Email Jennifer</a>
+              <br />
+              <a href="https://www.linkedin.com/in/jennifer-gajdos-bomben-bb037143/">Jennifer's LinkedIn Profile</a>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              flexWrap: "wrap",
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px 10px 20px",
+              margin: "10px",
+              width: "300px",
+              minHeight: "270px",
+              justifyContent: "space-between",
+              background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+            }}>
+            <CardMedia
+              sx={{ height: 300 }}
+              image="/src/assets/images/aric-head-shot-cropped.jpg"
+              title="Aric-Headshot"
+            />
+            <CardContent
+              display="flex"
+              justifyContent="flex-start">
+              <Typography
+                variant="h5"
+                textAlign="left">
+                {" "}
+                Aric Crosson Bouwers
+              </Typography>
+              <a href="mailto:0many-treaty@icloud.com">Email Aric</a>
+              <br />
+              <a href="linkedin.com/in/aric-crosson-bouwers">Aric's LinkedIn Profile</a>
+              <br />
+              <a href="https://www.ariccb.dev">Aric's Personal Portfolio</a>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              flexWrap: "wrap",
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px 10px 20px",
+              margin: "10px",
+              width: "300px",
+              minHeight: "270px",
+              justifyContent: "space-between",
+              background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+            }}>
+            <CardMedia
+              sx={{ height: 300 }}
+              image="/src/assets/images/zee-head-shot-cropped.jpg"
+              title="Zee-Headshot"
+            />
+            <CardContent
+              display="flex"
+              justifyContent="flex-start">
+              <Typography
+                variant="h5"
+                textAlign="left">
+                {" "}
+                Zibusiso Mafaiti
+              </Typography>
+              <a href="mailto:zmafaiti@gmail.com">Email Zee</a>
+              <br />
+              <a href="https://www.linkedin.com/in/zibusiso-mafaiti/">Zee's LinkedIn Profile</a>
+              <br />
+              <a href="link-to-portfolio-here">Zee's Personal Portfolio (Todo)</a>
+            </CardContent>
+          </Card>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              flexWrap: "wrap",
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px 10px 20px",
+              margin: "10px",
+              width: "300px",
+              minHeight: "270px",
+              justifyContent: "space-between",
+              background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
+            }}>
+            <CardMedia
+              sx={{ height: 300 }}
+              image="/src/assets/images/med-head-shot-cropped.jpg"
+              title="Med-Headshot"
+            />
+            <CardContent
+              display="flex"
+              justifyContent="flex-start">
+              <Typography
+                variant="h5"
+                textAlign="left">
+                {" "}
+                Medara Kapcsos
+              </Typography>
+              <a href="mailto:med.kap2023@gmail.com">Email Med</a>
+              <br />
+              <a href="https://www.linkedin.com/in/medara-kapcsos-67196526b/">Med's LinkedIn Profile</a>
+              <br />
+              <a href="link-to-portfolio-here">Med's Personal Portfolio (Todo)</a>
             </CardContent>
           </Card>
         </Box>
