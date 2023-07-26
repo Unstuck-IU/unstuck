@@ -25,7 +25,7 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setLoading(true);
+    // setLoading(true);
     const { data, error } = await signUp(email, password);
 
     if (error) {
@@ -69,7 +69,6 @@ export default function SignUp() {
               <Grid
                 container
                 spacing={2}>
-
                 <Grid
                   item
                   xs={12}>
@@ -99,7 +98,6 @@ export default function SignUp() {
                     value={password}
                   />
                 </Grid>
-
               </Grid>
               <Button
                 type="submit"

@@ -96,6 +96,10 @@ export function StatementForm(props) {
 
   return (
     <>
+      <meta
+        name="view-transition"
+        content="same-origin"
+      />
       {/* HANDLETOPIC DIALOG   */}
       <Box
         display="flex"

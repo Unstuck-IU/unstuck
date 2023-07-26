@@ -40,6 +40,10 @@ const Profile = ({ handlePageTitle }) => {
 
   return (
     <div>
+      <meta
+        name="view-transition"
+        content="same-origin"
+      />
       <Box
         gridColumn="span 12"
         justifyContent="space-between"

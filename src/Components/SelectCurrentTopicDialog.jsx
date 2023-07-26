@@ -65,7 +65,7 @@ export default function SelectCurrentTopicDialog({ ...props }) {
           variant="outlined"
           onClick={handleClickOpen}>
           <AddCircleOutlineIcon sx={{ mr: "10px" }} />
-          Join Topic
+          Select Topic To View
         </Button>
       ) : (
         <Button
@@ -87,17 +87,28 @@ export default function SelectCurrentTopicDialog({ ...props }) {
         open={open}
         onClose={handleClose}>
         <DialogTitle>Select Active Topic</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please select the topic you want to filter your dashboard view by.</DialogContentText>
-          <TopicSelectionDropdown
-            handleSelectTopicId={handleSelectTopicId}
-            sherpaTopics={sherpaTopics}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Join Topic</Button>
-        </DialogActions>
+        {sherpaTopics.length === 0 ? (
+          <DialogContent>
+            <DialogContentText>
+              Looks like you don't have any topics yet. Try creating a new one using the "Create a new topic" section at the
+              top-right!
+            </DialogContentText>
+          </DialogContent>
+        ) : (
+          <>
+            <DialogContent>
+              <DialogContentText>Please select the topic you want to filter your dashboard view by.</DialogContentText>
+              <TopicSelectionDropdown
+                handleSelectTopicId={handleSelectTopicId}
+                sherpaTopics={sherpaTopics}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleSubmit}>Select Topic</Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     </div>
   );

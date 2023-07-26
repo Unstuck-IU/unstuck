@@ -19,6 +19,10 @@ const About = ({ handlePageTitle }) => {
 
   return (
     <div>
+      <meta
+        name="view-transition"
+        content="same-origin"
+      />
       <Box>
         <h1>About</h1>
         <h4>Image credits:</h4>
