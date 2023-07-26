@@ -89,7 +89,7 @@ export default function App() {
             <div className="footer">
               <Footer />
 
-              <p>{"...." +isViewTransition}</p>
+              {/* <p>{"...." +isViewTransition}</p> */}
             </div>
           </main>
     </div>
