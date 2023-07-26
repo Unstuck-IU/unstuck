@@ -127,10 +127,13 @@ const SherpaDashboard = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsAlertShowing(false);
-    }, 4500);
-  });
+    }, 7000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isAlertShowing]);
 
   async function handleCreateTopic(e) {
     e.preventDefault();

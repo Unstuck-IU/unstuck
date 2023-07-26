@@ -139,14 +139,14 @@ const AuthProvider = (props) => {
       if (error) {
         console.log("Sign up failed. Error: \n", error);
         setAlertMessage("Sign up failed, please try again.");
-        return error;
         setLoading(false);
+        return error;
       }
       if (data) {
         console.log("Signed up successfully", data);
         setAlertMessage("Successfully signed up!");
-        return data;
         setLoading(false);
+        return data;
       }
     } catch (ex) {
       console.log("Auth failed", ex.message);

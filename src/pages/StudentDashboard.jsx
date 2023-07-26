@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 //auth context
 import { useAuth, supabase } from "../Providers/AuthProvider";
 //mock data
@@ -41,6 +41,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
   const [message, setMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState(""); // "error", "warning", "info", or "success" from MUI
   const [isAlertShowing, setIsAlertShowing] = useState(false);
+  const alertRef = useRef(null);
 
   const [firstTime, setFirstTime] = useState(false);
 
@@ -70,10 +71,24 @@ const StudentDashboard = ({ handlePageTitle }) => {
   }, [userDetails]);
 
   useEffect(() => {
-    setTimeout(() => {
+    if (isAlertShowing) {
+      alertRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "start",
+      });
+      console.log("alertRef.current: ", alertRef.current);
+    }
+  }, [isAlertShowing]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
       setIsAlertShowing(false);
-    }, 4500);
-  });
+    }, 7000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isAlertShowing]);
 
   useEffect(() => {
     if (!loading && joinCode) {
@@ -245,6 +260,10 @@ const StudentDashboard = ({ handlePageTitle }) => {
     );
   return (
     <>
+      <meta
+        name="view-transition"
+        content="same-origin"
+      />
       <Box m="20px">
         {/* HEADER */}
 
@@ -264,7 +283,11 @@ const StudentDashboard = ({ handlePageTitle }) => {
             alignItems="center">
             {isAlertShowing && (
               <Alert
-                sx={{ mr: "20px" }}
+                ref={alertRef}
+                sx={{
+                  mr: "20px",
+                  //  position: "absolute", top: "125px", right: "10px", zIndex: 1000
+                }}
                 severity={alertSeverity}
                 onClose={() => {
                   setIsAlertShowing(false);
