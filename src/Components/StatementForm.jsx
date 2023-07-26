@@ -235,6 +235,7 @@ export function StatementForm(props) {
                             name="statement"
                             multiline
                             minRows={9}
+                            maxRows={9}
                             className="sexiform-textfield"
                             id="statement"
                             label="Statement"
@@ -284,6 +285,7 @@ export function StatementForm(props) {
                           name="expand"
                           multiline
                           minRows={9}
+                          maxRows={9}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
@@ -348,8 +350,10 @@ export function StatementForm(props) {
                         xs={12}>
                         <TextField
                           name="example"
+                          font-size="xx-large"
                           multiline
                           minRows={9}
+                          maxRows={9}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
@@ -417,6 +421,7 @@ export function StatementForm(props) {
                           fullWidth
                           multiline
                           minRows={9}
+                          maxRows={9}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
