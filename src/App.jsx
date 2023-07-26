@@ -21,12 +21,18 @@ import Footer from "./components/Footer";
 import { useAuth } from "./Providers/AuthProvider";
 
 // prettier-ignore
-function App() {
+export default function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   const { userSession, loading, userDetails } = useAuth();
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+
+  let isViewTransition =
+    "Oops, Your browser doesn't support View Transitions API";
+  if (document.startViewTransition) {
+    isViewTransition = "Yes, Your browser support View Transitions API";
+  }
 
   const handlePageTitle = (title, subtitle) => {
     setTitle(title);
@@ -39,6 +45,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
+        <meta
+        name="view-transition"
+        content="same-origin"
+      />
           <Sidebar className="sidebar" isSidebar={isSidebar} />
           <main className="content">
             <div className="header">
@@ -78,6 +88,8 @@ function App() {
               </div>
             <div className="footer">
               <Footer />
+
+              <p>{"...." +isViewTransition}</p>
             </div>
           </main>
     </div>
@@ -85,5 +97,3 @@ function App() {
     </ColorModeContext.Provider>
   );
 }
-
-export default App;

@@ -18,7 +18,6 @@ function Copyright(props) {
         Unstuck
       </Link>{" "}
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }

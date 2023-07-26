@@ -47,3 +47,53 @@ body,
 ::-webkit-scrollbar-thumb:hover {
   background: #d8d1d1;
 }
+
+/* Views Animation */
+::view-transition-old(root) {
+  animation: fade-and-scale-out 0.25s ease-in-out 1 forwards;
+}
+::view-transition-new(root) {
+  animation: fade-and-scale-in 0.5s ease-in-out 1 forwards;
+}
+
+@keyframes fade-and-scale-in {
+  from {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fade-and-scale-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+/* Second animation */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}

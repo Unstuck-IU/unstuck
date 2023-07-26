@@ -15,22 +15,38 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import TerrainIcon from "@mui/icons-material/Terrain";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import { useNavigate } from "react-router-dom";
 
 // Adjust to get current user
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+  const viewNavigate = (newRoute) => {
+    // Navigate to the new route
+    if (!document.startViewTransition) {
+      return navigate(newRoute);
+    } else {
+      return document.startViewTransition(() => {
+        navigate(newRoute);
+      });
+    }
+  };
+
   return (
     <MenuItem
       active={selected === title}
       style={{
         color: `${colors.primary[100]}`, //Changes the menu items text colours
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => {
+        setSelected(title);
+        viewNavigate(to);
+      }}
       icon={icon}>
       <Typography>{title}</Typography>
-      <Link to={to} />
+      {/* <Link to={to} /> */}
     </MenuItem>
   );
 };
