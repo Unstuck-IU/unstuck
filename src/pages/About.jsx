@@ -95,7 +95,7 @@ const About = ({ handlePageTitle }) => {
               </Typography>
               <a href="mailto:0many-treaty@icloud.com">Email Aric</a>
               <br />
-              <a href="linkedin.com/in/aric-crosson-bouwers">Aric's LinkedIn Profile</a>
+              <a href="https://www.linkedin.com/in/aric-crosson-bouwers">Aric's LinkedIn Profile</a>
               <br />
               <a href="https://www.ariccb.dev">Aric's Personal Portfolio</a>
             </CardContent>
