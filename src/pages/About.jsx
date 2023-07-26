@@ -61,6 +61,8 @@ const About = ({ handlePageTitle }) => {
               <a href="mailto:jgajdosbomben@gmail.com">Email Jennifer</a>
               <br />
               <a href="https://www.linkedin.com/in/jennifer-gajdos-bomben-bb037143/">Jennifer's LinkedIn Profile</a>
+              <br />
+              <a href="link-to-portfolio-here">Jennifer's Personal Portfolio (Todo)</a>
             </CardContent>
           </Card>
           <Card
