@@ -168,7 +168,7 @@ export function StatementForm(props) {
         <Container
           component="main"
           maxWidth="xs">
-          <CssBaseline />
+          {/* <CssBaseline /> */}
           <Box
             sx={{
               marginTop: 3,
@@ -213,8 +213,7 @@ export function StatementForm(props) {
                           item
                           xs={12}
                           justifyContent="center"
-                          alignItems="center"
-                          sx={{ objectFit: "contain" }}>
+                          alignItems="center">
                           <TextField
                             sx={{
                               color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
@@ -224,24 +223,28 @@ export function StatementForm(props) {
                               //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
                               // }`,
                               width: "stretch",
-                              fontSize: "0.875rem",
-                              fontWeight: "400",
+                              fontSize: "2rem",
+                              fontWeight: "800",
                               // lineHeight: "1.5",
                               height: "250px",
                               // padding: "12px",
                               borderRadius: "12px 12px 0 12px",
                               margin: "20px",
+                              ".css-1moi4tf-MuiInputBase-root-MuiOutlinedInput-root": { fontSize: "20px" },
                             }}
+                            inputProps={{ style: { fontSize: 22 } }}
+                            InputLabelProps={{ style: { fontSize: 20, fontWeight: "600" } }}
                             name="statement"
                             multiline
-                            minRows={9}
-                            maxRows={9}
+                            minRows={7.5}
+                            maxRows={7.5}
+                            fontSize="xx-large"
                             className="sexiform-textfield"
                             id="statement"
                             label="Statement"
                             onChange={props.handleTextFieldChange}
                             value={props.formValues.statement}
-                            autoFocus
+                            // autoFocus
                           />
                         </Grid>
                       </Grid>
@@ -268,7 +271,7 @@ export function StatementForm(props) {
                     fontWeight: "bold",
                     margin: "10px",
                     width: "600px",
-                    height: "300px",
+                    minHeight: "300px",
                     borderRadius: "12px 12px 12px 12px",
                     justifyContent: "center",
                   }}>
@@ -284,8 +287,8 @@ export function StatementForm(props) {
                         <TextField
                           name="expand"
                           multiline
-                          minRows={9}
-                          maxRows={9}
+                          minRows={7.5}
+                          maxRows={7.5}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
@@ -294,14 +297,17 @@ export function StatementForm(props) {
                             //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
                             // }`,
                             width: "stretch",
-                            fontSize: "0.875rem",
-                            fontWeight: "400",
+                            fontSize: "2rem",
+                            fontWeight: "800",
                             // lineHeight: "1.5",
                             height: "250px",
                             // padding: "12px",
                             borderRadius: "12px 12px 0 12px",
                             margin: "20px",
+                            ".css-1moi4tf-MuiInputBase-root-MuiOutlinedInput-root": { fontSize: "20px" },
                           }}
+                          inputProps={{ style: { fontSize: 22 } }}
+                          InputLabelProps={{ style: { fontSize: 20, fontWeight: "600" } }}
                           id="expand"
                           label="Expand"
                           value={props.formValues.expand}
@@ -335,7 +341,7 @@ export function StatementForm(props) {
                     fontWeight: "bold",
                     margin: "10px",
                     width: "600px",
-                    height: "300px",
+                    minHeight: "300px",
                     borderRadius: "12px 12px 12px 12px",
                     justifyContent: "center",
                   }}>
@@ -352,8 +358,8 @@ export function StatementForm(props) {
                           name="example"
                           font-size="xx-large"
                           multiline
-                          minRows={9}
-                          maxRows={9}
+                          minRows={7.5}
+                          maxRows={7.5}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
@@ -362,14 +368,17 @@ export function StatementForm(props) {
                             //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
                             // }`,
                             width: "stretch",
-                            fontSize: "0.875rem",
-                            fontWeight: "400",
+                            fontSize: "2rem",
+                            fontWeight: "800",
                             // lineHeight: "1.5",
-                            height: "20px",
+                            height: "250px",
                             // padding: "12px",
                             borderRadius: "12px 12px 0 12px",
                             margin: "20px",
+                            ".css-1moi4tf-MuiInputBase-root-MuiOutlinedInput-root": { fontSize: "20px" },
                           }}
+                          inputProps={{ style: { fontSize: 22 } }}
+                          InputLabelProps={{ style: { fontSize: 20, fontWeight: "600" } }}
                           id="example"
                           label="Example"
                           value={props.formValues.example}
@@ -392,7 +401,7 @@ export function StatementForm(props) {
                     display: props.activeStep === 5 || props.activeStep === 6 ? "" : "none",
                     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
                     ...theme.typography.body2,
-                    padding: "5px", // theme.spacing(1),
+                    padding: theme.spacing(1),
                     textAlign: "center",
                     color: theme.palette.text.primary,
                     background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
@@ -403,13 +412,11 @@ export function StatementForm(props) {
                     fontWeight: "bold",
                     margin: "10px",
                     width: "600px",
-                    height: "300px",
+                    minHeight: "300px",
                     borderRadius: "12px 12px 12px 12px",
                     justifyContent: "center",
                   }}>
                   <FormGroup>
-                    <Typography variant="h5"></Typography>
-                    <Typography variant="subtitle1"> </Typography>
                     <Grid
                       container
                       spacing={1}>
@@ -418,10 +425,10 @@ export function StatementForm(props) {
                         xs={12}>
                         <TextField
                           name="illustrate"
-                          fullWidth
+                          font-size="xx-large"
                           multiline
-                          minRows={9}
-                          maxRows={9}
+                          minRows={7.5}
+                          maxRows={7.5}
                           sx={{
                             color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100],
                             background: theme.palette.mode === "dark" ? colors.blueAccent[700] : colors.primary[800],
@@ -430,14 +437,17 @@ export function StatementForm(props) {
                             //   theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[50]
                             // }`,
                             width: "stretch",
-                            fontSize: "0.875rem",
-                            fontWeight: "400",
+                            fontSize: "2rem",
+                            fontWeight: "800",
                             // lineHeight: "1.5",
                             height: "250px",
                             // padding: "12px",
                             borderRadius: "12px 12px 0 12px",
                             margin: "20px",
+                            ".css-1moi4tf-MuiInputBase-root-MuiOutlinedInput-root": { fontSize: "20px" },
                           }}
+                          inputProps={{ style: { fontSize: 22 } }}
+                          InputLabelProps={{ style: { fontSize: 20, fontWeight: "600" } }}
                           id="illustrate"
                           label="Illustrate"
                           value={props.formValues.illustrate}
