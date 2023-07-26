@@ -14,10 +14,10 @@ const StepHeader = ({ activeStep, currentStuckData, ...rest }) => {
   useEffect(() => {
     if (activeStep === 2) {
       if (currentStuckData === null) {
-        stuckData.driving_question = "No Stuck Selected, please go back to Step 2 and select a Stuck.";
+        setStuckData({ ...stuckData, driving_question: "No Stuck Selected, please go back to Step 2 and select a Stuck." });
         rest.handleAlert("No Stuck Selected, please go back to Step 2 and select a Stuck", "error");
       } else {
-        setStuckData((stuckData.driving_question = currentStuckData[0].driving_question));
+        setStuckData({ ...stuckData, driving_question: currentStuckData[0].driving_question });
       }
       console.log("stuckData: ", stuckData);
     }
