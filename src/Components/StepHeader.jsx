@@ -9,15 +9,19 @@ const StepHeader = ({ activeStep, currentStuckData, ...rest }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { loading, userDetails, user } = useAuth();
+  const [stuckData, setStuckData] = useState({});
 
-  const stuckData = {};
-  if (currentStuckData === null) {
-    stuckData.driving_question = "No Stuck Selected, please go back to Step 2 and select a Stuck.";
-    rest.handleAlert("No Stuck Selected, please go back to Step 2 and select a Stuck", "error");
-  } else {
-    stuckData.driving_question = currentStuckData[0].driving_question;
-  }
-  console.log("stuckData: ", stuckData);
+  useEffect(() => {
+    if (activeStep === 2) {
+      if (currentStuckData === null) {
+        stuckData.driving_question = "No Stuck Selected, please go back to Step 2 and select a Stuck.";
+        rest.handleAlert("No Stuck Selected, please go back to Step 2 and select a Stuck", "error");
+      } else {
+        setStuckData((stuckData.driving_question = currentStuckData[0].driving_question));
+      }
+      console.log("stuckData: ", stuckData);
+    }
+  }, [activeStep]);
 
   const steps = {
     1: {
