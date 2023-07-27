@@ -134,7 +134,7 @@ const UpdateProfileForm = (props) => {
             }}
             variant="contained"
             onClick={handleClickOpen}
-            borderStyle="solid">
+            borderstyle="solid">
             <NewReleasesIcon sx={{ mr: "10px" }} />
             Update Profile
           </Button>

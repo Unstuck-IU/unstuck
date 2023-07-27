@@ -40,18 +40,45 @@ export default function StuckCard({ stuck, activeStep, handleChosenStuck, handle
     >
       <div>
         <Typography
-          variant="h5"
+          variant="h4"
           textAlign="left">
           {" "}
           {stuck.driving_question}
         </Typography>
-        <Typography
-          mt="10px"
-          gutterBottom
-          variant="h6"
-          component="div">
-          Submitted By: {stuck.user_topic_id.user_id.display_name + " (" + stuck.user_topic_id.user_id.first_name + ")"}
-        </Typography>
+        {window.location.pathname !== "/profile" && (
+          <Typography
+            mt="10px"
+            gutterBottom
+            variant="h6"
+            component="div">
+            Submitted By: {stuck.user_topic_id.user_id.display_name + " (" + stuck.user_topic_id.user_id.first_name + ")"}
+          </Typography>
+        )}
+        {window.location.pathname === "/profile" && (
+          <>
+            <Typography
+              mt="10px"
+              gutterBottom
+              variant="h6"
+              component="div">
+              Topic: {stuck.user_topic_id.topic_id.topic_string}
+            </Typography>
+            <Typography
+              mt="10px"
+              gutterBottom
+              variant="h6"
+              component="div">
+              Submitted ? {stuck.user_topic_id.submitted_stuck ? "Yes" : "No"}
+            </Typography>
+            <Typography
+              mt="10px"
+              gutterBottom
+              variant="h6"
+              component="div">
+              Furthest Complete Step: {stuck.user_topic_id.furthest_complete_step}
+            </Typography>
+          </>
+        )}
       </div>
       {activeStep === 1 && (
         <CardActions sx={{ justifyContent: "flex-start" }}>

@@ -50,7 +50,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
   }, []);
 
   useEffect(() => {
-    if (!loading && userDetails.user_id != null) {
+    if (!loading && userDetails.user_id != null && userDetails.last_topic_id_viewed != null) {
       const fetchLastTopicId = async () => {
         let { data: lastUserTopic, error: lastUserTopicError } = await supabase
           .from("user_topic")
@@ -63,8 +63,8 @@ const StudentDashboard = ({ handlePageTitle }) => {
           setActiveTopic(lastUserTopic.topic_id);
           setFirstTime(false);
         } else {
-          console.log("lastTopicIdError: ", lastUserTopicError);
-          props.handleAlert(
+          console.log("lastTopicIdError: ", lastUserTopicError ?? "no error message");
+          handleAlert(
             'Looks like it\'s your first time! Please press "Join Topic" and enter the join code given to you by your Sherpa to get started.',
             "success"
           );
@@ -177,21 +177,21 @@ const StudentDashboard = ({ handlePageTitle }) => {
       let { data: topicExistsCheck, error: joinedTopicError } = await supabase
         .from("user_topic")
         .select("*")
-        .eq("user_id", userDetails.user_id)
-        .eq("topic_id", fetchedTopic.id);
+        .eq("user_id", userDetails?.user_id)
+        .eq("topic_id", fetchedTopic?.id);
       if (topicExistsCheck) {
         if (topicExistsCheck.length != 0) {
           handleAlert(`You are already joined to this Topic! Current topic is now changed.`, "info");
           setJoinCode(newJoinCode);
           setFirstTime(false);
-        } else if (userDetails && fetchedTopic.id) {
+        } else if (userDetails && fetchedTopic?.id) {
           const { data: userTopicData, error } = await supabase
             .from("user_topic")
-            .insert([{ user_id: userDetails.user_id, topic_id: fetchedTopic.id }])
+            .insert([{ user_id: userDetails?.user_id, topic_id: fetchedTopic?.id }])
             .select();
-          handleAlert(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`, "success");
+          handleAlert(`User ${userDetails?.display_name} is now joined to the topic: '${fetchedTopic?.topic_string}'`, "success");
           console.log("student successfully joined user_topic: ", userTopicData);
-          handleAlert(`User ${userDetails.display_name} is now joined to the topic: '${fetchedTopic.topic_string}'`, "success");
+          handleAlert(`User ${userDetails?.display_name} is now joined to the topic: '${fetchedTopic?.topic_string}'`, "success");
           setJoinCode(newJoinCode);
           setFirstTime(false);
         }
@@ -199,15 +199,15 @@ const StudentDashboard = ({ handlePageTitle }) => {
         console.log("userDetails prior to trying to set the last_topic_id_viewed: ", userDetails);
         const { data: updatedUser, error: updateUserDetailsError } = await supabase
           .from("user_details")
-          .update({ last_topic_id_viewed: fetchedTopic.id })
-          .eq("user_id", userDetails.user_id)
+          .update({ last_topic_id_viewed: fetchedTopic?.id })
+          .eq("user_id", userDetails?.user_id)
           .single();
         if (updateUserDetailsError) {
           console.log(updateUserDetailsError);
         }
         if (updatedUser) {
           console.log("updatedUser from StudentDashboard: ", updatedUser);
-          console.log(`last_topic_viewed: ${updatedUser.last_topic_id_viewed}`);
+          console.log(`last_topic_viewed: ${updatedUser?.last_topic_id_viewed}`);
         }
       }
     }
@@ -223,8 +223,8 @@ const StudentDashboard = ({ handlePageTitle }) => {
         example_text: formValues.example,
         illustrate_text: formValues.illustrate,
       })
-      .eq("user_id", userDetails.user_id) // matches the current user_id of logged in student
-      .eq("topic_id", activeTopic.id); // matches the current topic, completing the filter for the correct user_topic record
+      .eq("user_id", userDetails?.user_id) // matches the current user_id of logged in student
+      .eq("topic_id", activeTopic?.id); // matches the current topic, completing the filter for the correct user_topic record
     if (formUploadError) {
       console.log("Error received while updating user_topic table entries for formValues. \n", formUploadError);
     } else if (formUpload) {

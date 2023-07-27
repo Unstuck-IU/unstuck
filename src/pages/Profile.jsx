@@ -12,6 +12,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import StuckCard from "../components/StuckCard";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#ffffff",
@@ -29,6 +30,8 @@ const Profile = ({ handlePageTitle }) => {
   const [userType, setUserType] = useState("student");
   const [displayName, setDisplayName] = useState("");
   const [fetchError, setFetchError] = useState("");
+  const [stucks, setStucks] = useState([]);
+  const [activeStep, setActiveStep] = useState(0);
   // const [open, setOpen] = useState(false);
   const { userDetails } = useAuth();
   const theme = useTheme();
@@ -37,6 +40,32 @@ const Profile = ({ handlePageTitle }) => {
   useEffect(() => {
     handlePageTitle("Profile", "Welcome to your profile");
   }, []);
+
+  const handleFetchStucks = async () => {
+    console.log("trying to get stucks from the database");
+    let { data: stuckData, error: fetchStucksError } = await supabase
+      .from("stuck") // from this table
+      // getting details from two other tables using foreign keys (stuck is the original,
+      // user_topic is the next table, and user_details is the third table that are connected via foreign keys)
+      .select("*, user_topic_id!inner(*, user_id!inner(*), topic_id!inner(*))") // on stuck table, the foreign key to user_topic table is called user_topic_id
+      .eq("user_topic_id.user_id.user_id", userDetails?.user_id);
+    if (fetchStucksError) {
+      handleAlert("Could not fetch the list of stucks", "error");
+      setStucks([]);
+      console.log("there was an error ", fetchStucksError);
+    }
+    if (stuckData) {
+      setStucks(stuckData);
+      console.log("fetched stucks: ", stuckData);
+    }
+  };
+
+  //this will update the stucks list when the active topic changes
+  useEffect(() => {
+    if (userDetails) {
+      handleFetchStucks();
+    }
+  }, [userDetails]);
 
   return (
     <div>
@@ -149,6 +178,21 @@ const Profile = ({ handlePageTitle }) => {
               sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
               My Stucks and Unstucks
             </Typography>
+            <Box
+              display="flex"
+              flexWrap="wrap"
+              alignItems="center"
+              mt="2rem">
+              {/* display all submitted stucks here */}
+              {stucks?.map((stuck, index) => (
+                <StuckCard
+                  key={stuck.id}
+                  stuck={stuck}
+                  activeStep={activeStep}
+                  index={index}
+                />
+              ))}
+            </Box>
           </Box>
           <Box
             gridColumn="span 6"

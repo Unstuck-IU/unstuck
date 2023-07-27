@@ -43,7 +43,7 @@ export default function JoinTopicDialog({ ...props }) {
             mr: 2,
           }}
           variant="outlined"
-          borderStyle="solid"
+          borderstyle="solid"
           onClick={handleClickOpen}>
           <AddCircleOutlineIcon sx={{ mr: "10px" }} />
           Join Topic
