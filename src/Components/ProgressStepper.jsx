@@ -41,15 +41,22 @@ export default function ProgressStepper(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  useEffect(() => {
-    console.log("ProgressStepper useEffect called, activeStep: ", activeStep);
-    //check if all of the steps in the stepper have been marked as complete, if so, send call to handleUpload function
-
-    if (completedSteps() === totalSteps() - 1) {
-      console.log("all steps are complete! setting isAllStepsComplete to true");
-      setIsAllStepsComplete(true);
-    }
-  }, [completed]);
+  // useEffect(() => {
+  //   console.log("################## IS THIS BEING CALLED?? ProgressStepper useEffect called, activeStep: ", activeStep);
+  //   //check if all of the steps in the stepper have been marked as complete, if so, send call to handleUpload function
+  //   console.log(
+  //     "in useEffect, completed.length: ",
+  //     Object.keys(completed).length,
+  //     "steps.length: ",
+  //     steps.length,
+  //     "completed: ",
+  //     completed
+  //   );
+  //   if (Object.keys(completed).length === steps.length - 1) {
+  //     console.log("all steps are complete! setting isAllStepsComplete to true");
+  //     setIsAllStepsComplete(true);
+  //   }
+  // }, [completed]);
 
   const totalSteps = () => {
     return steps.length;
@@ -66,7 +73,7 @@ export default function ProgressStepper(props) {
   };
 
   const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
+    return activeStep === steps.length - 1;
   };
 
   const handleNext = () => {
@@ -121,13 +128,11 @@ export default function ProgressStepper(props) {
   };
 
   const handleTextFieldSubmit = async (columnName) => {
-    console.log("handleTextFieldSubmit was called, columnName: ", columnName.name);
     // this is the one used to send the info to the database
     // supabase update user_topic {column_name}
     // supabase table names: statement_text, expand_text, example_text, illustration_text
     let columnToUpdate = columnName.name + "_text"; // get just the column name from the form input
-    console.log("columnToUpdate: ", columnToUpdate);
-    const { data: textFieldFormSubmit, error: textFieldFormSubmitError } = await supabase
+    const { data: userTopicData, error: textFieldFormSubmitError } = await supabase
       .from("user_topic")
       .update({
         [columnToUpdate]: formValues[columnName.name], // object bracket notation used to specify dynamic values of key:value pairs
@@ -138,7 +143,7 @@ export default function ProgressStepper(props) {
     if (textFieldFormSubmitError) {
       console.log("Error received while updating user_topic table entries for formValues. \n", textFieldFormSubmitError);
     } else {
-      console.log("handleTextFieldSubmit: studentEntries: ", textFieldFormSubmit);
+      console.log("handleTextFieldSubmit: userTopicData: ", userTopicData);
     }
   };
 
@@ -147,9 +152,9 @@ export default function ProgressStepper(props) {
     console.log("These are the current form values: \n", formValues);
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     console.log("handleComplete was called");
-    console.log("activeStep: ", activeStep);
+    console.log("The step that was just complete: ", activeStep);
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -172,6 +177,18 @@ export default function ProgressStepper(props) {
     if (activeStep === 6) {
       console.log("handleComplete was called for Submit Stuck", formValues);
       props.handleUpload(formValues);
+      // update the database column "submitted_stuck" to true for this user_topic
+      const { data: updatedUserTopic, error: updatingSubmittedStuckError } = await supabase
+        .from("user_topic")
+        .update({ submitted_stuck: true })
+        .eq("user_id", userDetails?.user_id)
+        .eq("topic_id", props.activeTopic.id)
+        .select();
+      console.log("updatedUserTopic after updating submitted_stuck: ", updatedUserTopic);
+      console.log("updatingSubmittedStuckError: ", updatingSubmittedStuckError);
+    }
+    if (activeStep === 7 && Object.keys(completed).length === steps.length) {
+      setIsAllStepsComplete(true);
     }
     handleSave();
     handleNext();
@@ -285,7 +302,7 @@ export default function ProgressStepper(props) {
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              {activeStep < steps.length && completed[activeStep] && completedSteps() < totalSteps() - 1 ? (
+              {activeStep < steps.length && completed[activeStep] && Object.keys(completed).length === steps.length - 1 ? (
                 <Button
                   onClick={handleNext}
                   sx={{
@@ -304,6 +321,7 @@ export default function ProgressStepper(props) {
               ) : (
                 <Button
                   onClick={() => {
+                    console.log("################## handleComplete was called");
                     handleComplete();
                   }}
                   sx={{
