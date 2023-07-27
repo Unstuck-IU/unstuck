@@ -61,7 +61,7 @@ const Profile = ({ handlePageTitle }) => {
                   <Typography
                     variant="h4"
                     mb="10px">
-                    <div className="user-details">It looks like your first time signing in!</div>
+                    <div className="user-details">It looks like you haven't completed filling in your profile details yet!</div>
                   </Typography>
                   <Typography variant="h5">
                     <div className="user-details">
@@ -160,7 +160,7 @@ const Profile = ({ handlePageTitle }) => {
             <Box>
               <Typography
                 variant="h4"
-                sx={{ color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
+                sx={{ m: "10px", color: theme.palette.mode === "dark" ? colors.black[100] : colors.black[100] }}>
                 Badges
               </Typography>
             </Box>

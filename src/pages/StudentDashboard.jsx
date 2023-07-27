@@ -43,7 +43,7 @@ const StudentDashboard = ({ handlePageTitle }) => {
   const [isAlertShowing, setIsAlertShowing] = useState(false);
   const alertRef = useRef(null);
 
-  const [firstTime, setFirstTime] = useState(false);
+  const [firstTime, setFirstTime] = useState(true);
 
   useEffect(() => {
     handlePageTitle(userDetails?.display_name + "'s Dashboard", "Welcome to your dashboard");
@@ -61,9 +61,13 @@ const StudentDashboard = ({ handlePageTitle }) => {
         if (lastUserTopic) {
           console.log("lastUserTopic record using last_topic_id_viewed from user_details table ", lastUserTopic);
           setActiveTopic(lastUserTopic.topic_id);
+          setFirstTime(false);
         } else {
-          setFirstTime(true);
-          console.log(`lastTopicIdError: ${JSON.stringify(lastUserTopicError, null, 2)}`);
+          console.log("lastTopicIdError: ", lastUserTopicError);
+          props.handleAlert(
+            'Looks like it\'s your first time! Please press "Join Topic" and enter the join code given to you by your Sherpa to get started.',
+            "success"
+          );
         }
       };
       fetchLastTopicId();
@@ -223,8 +227,10 @@ const StudentDashboard = ({ handlePageTitle }) => {
       .eq("topic_id", activeTopic.id); // matches the current topic, completing the filter for the correct user_topic record
     if (formUploadError) {
       console.log("Error received while updating user_topic table entries for formValues. \n", formUploadError);
-    } else {
+    } else if (formUpload) {
       console.log("handleUpload from all steps being complete! formUpload: ", formUpload);
+    } else if (formUpload === null) {
+      console.log("the forms were not modified, so the database was not updated with anything");
     }
   };
   //   ///////
