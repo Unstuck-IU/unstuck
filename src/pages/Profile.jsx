@@ -211,7 +211,7 @@ const Profile = ({ handlePageTitle }) => {
 
             <Box
               display="flex"
-              alignItems="center"
+              alignItems="start"
               justifyContent="space-evenly"
               sx={{ flexGrow: 1, m: 6, textAlign: "center" }}>
               <Box>
