@@ -356,7 +356,7 @@ export function StatementForm(props) {
                         xs={12}>
                         <TextField
                           name="example"
-                          font-size="xx-large"
+                          fontSize="xx-large"
                           multiline
                           minRows={7.5}
                           maxRows={7.5}
@@ -425,7 +425,7 @@ export function StatementForm(props) {
                         xs={12}>
                         <TextField
                           name="illustrate"
-                          font-size="xx-large"
+                          fontSize="xx-large"
                           multiline
                           minRows={7.5}
                           maxRows={7.5}
